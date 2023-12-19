@@ -59,9 +59,27 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'service',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Service',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'onPremises',
+          position: 'left',
+          label: 'On Premises',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'bootc',
+          position: 'left',
+          label: 'Bootc',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'developer',
+          position: 'left',
+          label: 'Developer Guide',
         },
         {
           href: 'https://github.com/osbuild/',
