@@ -39,7 +39,7 @@ If you want to contribute to our frontend or backend, here are guides on how to 
 * 🟢 Deployment metadata is open. [[1]](https://github.com/osbuild/osbuild-composer/blob/main/templates/composer.yml) [[2]](https://github.com/osbuild/image-builder/blob/main/templates/image-builder.yml)
 #### 🟢 Contribution workflow
 * 🟢 External contributors can follow the same workflow as team members.
-* 🟢 [The workflow is publicly documented.](../developer-guide/general/workflow.html)
+* 🟢 [The workflow is publicly documented.](../developer-guide/general/workflow.md)
 * 🟢 Regular contributors can trigger CI.
 * 🟢 External contributions are eagerly reviewed.
 #### 🟠 Issue tracking and planning

@@ -17,7 +17,7 @@ To solve this issue, an [osbuild stage] runs the `OpenSCAP` tool on the filesyst
 the standard evaluation for the given profile and applies the remediations to the image. This process enables the user to build a more completely
 hardened image compared to running the remediation on a live system.
 
-[osbuild stage]: 'https://github.com/osbuild/osbuild/blob/main/stages/org.osbuild.oscap.remediation'
+[osbuild stage]: https://github.com/osbuild/osbuild/blob/main/stages/org.osbuild.oscap.remediation
 
 ## Openscap Example
 ```

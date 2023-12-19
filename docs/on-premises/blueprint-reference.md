@@ -139,7 +139,7 @@ containers = [
 ]
 ```
 
-To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](../user-guide/container-auth.md).
+To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](container-auth.md).
 
 
 ## Customizations
@@ -459,7 +459,7 @@ Third-party repositories are supported by the blueprint customizations. A reposi
 An optional `filename` argument can be set, otherwise the repository will be saved using the the repository ID, i.e. `/etc/yum.repos.d/<repo-id>.repo`.
 
 Please note custom repositories **cannot be used at build time to install third-party packages**. These customizations are used to save and enable third-party repositories on the image. For more information, or if you
-wish to install a package from a third-party repository, please continue reading [here](../user-guide/repository-customizations.md).
+wish to install a package from a third-party repository, please continue reading [here](repository-customizations.md).
 
 The following example can be used to create a third-party repository:
 

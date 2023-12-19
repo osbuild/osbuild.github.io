@@ -21,7 +21,7 @@ to use custom repositories for installing third-party packages, continue reading
 ## 2. Save repository configurations
 In the second scenario, to make third-party repository configurations persistent and make the repositories available to users on the system, one would use the blueprint `custom repository`
 configurations to enable this. The repository will be configured and saved to `/etc/yum.repos.d` as a `.repo` file. GPG keys are not imported at build time, but are imported when first 
-installing a third-party package from the desired repository. You can find the blueprint reference for custom repositories [here](../blueprint-reference/blueprint-reference.md).
+installing a third-party package from the desired repository. You can find the blueprint reference for custom repositories [here](blueprint-reference.md).
 
 ## 3. Install a third-party package and save configurations
 In this case it is necessary to use a combination of payload repositories and custom repositories in order to achieve the desired outcome. This will ensure that the package is installed during 
