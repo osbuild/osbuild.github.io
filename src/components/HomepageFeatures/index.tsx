@@ -1,10 +1,12 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import Link from "@docusaurus/Link";
 
 type FeatureItem = {
   title: string;
   description: JSX.Element;
+  link: string;
 };
 
 const FeatureList: FeatureItem[] = [
@@ -15,6 +17,7 @@ const FeatureList: FeatureItem[] = [
         Grab a no-cost Red Hat Developer Subscription and go to the <a href="https://console.redhat.com/insights/image-builder">Red Hat Hybrid Cloud Console</a> to bake your fresh image.
       </>
     ),
+    link: '/docs/service/architecture'
   },
   {
     title: 'Local package',
@@ -23,23 +26,32 @@ const FeatureList: FeatureItem[] = [
         Install osbuild-composer, composer-cli on Fedora, CentOS Stream or RHEL and build your images locally.
       </>
     ),
+    link: '/docs/on-premises/basic-concepts'
   },
   {
     title: 'Container',
     description: (
       <>
-        Use podman to turn your <a href="https://centos.github.io/centos-bootc/">bootc-enabled</a> container images into bootable artifacts!
+        Use podman to turn your <a href="https://centos.github.io/centos-bootc/">bootc-enabled</a> container images into bootable artifacts!<br/><br/>
       </>
     ),
+    link: '/docs/bootc'
   },
 ];
 
-function Feature({title, description}: FeatureItem) {
+function Feature({title, description, link}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
+        <div className={styles.buttons}>
+          <Link
+            className="button button--secondary button--lg"
+            to={link}>
+            Learn more!
+          </Link>
+        </div>
       </div>
     </div>
   );
