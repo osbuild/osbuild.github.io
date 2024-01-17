@@ -6,8 +6,11 @@
 .heroBanner {
   padding: 4rem 0;
   text-align: center;
+  color: black;
   position: relative;
   overflow: hidden;
+  background-image: url(../../static/img/logo.jpg);
+  background-size: cover;
 }
 
 @media screen and (max-width: 996px) {
