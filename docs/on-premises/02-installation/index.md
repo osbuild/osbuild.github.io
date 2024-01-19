@@ -1,4 +1,4 @@
-# Installation
+# Installation and configuration
 
 To get started with `osbuild-composer` on your local machine, you can install the CLI interface or the Web UI, which is part of Cockpit project. 
 

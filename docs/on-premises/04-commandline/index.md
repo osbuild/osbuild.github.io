@@ -1,4 +1,4 @@
-# Creating images with the CLI interface
+# Using the commandline
 
 An image is specified by a blueprint and an image type. Unless you specify otherwise, it will use the same distribution and version (e.g. Fedora 33) as the host system. The architecture will always be the same as the one on the host.
 
@@ -74,7 +74,7 @@ logs
 logs/osbuild.log
 ```
 
-From the example output above, the resulting tarball contains not only the `qcow2` image, but also a `JSON` file, which is the osbuild manifest (see the [Developer Guide](../developer-guide/index.md) for more details), and a directory with logs.
+From the example output above, the resulting tarball contains not only the `qcow2` image, but also a `JSON` file, which is the osbuild manifest (see the [Developer Guide](../../developer-guide/index) for more details), and a directory with logs.
 
 For more options, see the `help` text for `composer-cli`:
 

@@ -1,4 +1,4 @@
-# Uploading a container image to a registry
+# Uploading a container image
 
 `osbuild-composer` can upload a container image, like the RHEL for
 edge container, to a registry directly after it has been built.
@@ -26,4 +26,4 @@ password = "PASSWORD"  # optional, password to use
 
 Instead of specifying `username` and `password` directly, a central
 `containers-auth.json(5)` file can be used, see
-[Container registry credentials](./container-auth.md).
+[Container registry credentials](../installation/container-auth).

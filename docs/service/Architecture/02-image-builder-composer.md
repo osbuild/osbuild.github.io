@@ -1,3 +1,4 @@
+# Image Builder Composer
 # Image Builder Composer API Architecture Document
 
 ## Service Description
