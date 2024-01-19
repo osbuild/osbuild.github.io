@@ -1,5 +1,12 @@
 # Image Builder on premises
 
+Image Builder is available in various distributions:
+- [Fedora](https://packages.fedoraproject.org/search?query=osbuild)
+- [CentOS Stream](https://www.centos.org/centos-stream/)
+- [Red Hat Enterprise Linux (RHEL)](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
+
+You can see an overview of [which version is released where here](./release-overview).
+
 ![Diagram](./image-builder-on-premises.svg)
 
 `osbuild-composer` is a service for building customized operating system images (currently only Fedora and RHEL). These images can be used with various virtualization software such as [QEMU](https://www.qemu.org/), [VirtualBox](https://www.virtualbox.org/), [VMWare](https://www.vmware.com/) and also with cloud computing providers like [AWS](https://aws.amazon.com/), [Azure](https://azure.microsoft.com/) or [GCP](https://cloud.google.com/).

@@ -1,4 +1,4 @@
-# Uploading an ostree commit to a Pulp server with ostree support
+# Uploading an ostree commit to Pulp
 
 `osbuild-composer` provides the users with a convenient way to upload ostree commits to a Pulp instance with [ostree content support](https://pulpproject.org/content-plugins/#ostree).
 

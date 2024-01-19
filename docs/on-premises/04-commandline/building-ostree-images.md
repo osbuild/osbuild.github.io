@@ -166,7 +166,7 @@ This command instructs qemu (the hypervisor) to:
 
 At the initial screen, use arrow keys to select the "Install Fedora 33" line and press TAB key. You’ll see a line of kernel command line options appear below. Something like:
 
-![](img/ostree-in-anaconda.png)
+![](../img/ostree-in-anaconda.png)
 
 ```
 vmlinuz initrd=initrd.img inst.stage2=hd:LABEL=Fedora quiet

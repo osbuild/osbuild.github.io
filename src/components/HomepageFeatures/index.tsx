@@ -26,7 +26,7 @@ const FeatureList: FeatureItem[] = [
         Install osbuild-composer, composer-cli on Fedora, CentOS Stream or RHEL and build your images locally.
       </>
     ),
-    link: '/docs/on-premises/basic-concepts'
+    link: '/docs/on-premises/overview'
   },
   {
     title: 'Container',

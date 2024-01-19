@@ -139,7 +139,7 @@ containers = [
 ]
 ```
 
-To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](container-auth.md).
+To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](../installation/container-auth).
 
 
 ## Customizations
@@ -459,7 +459,7 @@ Third-party repositories are supported by the blueprint customizations. A reposi
 An optional `filename` argument can be set, otherwise the repository will be saved using the the repository ID, i.e. `/etc/yum.repos.d/<repo-id>.repo`.
 
 Please note custom repositories **cannot be used at build time to install third-party packages**. These customizations are used to save and enable third-party repositories on the image. For more information, or if you
-wish to install a package from a third-party repository, please continue reading [here](repository-customizations.md).
+wish to install a package from a third-party repository, please continue reading [here](repository-customizations).
 
 The following example can be used to create a third-party repository:
 
@@ -564,7 +564,7 @@ From `RHEL 8.7` & `RHEL 9.1` support has been added for `OpenSCAP` build-time re
 
 If the datastream parameter is not provided, `osbuild-composer` will now provide a sensible default based on the selected distro.
 
-Please see [the OpenSCAP page](oscap-remediation.md) for the list of available security profiles.
+Please see [the OpenSCAP page](oscap-remediation) for the list of available security profiles.
 
 ```toml
 [customizations.openscap]
