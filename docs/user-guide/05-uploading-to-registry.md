@@ -26,4 +26,4 @@ password = "PASSWORD"  # optional, password to use
 
 Instead of specifying `username` and `password` directly, a central
 `containers-auth.json(5)` file can be used, see
-[Container registry credentials](../installation/container-auth).
+[Container registry credentials](../on-premises/installation/container-auth).
