@@ -55,6 +55,7 @@ const config: Config = {
       logo: {
         alt: 'osbuild logo',
         src: 'img/logo.svg',
+        srcDark: 'img/logo_dark.svg',
       },
       items: [
         {
