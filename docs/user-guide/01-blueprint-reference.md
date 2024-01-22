@@ -139,7 +139,7 @@ containers = [
 ]
 ```
 
-To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](../installation/container-auth).
+To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](../on-premises/installation/container-auth).
 
 
 ## Customizations
