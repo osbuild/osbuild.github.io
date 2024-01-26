@@ -11,7 +11,7 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Hosted service',
+    title: '🛎️ Hosted service',
     description: (
       <>
         Grab a no-cost Red Hat Developer Subscription and go to the <a href="https://console.redhat.com/insights/image-builder">Red Hat Hybrid Cloud Console</a> to bake your fresh image.
@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
     link: '/docs/service/architecture'
   },
   {
-    title: 'Local package',
+    title: '📦 Local package',
     description: (
       <>
         Install osbuild-composer, composer-cli on Fedora, CentOS Stream or RHEL and build your images locally.
@@ -29,7 +29,7 @@ const FeatureList: FeatureItem[] = [
     link: '/docs/on-premises/overview'
   },
   {
-    title: 'Container',
+    title: '🚢 Container',
     description: (
       <>
         Use podman to turn your <a href="https://centos.github.io/centos-bootc/">bootc-enabled</a> container images into bootable artifacts!<br/><br/>
