@@ -9,6 +9,7 @@
   color: black;
   position: relative;
   overflow: hidden;
+  background-color: #B7C9B9;
   background-image: url(../../static/img/logo.jpg);
   background-size: cover;
 }
