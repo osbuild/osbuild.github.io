@@ -123,14 +123,6 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-    announcementBar: {
-      id: 'under_construction',
-      content:
-        'This site is under construction. Please visit <a href="https://osbuild.org">https://osbuild.org</a> for the live website.',
-      backgroundColor: '#fafbfc',
-      textColor: '#091E42',
-      isCloseable: false,
-    },
   } satisfies Preset.ThemeConfig,
 };
 
