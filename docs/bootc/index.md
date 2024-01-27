@@ -194,7 +194,7 @@ Example:
 
 ### Contributing
 
-Please refer to the [developer guide](https://www.osbuild.org/guides/developer-guide/index.html) to learn about our
+Please refer to the [developer guide](../developer-guide/index) to learn about our
 workflow, code style and more.
 
 ## 🗄️ Repository
