@@ -49,7 +49,7 @@ If you want to contribute to our frontend or backend, here are guides on how to 
 * 🟢 The issue tracker is public. [[1]](https://github.com/osbuild) [[2]](https://issues.redhat.com/issues/?jql=project%20%3D%20COMPOSER%20or%20(project%20%3D%20HMS%20AND%20component%20in%20(%22Image%20Builder%22)))
 * 🟠 The roadmap is public. [[1]](https://github.com/orgs/osbuild/projects)
 #### 🟢 Documentation
-* 🟢 [User documentation is public.](https://www.osbuild.org/guides/introduction.html)
+* 🟢 [User documentation is public.](../../user-guide/introduction)
 * 🟢 [Developer documentation is public.](../../developer-guide/index)
 #### 🟠 Communication
 * 🟢 [There is a public mailinglist.](mailto:image-builder@redhat.com)
