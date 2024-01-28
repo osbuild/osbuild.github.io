@@ -13,9 +13,9 @@ version = "0.0.1"
 ```
 
 Where:
-- The `name` attribute is a string that contains the name of the blueprint. It can contain spaces, but they will be converted to `-` when it is import into `osbuild-composer`. It should be short and descriptive.
+- The `name` attribute is a string that contains the name of the blueprint. It can contain spaces, but they will be converted to `-` when it is imported into `osbuild-composer`. It should be short and descriptive.
 - The `description` attribute is a string that can be a longer description of the blueprint and is only used for display purposes.
-- The `version` attribute is a string that contains a semver compatible version number. If a new blueprint is uploaded with the same version the server will automatically bump the PATCH level of the version. If the version doesn't match it will be used as is. For example, uploading a blueprint with version set to 0.1.0 when the existing blueprint version is 0.0.1 will result in the new blueprint being stored as version 0.1.0.
+- The `version` attribute is a string that contains a server compatible version number. If a new blueprint is uploaded with the same version the server will automatically bump the PATCH level of the version. If the version doesn't match it will be used as is. For example, uploading a blueprint with version set to 0.1.0 when the existing blueprint version is 0.0.1 will result in the new blueprint being stored as version 0.1.0.
 
 You can upload a blueprint with the `osbuild-composer blueprints push $filename` command, the blueprint will then be usable in `osbuild-composer compose` as the `name` you gave it.
 
@@ -64,7 +64,7 @@ The `packages` and `modules` lists contain objects with a `name` and optional `v
 
 *Currently there are no differences between packages and modules in `osbuild-composer`. Both are treated like an rpm package dependency.*
 
-> When using virtual provides as the package name the version glob should be `*`. And be aware that you will be unable to `freeze` the blueprint. This is because the provide will expand into multiple packages with their own names and versions.
+> When using virtual providers as the package name the version glob should be `*`. And be aware that you will be unable to `freeze` the blueprint. This is because the provider will expand into multiple packages with their own names and versions.
 
 For example, to install `tmux-2.9a` and `openssh-server-8.*` packages, add this to your blueprint:
 
@@ -89,7 +89,7 @@ packages = [
 
 ### Groups
 
-The `groups` list describes contains objects with a `name`-attribute.
+The `groups` list contains objects with a `name`-attribute.
 - The `name` attribute is a **required** string and must match the id of a package group in the repositories exactly.
 
 `groups` describes groups of packages to be installed into the image. Package groups are defined in the repository metadata. Each group has a descriptive name used primarily for display in user interfaces and an ID more commonly used in kickstart files. Here, the ID is the expected way of listing a group. Groups have three different ways of categorizing their packages: mandatory, default, and optional. For the purposes of blueprints, only mandatory and default packages will be installed. There is no mechanism for selecting optional packages.
@@ -350,7 +350,7 @@ enabled = ["sshd", "cockpit.socket", "httpd"]
 disabled = ["postfix", "telnetd"]
 ```
 
-This section can be used to control which services are enabled at boot time. Some image types already have services enabled or disabled in order for the image to work correctly, and cannot be overridden. For example, `ami` image type requires `sshd`, `chronyd`, and `cloud-init` services. Without them, the image will not boot. Blueprint services do not replace this services, but add them to the list of services already present in the templates, if any.
+This section can be used to control which services are enabled at boot time. Some image types already have services enabled or disabled in order for the image to work correctly, and cannot be overridden. For example, `ami` image type requires `sshd`, `chronyd`, and `cloud-init` services. Without them, the image will not boot. Blueprint services do not replace these services, but add them to the list of services already present in the templates, if any.
 
 The service names are systemd service units. You may specify any systemd unit file accepted by systemctl enable, for example, cockpit.socket:
 
@@ -460,7 +460,7 @@ The `customizations.fdo` section allows users to configure [FIDO Device Onboard 
 
 The `manufacturing_server_url` is a required field.
 
-The user must choose one of the device initalization methods providing `diun_pub_key_insecure`, `diun_pub_key_hash` or `diun_pub_key_root_certs`.
+The user must choose one of the device initialization methods providing `diun_pub_key_insecure`, `diun_pub_key_hash` or `diun_pub_key_root_certs`.
 
 The user may provide an IFACE name at `di_mfg_string_type_mac_iface`.
 
@@ -705,7 +705,7 @@ selected = [ "xccdf_org.ssgproject.content_bind_crypto_policy" ]
 unselected = [ "grub2_password" ]
 ```
 
-### Enable system FIPS mode in Edge Simpliflied installer
+### Enable system FIPS mode in Edge Simplified installer
 
 The following blueprint example will enable system FIPS mode in
 a `edge-simplified-installer` image:
