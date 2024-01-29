@@ -15,7 +15,7 @@ version = "0.0.1"
 Where:
 - The `name` attribute is a string that contains the name of the blueprint. It can contain spaces, but they will be converted to `-` when it is imported into `osbuild-composer`. It should be short and descriptive.
 - The `description` attribute is a string that can be a longer description of the blueprint and is only used for display purposes.
-- The `version` attribute is a string that contains a server compatible version number. If a new blueprint is uploaded with the same version the semantic versioning will automatically bump the PATCH level of the version. If the version doesn't match it will be used as is. For example, uploading a blueprint with version set to 0.1.0 when the existing blueprint version is 0.0.1 will result in the new blueprint being stored as version 0.1.0.
+- The `version` attribute is a string that contains a semantic versioning compatible version number. If a new blueprint is uploaded with the same version the server will automatically bump the PATCH level of the version. If the version doesn't match it will be used as is. For example, uploading a blueprint with version set to 0.1.0 when the existing blueprint version is 0.0.1 will result in the new blueprint being stored as version 0.1.0.
 
 You can upload a blueprint with the `osbuild-composer blueprints push $filename` command, the blueprint will then be usable in `osbuild-composer compose` as the `name` you gave it.
 
