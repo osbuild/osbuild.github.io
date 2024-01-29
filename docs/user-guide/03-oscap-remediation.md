@@ -1,6 +1,6 @@
 # OpenSCAP Remediation
 
-`osbuild-composer` now provides the ability to build security hardened images using the [OpenSCAP] tool. 
+`osbuild-composer` provides the ability to build security hardened images using the [OpenSCAP] tool. 
 This feature is available for `RHEL 8.7` (& above) and `RHEL 9.1` (& above).
 
 [OpenSCAP]: https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/manual/manual.adoc
@@ -13,13 +13,13 @@ boot of the image.
 
 ## Build-time Remediation
 
-To solve this issue, an [osbuild stage] runs the `OpenSCAP` tool on the filesystem tree while the image is being built. The `OpenSCAP` tool runs 
+To solve that limitation, `osbuild-composer` uses the build-time remediation: an [osbuild stage] runs the `OpenSCAP` tool to search for vulnerabilities on the filesystem tree while the image is being built. The `OpenSCAP` tool runs 
 the standard evaluation for the given profile and applies the remediations to the image. This process enables the user to build a more completely
 hardened image compared to running the remediation on a live system.
 
 [osbuild stage]: https://github.com/osbuild/osbuild/blob/main/stages/org.osbuild.oscap.remediation
 
-## Openscap Example
+## OpenSCAP example
 ```
 [customizations.openscap]
 profile_id = "xccdf_org.ssgproject.content_profile_standard"
@@ -28,18 +28,18 @@ datastream = "/usr/share/xml/scap/ssg/content/ssg-fedora-ds.xml"
 
 `osbuild-composer` exposes to fields for the user to customize in the image blueprints: 
 
-  1) The path to the `datastream` instructions (most likely in the `/usr/share/xml/scap/ssg/content/` directory)
+  1) The path to the `datastream` instructions. Usually in the `/usr/share/xml/scap/ssg/content/` directory
   2) The `profile_id` for the desired security standard
-  3) Install openscap via this command: `dnf install scap-security-guide`
+  3) Install `OpenSCAP` via this command: `dnf install scap-security-guide`
   4) Use the command `oscap info /usr/share/xml/scap/ssg/content/<security_profile>.xml` to obtain more information such as the profile id to use
-  5) The `profile_id` field accepts both the long and short forms, i.e. `cis` or `xccdf_org.ssgproject.content_profile_cis`.
+  5) The `profile_id` field accepts both the long and short forms, for example, `cis` or `xccdf_org.ssgproject.content_profile_cis`.
 
 
 
 
 
 
-See the below table for supported profiles.
+See the [Supported profiles](./oscap-remediation#supported-profiles) table for supported profiles.
 
 `osbuild-composer` will then generate the necessary configurations for the `osbuild` stage based on the user
 customizations. Additionally, two packages will be added to the image, `openscap-scanner` (the `OpenSCAP` tool)
