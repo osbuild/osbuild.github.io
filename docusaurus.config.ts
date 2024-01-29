@@ -124,6 +124,21 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+  plugins: [
+    [
+      require.resolve("@cmfcmf/docusaurus-search-local"),
+      {
+        // See https://github.com/cmfcmf/docusaurus-search-local for option docs
+        indexDocs: true,
+        indexDocSidebarParentCategories: 0,
+        indexBlog: true,
+        indexPages: false,
+        language: "en",
+        style: undefined,
+        maxSearchResults: 8,
+      },
+    ],
+  ],
 };
 
 export default config;
