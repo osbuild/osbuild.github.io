@@ -32,11 +32,30 @@ new os. You can't build an OS image that differs from the host OS that Image Bui
 eg. A blueprint that will always build a Fedora 38 image, no matter what
 version is running on the host:
 
+Note that **osbuild-composer prior to version 100** didn't use a dot `.` to separate major and minor release versions in the distro name. New versions are backward compatible, so they will still accept the old distro names of distributions supported up to the version 100. However, going forward, it is strongly advised to use the new naming scheme. Future distribution versions won't be backward compatible (e.g. `rhel-100` won't work in the future for RHEL 10.0, but one will have to use `rhel-10.0`).
+
 ```toml
 name = "tmux"
 description = "tmux image with openssh"
 version = "1.2.16"
 distro = "fedora-38"
+
+[[packages]]
+name = "tmux"
+version = "*"
+
+[[packages]]
+name = "openssh-server"
+version = "*"
+```
+
+```toml
+name = "tmux"
+description = "tmux image with openssh"
+version = "1.2.16"
+# for osbuild-composer version < 100
+# distro = "rhel-84"
+distro = "rhel-8.4"
 
 [[packages]]
 name = "tmux"
