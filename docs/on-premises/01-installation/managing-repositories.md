@@ -164,8 +164,10 @@ Based on the system you want to build an image for, determine the name of a new 
 
 * Fedora 32 - `fedora-32.json`
 * Fedora 33 - `fedora-33.json`
-* RHEL 8.4 - `rhel-84.json`
-* RHEL 9.0 - `rhel-90.json`
+* RHEL 8.4 - `rhel-8.4.json` (`rhel-84.json` if you are using osbuild-composer prior to version 100)
+* RHEL 9.0 - `rhel-9.0.json` (`rhel-90.json` if you are using osbuild-composer prior to version 100)
+
+Note that **osbuild-composer prior to version 100** didn't use a dot `.` to separate major and minor release versions in the repository file names. New versions are backward compatible, so they will still read the old file names of distributions supported up to the version 100. However, going forward, it is strongly advised to use the new naming scheme. Future distribution versions won't be backward compatible (e.g. `rhel-100.json` won't work in the future for RHEL 10.0).
 
 Then, create the JSON file with the following structure (or copy the file from `/usr/share/osbuild-composer/` and modify its content):
 
