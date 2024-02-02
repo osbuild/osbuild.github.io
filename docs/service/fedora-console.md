@@ -1,6 +1,6 @@
 # Fedora service
 
-Image Builder is currently running a staging instance on [https://console.stg.fedorainfracloud.org/](https://console.stg.fedorainfracloud.org/).
+Image Builder is currently running a staging instance on [https://console.stg.fedorainfracloud.org/](https://console.stg.fedorainfracloud.org/). The [intent is to - in the future - integrate more services in a Fedora Console](https://discussion.fedoraproject.org/t/image-builder-for-fedora/92925/1).
 
 ## Authentication
 
