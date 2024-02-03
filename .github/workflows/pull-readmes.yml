@@ -13,7 +13,7 @@ jobs:
       - name: Pull readmes and push updates
         run: |
           git clone "https://${{ secrets.GIT_USERNAME }}:${{ secrets.SCHUTZBOT_TOKEN }}@github.com/osbuild/osbuild.github.io.git"
-          cd osbuild.github.io.git
+          cd osbuild.github.io
           git config user.email "${{ secrets.GIT_EMAIL }}"
           git config user.name "${{ secrets.GIT_USERNAME }}"
 
