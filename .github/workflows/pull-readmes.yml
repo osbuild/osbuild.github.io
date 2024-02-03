@@ -21,10 +21,10 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config user.email "$GIT_EMAIL"
-          git config user.name "$GIT_USERNAME"
+          git config user.email "${{ secrets.GIT_EMAIL }}"
+          git config user.name "${{ secrets.GIT_USERNAME }}"
 
           git add .
           git commit -m "Automated developer guide update"
           
-          git push "https://$GIT_USERNAME:$SCHUTZBOT_TOKEN@github.com/$GITHUB_REPOSITORY.git" HEAD:main
+          git push "https://${{ secrets.GIT_USERNAME }}:${{ secrets.SCHUTZBOT_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" HEAD:main
