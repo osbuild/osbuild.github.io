@@ -10,21 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Ensure a full clone for pushing changes
-
-      - name: Run pull-readmes.sh
+      - name: Pull readmes and push updates
         run: |
-          ./pull-readmes.sh readme-list
-
-      - name: Commit and Push Changes
-        run: |
+          git clone "https://${{ secrets.GIT_USERNAME }}:${{ secrets.SCHUTZBOT_TOKEN }}@github.com/osbuild/osbuild.github.io.git"
+          cd osbuild.github.io.git
           git config user.email "${{ secrets.GIT_EMAIL }}"
           git config user.name "${{ secrets.GIT_USERNAME }}"
 
+          ./pull-readmes.sh readme-list
+
           git add .
           git commit -m "Automated developer guide update"
-          
-          git push "https://${{ secrets.GIT_USERNAME }}:${{ secrets.SCHUTZBOT_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" HEAD:main
+
+          git push origin main
