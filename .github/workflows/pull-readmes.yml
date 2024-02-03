@@ -10,15 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Pull readmes and push updates
+      - name: Pull readmes and fix links
         run: |
           git clone "https://${{ secrets.GIT_USERNAME }}:${{ secrets.SCHUTZBOT_TOKEN }}@github.com/osbuild/osbuild.github.io.git"
           cd osbuild.github.io
           git config user.email "${{ secrets.GIT_EMAIL }}"
           git config user.name "${{ secrets.GIT_USERNAME }}"
 
-          ./pull-readmes.sh readme-list
+          python3 pull_readmes.py readme-list
 
+      - name: Test build website
+        run: |
+          npm run build
+
+      - name: Push updates
+        run: |
           git add .
           git commit -m "Automated developer guide update"
 
