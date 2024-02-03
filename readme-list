@@ -1,1 +1,5 @@
 osbuild/main/README.md:docs/developer-guide/02-projects/osbuild/index.md
+images/main/test/README.md:docs/developer-guide/02-projects/images/testing.md
+images/main/docs/developer/README.md:docs/developer-guide/02-projects/images/index.md
+images/main/docs/developer/cmds.md:docs/developer-guide/02-projects/images/cmds.md
+images/main/docs/developer/code-manifest-generation.md:docs/developer-guide/02-projects/images/code-manifest-generation.md
