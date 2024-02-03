@@ -1,0 +1,30 @@
+name: Update developer guide
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+
+jobs:
+  update-developer-guide:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure a full clone for pushing changes
+
+      - name: Run pull-readmes.sh
+        run: |
+          ./pull-readmes.sh readme-list
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.email "$GIT_EMAIL"
+          git config user.name "$GIT_USERNAME"
+
+          git add .
+          git commit -m "Automated developer guide update"
+          
+          git push "https://$GIT_USERNAME:$SCHUTZBOT_TOKEN@github.com/$GITHUB_REPOSITORY.git" HEAD:main
