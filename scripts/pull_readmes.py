@@ -18,9 +18,11 @@ def resolve_dirs(baseurl, relative_link):
         relative_link = relative_link[3:]
         baseurl = "/".join(baseurl.split("/")[0:-1])
 
-    if not relative_link.startswith("#"):
-        baseurl = re.sub(r'/[^/]+$', '', baseurl) + "/"
+    if relative_link.startswith("#"):
+        # Don't modify anchors
+        return relative_link
 
+    baseurl = re.sub(r'/[^/]+$', '', baseurl) + "/"
     absolute_link = f'{baseurl}{relative_link}'
     return absolute_link
 
