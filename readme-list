@@ -1,3 +1,4 @@
+bootc-image-builder/main/README.md:docs/bootc/index.md
 osbuild/main/README.md:docs/developer-guide/02-projects/osbuild/index.md
 images/main/test/README.md:docs/developer-guide/02-projects/images/testing.md
 images/main/docs/developer/README.md:docs/developer-guide/02-projects/images/index.md
