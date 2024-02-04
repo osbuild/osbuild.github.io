@@ -25,5 +25,11 @@ class TestResolveDirs(unittest.TestCase):
         absolute_link = resolve_dirs(self.baseurl, relative_link)
         self.assertEqual(absolute_link, "https://github.com/osbuild/tree/main/docs/path/to/file.md#section")
 
+    def test_resolve_dirs_local_anchor(self):
+        relative_link = "#section"
+        absolute_link = resolve_dirs(self.baseurl, relative_link)
+        self.assertEqual(absolute_link, "#section")
+
+
 if __name__ == '__main__':
     unittest.main()
