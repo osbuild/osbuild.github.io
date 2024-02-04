@@ -1,21 +1,33 @@
-# Hacking on osbuild/images
+Images
+======
 
-## Local development environment
+### Project
 
-To build most binaries defined in `cmd` and run tests you will need to install `gpgme-devel`.
-To generate manifests, you will need to install the `osbuild-depsolve-dnf` package.
-To build images, you will also need to install `osbuild` and its sub-packages.
+ * **Website**: https://www.osbuild.org
+ * **Bug Tracker**: https://github.com/osbuild/images/issues
+ * **IRC**: #osbuild on [Libera.Chat](https://libera.chat/)
+ * **Changelog**: https://github.com/osbuild/images/releases
 
-The full list of dependencies is:
-- `gpgme-devel`
-- `osbuild`
-- `osbuild-depsolve-dnf`
-- `osbuild-luks2`
-- `osbuild-lvm2`
-- `osbuild-ostree`
-- `osbuild-selinux`
+#### Contributing
 
-## Topics
+Please refer to the [developer guide](https://www.osbuild.org/guides/developer-guide/developer-guide.html) to learn about our workflow, code style and more.
 
-- [Useful cmds](./cmds.md) for development and testing.
-- [Manifest generation code](./code-manifest-generation.md)
+The build-requirements for Fedora and rpm-based distributions are:
+- `gpgme-devel`, `btrfs-progs-devel`, `device-mapper-devel`
+
+### Repository:
+
+ - **web**:   https://github.com/osbuild/images
+ - **https**: `https://github.com/osbuild/images.git`
+ - **ssh**:   `git@github.com:osbuild/images.git`
+
+### Pull request gating
+
+Each pull request against `images` starts a series of automated
+tests. Tests run via GitHub Actions and GitLab CI. Each push to the pull request
+will launch theses tests automatically.
+
+### License:
+
+ - **Apache-2.0**
+ - See LICENSE file for details.

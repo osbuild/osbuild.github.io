@@ -9,6 +9,9 @@ osbuild-composer/main/README.md:docs/developer-guide/02-projects/osbuild-compose
 osbuild-composer/main/HACKING.md:docs/developer-guide/02-projects/osbuild-composer/HACKING.md
 osbuild-composer/main/CONTRIBUTING.md:docs/developer-guide/02-projects/osbuild-composer/CONTRIBUTING.md
 osbuild-composer/main/DEPLOYING.md:docs/developer-guide/02-projects/osbuild-composer/DEPLOYING.md
+osbuild-composer/main/test/README.md:docs/developer-guide/02-projects/osbuild-composer/test/README.md
+# Cockpit composer
 cockpit-composer/main/README.md:docs/developer-guide/02-projects/cockpit-composer/index.md
 cockpit-composer/main/test/README.md:docs/developer-guide/02-projects/cockpit-composer/testing.md
+# RPM Repo
 rpmrepo/main/README.md:docs/developer-guide/02-projects/rpmrepo/index.md
