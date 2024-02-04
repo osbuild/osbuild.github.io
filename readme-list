@@ -1,6 +1,14 @@
 bootc-image-builder/main/README.md:docs/bootc/index.md
 osbuild/main/README.md:docs/developer-guide/02-projects/osbuild/index.md
+images/main/README.md:docs/developer-guide/02-projects/images/index.md
+images/main/docs/developer/README.md:docs/developer-guide/02-projects/images/developer.md
 images/main/test/README.md:docs/developer-guide/02-projects/images/testing.md
-images/main/docs/developer/README.md:docs/developer-guide/02-projects/images/index.md
 images/main/docs/developer/cmds.md:docs/developer-guide/02-projects/images/cmds.md
 images/main/docs/developer/code-manifest-generation.md:docs/developer-guide/02-projects/images/code-manifest-generation.md
+osbuild-composer/main/README.md:docs/developer-guide/02-projects/osbuild-composer/index.md
+osbuild-composer/main/HACKING.md:docs/developer-guide/02-projects/osbuild-composer/HACKING.md
+osbuild-composer/main/CONTRIBUTING.md:docs/developer-guide/02-projects/osbuild-composer/CONTRIBUTING.md
+osbuild-composer/main/DEPLOYING.md:docs/developer-guide/02-projects/osbuild-composer/DEPLOYING.md
+cockpit-composer/main/README.md:docs/developer-guide/02-projects/cockpit-composer/index.md
+cockpit-composer/main/test/README.md:docs/developer-guide/02-projects/cockpit-composer/testing.md
+rpmrepo/main/README.md:docs/developer-guide/02-projects/rpmrepo/index.md
