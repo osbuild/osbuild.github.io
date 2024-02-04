@@ -93,6 +93,10 @@ def main():
 
     with open(args.input_file, 'r') as input_file:
         for line in input_file:
+            # Skip comments
+            if line.strip().startswith("#"):
+                continue
+
             source, targetpath = line.strip().split(':')
 
             if source and targetpath:
