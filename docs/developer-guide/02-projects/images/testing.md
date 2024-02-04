@@ -1,24 +1,24 @@
 # osbuild/images testing information
 
-[./test/configs/](./configs/) contains configuration files for building images for testing. The files are used by the following tools:
+[./test/configs/](https://github.com/osbuild/images/tree/main/test/configs/) contains configuration files for building images for testing. The files are used by the following tools:
 
-- [./cmd/build](../cmd/build) takes a config file as argument to build an image.  For example:
+- [./cmd/build](https://github.com/osbuild/images/tree/main/cmd/build) takes a config file as argument to build an image.  For example:
 ```
 go build -o bin/build ./cmd/build
 sudo ./bin/build --output ./buildtest --rpmmd /tmp/rpmmd --distro fedora-39 --image qcow2 --config test/configs/embed-containers.json
 ```
 will build a Fedora 38 qcow2 image using the configuration specified in the file `embed-containers.json`
 
-- [./cmd/gen-manifests](../cmd/gen-manifests) generates manifests based on the configs specified in [./test/config-map.json](./config-map.json). The config map maps configuration files to image types, distributions, and architectures.  An empty list means it applies to all values.  Globs are supported.
+- [./cmd/gen-manifests](https://github.com/osbuild/images/tree/main/cmd/gen-manifests) generates manifests based on the configs specified in [./test/config-map.json](https://github.com/osbuild/images/tree/main/test/config-map.json). The config map maps configuration files to image types, distributions, and architectures.  An empty list means it applies to all values.  Globs are supported.
 
-The config map is also used in CI to dynamically generate test builds using the [./test/scripts/generate-build-config](./scripts/generate-build-config) and [./test/scripts/generate-ostree-build-config](./scripts/generate-ostree-build-config) scripts.
+The config map is also used in CI to dynamically generate test builds using the [./test/scripts/generate-build-config](https://github.com/osbuild/images/tree/main/test/scripts/generate-build-config) and [./test/scripts/generate-ostree-build-config](https://github.com/osbuild/images/tree/main/test/scripts/generate-ostree-build-config) scripts.
 
-- [./test/data/repositories/](./data/repositories/) contains repository configurations for manifest generation ([./cmd/gen-manifests](../cmd/gen-manifests)) and image building ([./cmd/build](../cmd/build)).
+- [./test/data/repositories/](https://github.com/osbuild/images/tree/main/test/data/repositories/) contains repository configurations for manifest generation ([./cmd/gen-manifests](https://github.com/osbuild/images/tree/main/cmd/gen-manifests)) and image building ([./cmd/build](https://github.com/osbuild/images/tree/main/cmd/build)).
 
 - `Schutzfile` defines content sources and test variables:
-    - `rngseed` is the random number generator seed that is used by all the test scripts and commands. It ensures manifests are always generated with the same random values (e.g. for partition UUIDs) so tests can be skipped when an image hasn't changed (see [Workflow details](#workflow-details)) below. This value can be changed (incremented) when a rebuild of all test images is required. For example, if a test script changes in a way that will not affect the manifests, this value can be used to make sure all test images are built.
+    - `rngseed` is the random number generator seed that is used by all the test scripts and commands. It ensures manifests are always generated with the same random values (e.g. for partition UUIDs) so tests can be skipped when an image hasn't changed (see [Workflow details](https://github.com/osbuild/images/tree/main/test/README.md#workflow-details)) below. This value can be changed (incremented) when a rebuild of all test images is required. For example, if a test script changes in a way that will not affect the manifests, this value can be used to make sure all test images are built.
     - The following are defined in an object keyed by a distro name (e.g. `fedora-39`). The distribution name and version must match the version of the CI runners.
-    - `dependencies.osbuild.commit`: the version of osbuild to use, as a commit ID. This must be a commit that was successfully built in osbuild's CI, so that RPMs will be available. It is used by [./test/scripts/setup-osbuild-repo](./scripts/setup-osbuild-repo).
+    - `dependencies.osbuild.commit`: the version of osbuild to use, as a commit ID. This must be a commit that was successfully built in osbuild's CI, so that RPMs will be available. It is used by [./test/scripts/setup-osbuild-repo](https://github.com/osbuild/images/tree/main/test/scripts/setup-osbuild-repo).
     - `repos`: the repository configurations to use on the runners to install packages such as build dependencies and test tools.
 
 ## Image build tests in GitLab CI
@@ -68,7 +68,7 @@ The config generator:
   - `./test/scripts/build-image` builds the image using osbuild.
   - `./test/scripts/boot-image` boots the image in the appropriate cloud or virtual environment (if supported).
   - `./test/scripts/upload-results` uploads the results (manifest, image file, and build info) to the CI S3 bucket, so that rebuilds of the same manifest ID can be skipped.
-  - For ostree container image types (`iot-container` and `edge-container`), it also adds a call to the `./tools/ci/push-container.sh` script to push the container to the GitLab registry. The name and tag for each container is `<build name>:<manifest ID>` (see [Definitions](#definitions) below).
+  - For ostree container image types (`iot-container` and `edge-container`), it also adds a call to the `./tools/ci/push-container.sh` script to push the container to the GitLab registry. The name and tag for each container is `<build name>:<manifest ID>` (see [Definitions](https://github.com/osbuild/images/tree/main/test/README.md#definitions) below).
 - If no builds are needed, it generates a `NullConfig`, which is a simple shell runner that exits successfully. This is required because the child pipeline config cannot be empty.
 
 #### 2. Dynamic build job
@@ -93,7 +93,7 @@ in the form
 }
 ```
 
-(see [Definitions](#definitions) below)
+(see [Definitions](https://github.com/osbuild/images/tree/main/test/README.md#definitions) below)
 
 for example:
 ```json
@@ -116,11 +116,11 @@ This stage of the workflow runs the `./test/generate-ostree-build-config` script
 The config generator:
 - Generates all the manifests for build config dependencies for a given distribution and architecture using the `./cmd/gen-manifests` tool.
   - Build config dependencies are image type and config pairings that appear in the `depends` part of a build config .
-  - For example [iot-ostree-pull-empty](./configs/iot-ostree-pull-empty.json)) will cause a manifest to be generated for `iot-container` with the `empty` config for all distros.
+  - For example [iot-ostree-pull-empty](https://github.com/osbuild/images/tree/main/test/configs/iot-ostree-pull-empty.json)) will cause a manifest to be generated for `iot-container` with the `empty` config for all distros.
 - Determines the container name and tag from the build name and manifest ID and pulls each container from the registry.
 - Runs each container with a unique port mapped to the internal web service port.
 - For each build config that defines a dependency and for each image that config applies to, creates build configs and a config map that defines the URL, port, and ref for the ostree commit source.
-  - For example, the config [iot-ostree-pull-empty](./configs/iot-ostree-pull-empty.json)) is mapped in the [config-map](config-map.json) to the image types `iot-ami`, `iot-installer`, `iot-raw-image`, and `iot-vsphere`. This will create four configs for each distro, one for each image type, that will all have ostree options to pull an ostree commit from an `iot-container` of the same distro.
+  - For example, the config [iot-ostree-pull-empty](https://github.com/osbuild/images/tree/main/test/configs/iot-ostree-pull-empty.json)) is mapped in the [config-map](https://github.com/osbuild/images/tree/main/test/config-map.json) to the image types `iot-ami`, `iot-installer`, `iot-raw-image`, and `iot-vsphere`. This will create four configs for each distro, one for each image type, that will all have ostree options to pull an ostree commit from an `iot-container` of the same distro.
 - Generates all the manifests defined in the config map that was generated in the previous step.
   - Note that this manifest generation step uses the `-skip-noconfig` flag, which means that any image type not defined in the map is skipped.
 - Downloads the test build cache.
