@@ -18,22 +18,37 @@ jobs:
           git config user.name "${{ secrets.GIT_USERNAME }}"
 
       - name: Test pull_readmes script
+        working-directory: ./osbuild.github.io/scripts
         run: |
-          pushd scripts
           python3 test_pull_readmes.py
-          popd
 
       - name: Pull readmes and fix links
+        working-directory: ./osbuild.github.io
         run: |
           python3 scripts/pull_readmes.py readme-list
 
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: ./osbuild.github.io/package-lock.json
+
       - name: Test build website
+        working-directory: ./osbuild.github.io
         run: |
+          npm ci
           npm run build
 
       - name: Push updates
+        working-directory: ./osbuild.github.io
         run: |
           git add .
-          git commit -m "Automated developer guide update"
-
-          git push origin main
+          CHANGES=$(git status --porcelain | wc -l)
+          if [ "$CHANGES" -gt "0" ]; then
+            git status
+            git commit -m "Automated developer guide update"
+            git push origin main
+          else
+            echo "No updates found."
+          fi
