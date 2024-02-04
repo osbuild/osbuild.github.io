@@ -10,14 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Pull readmes and fix links
+      - name: Check out repository
         run: |
           git clone "https://${{ secrets.GIT_USERNAME }}:${{ secrets.SCHUTZBOT_TOKEN }}@github.com/osbuild/osbuild.github.io.git"
           cd osbuild.github.io
           git config user.email "${{ secrets.GIT_EMAIL }}"
           git config user.name "${{ secrets.GIT_USERNAME }}"
 
-          python3 pull_readmes.py readme-list
+      - name: Test pull_readmes script
+        run: |
+          pushd scripts
+          python3 test_pull_readmes.py
+          popd
+
+      - name: Pull readmes and fix links
+        run: |
+          python3 scripts/pull_readmes.py readme-list
 
       - name: Test build website
         run: |
