@@ -52,6 +52,12 @@ def parse_markdown_and_replace_links(file_path, baseurl):
                             lambda match: replace_relative_links(match, baseurl),
                             markdown_content, flags=re.DOTALL)
 
+    # Drop angel brackets around hyperlinks because DocuSaurus doesn't like them
+    angel_bracket_pattern = r'<(http.*?)>'
+    parsed_content = re.sub(angel_bracket_pattern,
+                            lambda match: match.group(1),
+                            parsed_content, flags=re.DOTALL)
+
     return parsed_content
 
 
