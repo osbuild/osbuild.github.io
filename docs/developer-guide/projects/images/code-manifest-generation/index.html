@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.1.1">
 <title data-rh="true">Manifest generation | Image Builder</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Manifest generation | Image Builder"><meta data-rh="true" name="description" content="This document explains how manifests are generated in code. It is useful for"><meta data-rh="true" property="og:description" content="This document explains how manifests are generated in code. It is useful for"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation"><link data-rh="true" rel="alternate" href="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation" hreflang="en"><link data-rh="true" rel="alternate" href="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation" hreflang="x-default"><link rel="stylesheet" href="/assets/css/styles.7b9e8750.css">
-<script src="/assets/js/runtime~main.b573a718.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.a0906df8.js" defer="defer"></script>
 <script src="/assets/js/main.e560cae2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard" data-theme="light">
@@ -18,7 +18,7 @@ code to have the desired effect.</p>
 <li>Instantiation: Creates an object that implements the
 <a href="https://pkg.go.dev/github.com/osbuild/images@main/pkg/manifest#Manifest" target="_blank" rel="noopener noreferrer"><code>manifest.Manifest</code></a> interface.<!-- -->
 <ul>
-<li>Creating this requires a number of steps. See <a href="https://github.com/osbuild/images/tree/main/docs/developer/code-manifest-generation.md#manifest-instantiation" target="_blank" rel="noopener noreferrer">Manifest
+<li>Creating this requires a number of steps. See <a href="#manifest-instantiation">Manifest
 Instantiation</a>.</li>
 <li>An instantiated <code>Manifest</code> contains:<!-- -->
 <ul>
@@ -37,7 +37,7 @@ is a <code>[]byte</code> array with custom un/marshalling methods.<!-- -->
 <ul>
 <li>This stage requires the content specifications resolved from the manifest
 source specifications (package specs, container specs, ostree commit
-specs). See <a href="https://github.com/osbuild/images/tree/main/docs/developer/code-manifest-generation.md#resolving-content" target="_blank" rel="noopener noreferrer">Resolving Content</a>.</li>
+specs). See <a href="#resolving-content">Resolving Content</a>.</li>
 </ul>
 </li>
 </ul>
