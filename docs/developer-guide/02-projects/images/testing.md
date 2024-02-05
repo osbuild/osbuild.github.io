@@ -16,7 +16,7 @@ The config map is also used in CI to dynamically generate test builds using the 
 - [./test/data/repositories/](https://github.com/osbuild/images/tree/main/test/data/repositories/) contains repository configurations for manifest generation ([./cmd/gen-manifests](https://github.com/osbuild/images/tree/main/cmd/gen-manifests)) and image building ([./cmd/build](https://github.com/osbuild/images/tree/main/cmd/build)).
 
 - `Schutzfile` defines content sources and test variables:
-    - `rngseed` is the random number generator seed that is used by all the test scripts and commands. It ensures manifests are always generated with the same random values (e.g. for partition UUIDs) so tests can be skipped when an image hasn't changed (see [Workflow details](https://github.com/osbuild/images/tree/main/test/README.md#workflow-details)) below. This value can be changed (incremented) when a rebuild of all test images is required. For example, if a test script changes in a way that will not affect the manifests, this value can be used to make sure all test images are built.
+    - `rngseed` is the random number generator seed that is used by all the test scripts and commands. It ensures manifests are always generated with the same random values (e.g. for partition UUIDs) so tests can be skipped when an image hasn't changed (see [Workflow details](#workflow-details)) below. This value can be changed (incremented) when a rebuild of all test images is required. For example, if a test script changes in a way that will not affect the manifests, this value can be used to make sure all test images are built.
     - The following are defined in an object keyed by a distro name (e.g. `fedora-39`). The distribution name and version must match the version of the CI runners.
     - `dependencies.osbuild.commit`: the version of osbuild to use, as a commit ID. This must be a commit that was successfully built in osbuild's CI, so that RPMs will be available. It is used by [./test/scripts/setup-osbuild-repo](https://github.com/osbuild/images/tree/main/test/scripts/setup-osbuild-repo).
     - `repos`: the repository configurations to use on the runners to install packages such as build dependencies and test tools.
@@ -68,7 +68,7 @@ The config generator:
   - `./test/scripts/build-image` builds the image using osbuild.
   - `./test/scripts/boot-image` boots the image in the appropriate cloud or virtual environment (if supported).
   - `./test/scripts/upload-results` uploads the results (manifest, image file, and build info) to the CI S3 bucket, so that rebuilds of the same manifest ID can be skipped.
-  - For ostree container image types (`iot-container` and `edge-container`), it also adds a call to the `./tools/ci/push-container.sh` script to push the container to the GitLab registry. The name and tag for each container is `<build name>:<manifest ID>` (see [Definitions](https://github.com/osbuild/images/tree/main/test/README.md#definitions) below).
+  - For ostree container image types (`iot-container` and `edge-container`), it also adds a call to the `./tools/ci/push-container.sh` script to push the container to the GitLab registry. The name and tag for each container is `<build name>:<manifest ID>` (see [Definitions](#definitions) below).
 - If no builds are needed, it generates a `NullConfig`, which is a simple shell runner that exits successfully. This is required because the child pipeline config cannot be empty.
 
 #### 2. Dynamic build job
@@ -93,7 +93,7 @@ in the form
 }
 ```
 
-(see [Definitions](https://github.com/osbuild/images/tree/main/test/README.md#definitions) below)
+(see [Definitions](#definitions) below)
 
 for example:
 ```json

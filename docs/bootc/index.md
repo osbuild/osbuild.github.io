@@ -26,7 +26,7 @@ $ podman machine start
 The following example builds a [Fedora ELN](https://docs.fedoraproject.org/en-US/eln/) bootable container into a QCOW2 image for the architecture you're running
 the command on.
 
-The `fedora-bootc:eln` base image does not include a default user. This example injects a [user configuration file](https://github.com/osbuild/bootc-image-builder/tree/main/README.md#-build-config)
+The `fedora-bootc:eln` base image does not include a default user. This example injects a [user configuration file](#-build-config)
 by adding a volume-mount for the local file as well as the `--config` flag to the bootc-image-builder container.
 
 The following command will create a QCOW2 disk image. First, create `./config.json` as described above to configure user access.
@@ -114,9 +114,9 @@ Flags:
 
 | Argument     | Description                                                      | Default Value |
 |--------------|------------------------------------------------------------------|:-------------:|
-| **--config** | Path to a [build config](https://github.com/osbuild/bootc-image-builder/tree/main/README.md#-build-config)                         |       ❌      |
+| **--config** | Path to a [build config](#-build-config)                         |       ❌      |
 | --tls-verify | Require HTTPS and verify certificates when contacting registries |    `true`     |
-| **--type**   | [Image type](https://github.com/osbuild/bootc-image-builder/tree/main/README.md#-image-types) to build                             |    `qcow2`    |
+| **--type**   | [Image type](#-image-types) to build                             |    `qcow2`    |
 
 *💡 Tip: Flags in **bold** are the most important ones.*
 
@@ -305,7 +305,7 @@ of the image as root anyway
 
 ### Accessing the system
 
-With a virtual machine launched with the above [virt-install](https://github.com/osbuild/bootc-image-builder/tree/main/README.md#virt-install) example, access the system with
+With a virtual machine launched with the above [virt-install](#virt-install) example, access the system with
 
 ```
 ssh -i /path/to/private/ssh-key alice@ip-address

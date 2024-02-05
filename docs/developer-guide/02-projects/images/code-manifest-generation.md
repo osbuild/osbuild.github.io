@@ -10,7 +10,7 @@ Manifests are generated in two general stages: _Instantiation_ and _Serializatio
 - Instantiation: Creates an object that implements the
   [`manifest.Manifest`][godoc-manifest-manifest] interface.
   - Creating this requires a number of steps. See [Manifest
-    Instantiation](https://github.com/osbuild/images/tree/main/docs/developer/code-manifest-generation.md#manifest-instantiation).
+    Instantiation](#manifest-instantiation).
   - An instantiated `Manifest` contains:
     - **Source** specifications for content: package names, containers, ostree
       commits.
@@ -22,7 +22,7 @@ Manifests are generated in two general stages: _Instantiation_ and _Serializatio
   is a `[]byte` array with custom un/marshalling methods.
   - This stage requires the content specifications resolved from the manifest
     source specifications (package specs, container specs, ostree commit
-    specs). See [Resolving Content](https://github.com/osbuild/images/tree/main/docs/developer/code-manifest-generation.md#resolving-content).
+    specs). See [Resolving Content](#resolving-content).
 
 The `makeManifest()` function in `cmd/build/main.go` is a straightforward
 implementation of the sequence of actions required to generate a manifest
