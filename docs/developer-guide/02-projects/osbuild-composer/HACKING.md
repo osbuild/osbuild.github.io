@@ -67,7 +67,7 @@ downsides:
 
 The containers are a good way to quickly test small changes, but before
 submitting a Pull Request, it's recommended to run through all the tests using
-the [Virtual Machine](https://github.com/osbuild/osbuild-composer/tree/main/HACKING.md#virtual-machine) setup described above.
+the [Virtual Machine](#virtual-machine) setup described above.
 
 ### Build and run
 
