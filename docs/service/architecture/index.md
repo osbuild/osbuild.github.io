@@ -2,7 +2,10 @@ import ArchitectureSvg from './architecture.svg';
 
 # Architecture
 
-## Service architecture
+## Hosted service architecture
+
+Users with a Red Hat account or a [no-cost Red Hat Developer Subscription](https://developers.redhat.com/articles/faqs-no-cost-red-hat-enterprise-linux) can use our [hosted service](https://console.redhat.com/insights/image-builder) without installing anything on their local machines.
+See our [on premises](/docs/on-premises/overview) documentation to run image builder yourself.
 
 This service is open source, so all of its code is inspectable and can be contributed to.
 <ArchitectureSvg />

@@ -13,7 +13,7 @@ You can see an overview of [which version is released where here](./release-over
 
 There are two frontends that you can use to communicate with osbuild-composer:
 
-- **Cockpit Composer**: The web-based management console Cockpit comes bundled with a UI extension to build operating system artifacts. See the documentation of Cockpit Composer for information, or consult the Cockpit Guide for help on general Cockpit questions.
+- **Cockpit Composer**: The web-based management console [Cockpit](https://cockpit-project.org/) comes bundled with a UI extension to build operating system artifacts. See the documentation of Cockpit Composer for information, or consult the Cockpit Guide for help on general Cockpit questions.
 
 - **Command-line Interface**: With composer-cli there exists a linux command-line interface (CLI) to some of the functionality provided by OSBuild. The CLI is part of the Weldr project, a precursor of OSBuild.
 
