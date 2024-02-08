@@ -1,16 +1,39 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Highlight, { tabValues } from '@site/src/components/Highlight';
+import '@site/src/css/custom.css';
+
 # Blueprint Reference
 
-Blueprints are text files in the [TOML format](https://toml.io/en/) that describe customizations for the image you are building.
+<Highlight colorVar="toml">Blueprints</Highlight> are text files in the [TOML format](https://toml.io/en/) that describe customizations for the image you are building.
+
+Analogously the <Highlight colorVar="json">compose request</Highlight> content of the
+[image-builder `/compose` request](https://developers.redhat.com/api-catalog/api/image-builder#operation-post-/compose)
+describes customizations for the image the service should be building.
+Not all customizations are supported in the API but those existing, are highlighted here with a
+<Highlight colorVar="json">compose request</Highlight> label.
 
 > An important thing to note is that these customizations are not applicable to all image types. `osbuild-composer` currently has no good validation or warning system in place to tell you if a customization in your blueprint is not supported for the image type you're building. The customization may be silently dropped.
 
 A very basic blueprint with just the required attributes at the root looks like:
 
+<Tabs values={tabValues} >
+
+<TabItem value="toml" >
 ```toml
 name = "basic-example"
 description = "A basic blueprint"
 version = "0.0.1"
 ```
+</TabItem>
+<TabItem value="json">
+```json
+{
+  "image_name": "basic-example"
+}
+```
+</TabItem>
+</Tabs>
 
 Where:
 - The `name` attribute is a string that contains the name of the blueprint. It can contain spaces, but they will be converted to `-` when it is imported into `osbuild-composer`. It should be short and descriptive.
@@ -34,6 +57,9 @@ version is running on the host:
 
 Note that **osbuild-composer prior to version 100** didn't use a dot `.` to separate major and minor release versions in the distro name. New versions are backward compatible, so they will still accept the old distro names of distributions supported up to the version 100. However, going forward, it is strongly advised to use the new naming scheme. Future distribution versions won't be backward compatible (e.g. `rhel-100` won't work in the future for RHEL 10.0, but one will have to use `rhel-10.0`).
 
+<Tabs values={tabValues} >
+
+<TabItem value="toml" >
 ```toml
 name = "tmux"
 description = "tmux image with openssh"
@@ -48,6 +74,19 @@ version = "*"
 name = "openssh-server"
 version = "*"
 ```
+</TabItem>
+<TabItem value="json">
+```json
+{
+  "image_name": "tmux",
+  "distribution": "fedora-38",
+  "customizations": {
+    "packages": ["tmux", "openssh-server"]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 ```toml
 name = "tmux"
@@ -70,7 +109,8 @@ version = "*"
 
 The content section determines what goes into the image from other sources such as packages, package groups, or containers. Content is defined at the root of the blueprint.
 
-- [Packages](#packages).
+- [Packages](#packages).  
+  <Highlight colorVar="json">[customizations.packages[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Customizations)</Highlight>
 - [Groups](#groups).
 - [Containers](#containers).
 
@@ -167,7 +207,8 @@ In the customizations we determine what goes into the image that's not in the de
 
 - [Hostname](#hostname)
 - [Kernel Command Line Arguments](#kernel-command-line-arguments)
-- [SSH Keys](#ssh-keys)
+- [SSH Keys](#ssh-keys)  
+  <Highlight colorVar="json">[customizations.users.user](https://developers.redhat.com/api-catalog/api/image-builder#schema-User)</Highlight>
 - [Additional Users](#additional-users)
 - [Additional Groups](#additional-groups)
 - [Timezone](#timezone)
@@ -180,8 +221,10 @@ In the customizations we determine what goes into the image that's not in the de
 - [Installation device](#installation-device)
 - [Ignition](#ignition)
 - [FDO](#fdo)
-- [Repositories](#repositories)
-- [Filesystems](#filesystems)
+- [Repositories](#repositories)  
+  <Highlight colorVar="json">[customizations.payload_repositories[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Repository)</Highlight>
+- [Filesystems](#filesystems)  
+  <Highlight colorVar="json">[customizations.filesystem[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Filesystem)</Highlight>
 - [OpenSCAP](#openscap)
 - [FIPS](#fips)
 
