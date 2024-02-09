@@ -5,13 +5,14 @@ import '@site/src/css/custom.css';
 
 # Blueprint Reference
 
-<Highlight colorVar="toml">Blueprints</Highlight> are text files in the [TOML format](https://toml.io/en/) that describe customizations for the image you are building.
+Blueprints are text files in the [TOML format](https://toml.io/en/) that describe customizations for the image you are building.
+To be used in the <Highlight colorVar="on-premises">on&nbsp;premises</Highlight> environment.
 
-Analogously the <Highlight colorVar="json">compose request</Highlight> content of the
+Analogously the request content of the
 [image-builder `/compose` request](https://developers.redhat.com/api-catalog/api/image-builder#operation-post-/compose)
-describes customizations for the image the service should be building.
+describes customizations of an image the <Highlight colorVar="hosted">hosted</Highlight> service should be building.
 Not all customizations are supported in the API but those existing, are highlighted here with a
-<Highlight colorVar="json">compose request</Highlight> label.
+<Highlight colorVar="hosted">hosted</Highlight> label.
 
 > An important thing to note is that these customizations are not applicable to all image types. `osbuild-composer` currently has no good validation or warning system in place to tell you if a customization in your blueprint is not supported for the image type you're building. The customization may be silently dropped.
 
@@ -19,14 +20,14 @@ A very basic blueprint with just the required attributes at the root looks like:
 
 <Tabs values={tabValues} >
 
-<TabItem value="toml" >
+<TabItem value="on-premises" >
 ```toml
 name = "basic-example"
 description = "A basic blueprint"
 version = "0.0.1"
 ```
 </TabItem>
-<TabItem value="json">
+<TabItem value="hosted">
 ```json
 {
   "image_name": "basic-example"
@@ -59,7 +60,7 @@ Note that **osbuild-composer prior to version 100** didn't use a dot `.` to sepa
 
 <Tabs values={tabValues} >
 
-<TabItem value="toml" >
+<TabItem value="on-premises" >
 ```toml
 name = "tmux"
 description = "tmux image with openssh"
@@ -75,7 +76,7 @@ name = "openssh-server"
 version = "*"
 ```
 </TabItem>
-<TabItem value="json">
+<TabItem value="hosted">
 ```json
 {
   "image_name": "tmux",
@@ -110,7 +111,7 @@ version = "*"
 The content section determines what goes into the image from other sources such as packages, package groups, or containers. Content is defined at the root of the blueprint.
 
 - [Packages](#packages).  
-  <Highlight colorVar="json">[customizations.packages[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Customizations)</Highlight>
+  <Highlight colorVar="hosted">[customizations.packages[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Customizations)</Highlight>
 - [Groups](#groups).
 - [Containers](#containers).
 
@@ -208,7 +209,7 @@ In the customizations we determine what goes into the image that's not in the de
 - [Hostname](#hostname)
 - [Kernel Command Line Arguments](#kernel-command-line-arguments)
 - [SSH Keys](#ssh-keys)  
-  <Highlight colorVar="json">[customizations.users.user](https://developers.redhat.com/api-catalog/api/image-builder#schema-User)</Highlight>
+  <Highlight colorVar="hosted">[customizations.users.user](https://developers.redhat.com/api-catalog/api/image-builder#schema-User)</Highlight>
 - [Additional Users](#additional-users)
 - [Additional Groups](#additional-groups)
 - [Timezone](#timezone)
@@ -222,9 +223,9 @@ In the customizations we determine what goes into the image that's not in the de
 - [Ignition](#ignition)
 - [FDO](#fdo)
 - [Repositories](#repositories)  
-  <Highlight colorVar="json">[customizations.payload_repositories[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Repository)</Highlight>
+  <Highlight colorVar="hosted">[customizations.payload_repositories[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Repository)</Highlight>
 - [Filesystems](#filesystems)  
-  <Highlight colorVar="json">[customizations.filesystem[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Filesystem)</Highlight>
+  <Highlight colorVar="hosted">[customizations.filesystem[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Filesystem)</Highlight>
 - [OpenSCAP](#openscap)
 - [FIPS](#fips)
 

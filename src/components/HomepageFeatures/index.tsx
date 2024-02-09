@@ -17,7 +17,7 @@ const FeatureList: FeatureItem[] = [
         Grab a no-cost Red Hat Developer Subscription and go to the <a href="https://console.redhat.com/insights/image-builder">Red Hat Hybrid Cloud Console</a> to bake your fresh image.
       </>
     ),
-    link: '/docs/service/architecture'
+    link: '/docs/hosted/architecture'
   },
   {
     title: '📦 Local package',
