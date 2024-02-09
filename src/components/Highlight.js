@@ -2,8 +2,8 @@ import React from 'react';
 
 // Define tabValues constant
 export const tabValues = [
-    { label: 'Blueprint', value: 'toml', attributes: { className: 'highlight tab toml' } },
-    { label: 'Compose request', value: 'json', attributes: { className: 'highlight tab json' } },
+    { label: 'On premises', value: 'on-premises', attributes: { className: 'highlight tab on-premises' } },
+    { label: 'Hosted', value: 'hosted', attributes: { className: 'highlight tab hosted' } },
 ];
 
 //colorVars - see css/custom.css

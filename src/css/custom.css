@@ -15,8 +15,8 @@
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --toml-color: SteelBlue;
-  --json-color: SandyBrown;
+  --on-premises-color: SteelBlue;
+  --hosted-color: SandyBrown;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -29,8 +29,8 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --toml-color: SteelBlue;
-  --json-color: SandyBrown;
+  --on-premises-color: SteelBlue;
+  --hosted-color: SandyBrown;
 }
 
 .highlight {
@@ -42,17 +42,17 @@
   color: #fff;
 }
 
-.highlight.box.toml {
-  background-color: var(--toml-color);
+.highlight.box.on-premises {
+  background-color: var(--on-premises-color);
 }
-.highlight.box.json {
-  background-color: var(--json-color);
+.highlight.box.hosted {
+  background-color: var(--hosted-color);
 }
 
-.highlight.tab.toml {
-  border-top: 3px solid var(--toml-color);
+.highlight.tab.on-premises {
+  border-top: 3px solid var(--on-premises-color);
 }
-.highlight.tab.json {
-  border-top: 3px solid var(--json-color);
+.highlight.tab.hosted {
+  border-top: 3px solid var(--hosted-color);
 }
 

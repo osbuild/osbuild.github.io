@@ -60,9 +60,9 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'service',
+          sidebarId: 'hosted',
           position: 'left',
-          label: 'Service',
+          label: 'Hosted',
         },
         {
           type: 'docSidebar',
