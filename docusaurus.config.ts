@@ -138,6 +138,17 @@ const config: Config = {
         maxSearchResults: 8,
       },
     ],
+    [
+      require.resolve("@docusaurus/plugin-client-redirects"),
+      {
+        redirects: [
+          {
+            from: '/docs/service/architecture',
+            to: '/docs/hosted/architecture',
+          },
+        ],
+      }
+    ],
   ],
 };
 
