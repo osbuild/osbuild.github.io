@@ -1,18 +1,18 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Highlight, { tabValues } from '@site/src/components/Highlight';
+import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly } from '@site/src/components/Highlight';
 import '@site/src/css/custom.css';
 
 # Blueprint Reference
 
 Blueprints are text files in the [TOML format](https://toml.io/en/) that describe customizations for the image you are building.
-To be used in the <Highlight colorVar="on-premises">on&nbsp;premises</Highlight> environment.
+To be used in the <Highlight colorVar="on-premises">🔵&nbsp;on&nbsp;premises</Highlight> environment.
 
 Analogously the request content of the
 [image-builder `/compose` request](https://developers.redhat.com/api-catalog/api/image-builder#operation-post-/compose)
-describes customizations of an image the <Highlight colorVar="hosted">hosted</Highlight> service should be building.
+describes customizations of an image the <Highlight colorVar="hosted">🟤&nbsp;hosted</Highlight> service should be building.
 Not all customizations are supported in the API but those existing, are highlighted here with a
-<Highlight colorVar="hosted">hosted</Highlight> label.
+<Highlight colorVar="hosted">🟤&nbsp;hosted</Highlight> label.
 
 > An important thing to note is that these customizations are not applicable to all image types. `osbuild-composer` currently has no good validation or warning system in place to tell you if a customization in your blueprint is not supported for the image type you're building. The customization may be silently dropped.
 
@@ -30,7 +30,8 @@ version = "0.0.1"
 <TabItem value="hosted">
 ```json
 {
-  "image_name": "basic-example"
+  "image_name": "basic-example",
+  "image_description": "A basic blueprint"
 }
 ```
 </TabItem>
@@ -45,7 +46,7 @@ You can upload a blueprint with the `osbuild-composer blueprints push $filename`
 
 Blueprints have two main sections, the [content](#content) and [customizations](#customizations) sections.
 
-### Distribution selection with blueprints
+### Distribution selection with blueprints 🔵&nbsp;🟤 {#distribution-selection-with-blueprints}
 
 The blueprint now supports a new `distro` field that will be used to select the
 distribution to use when composing images, or depsolving the blueprint. If
@@ -80,6 +81,7 @@ version = "*"
 ```json
 {
   "image_name": "tmux",
+  "image_description": "tmux image with openssh",
   "distribution": "fedora-38",
   "customizations": {
     "packages": ["tmux", "openssh-server"]
@@ -110,12 +112,7 @@ version = "*"
 
 The content section determines what goes into the image from other sources such as packages, package groups, or containers. Content is defined at the root of the blueprint.
 
-- [Packages](#packages).  
-  <Highlight colorVar="hosted">[customizations.packages[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Customizations)</Highlight>
-- [Groups](#groups).
-- [Containers](#containers).
-
-### Packages
+### Packages 🔵&nbsp;🟤 {#packages}
 
 The `packages` and `modules` lists contain objects with a `name` and optional `version` attribute.
 
@@ -128,6 +125,8 @@ The `packages` and `modules` lists contain objects with a `name` and optional `v
 
 For example, to install `tmux-2.9a` and `openssh-server-8.*` packages, add this to your blueprint:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[packages]]
 name = "tmux"
@@ -146,8 +145,19 @@ packages = [
     { name = "openssh-server", version = "8.*" }
 ]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "packages": ["tmux", "openssh-server"]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
-### Groups
+### Groups 🔵 {#groups}
 
 The `groups` list contains objects with a `name`-attribute.
 - The `name` attribute is a **required** string and must match the id of a package group in the repositories exactly.
@@ -156,6 +166,8 @@ The `groups` list contains objects with a `name`-attribute.
 
 For example, if you want to install the `anaconda-tools` group, add the following to your blueprint:
 
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
 ```toml
 [[groups]]
 name = "anaconda-tools"
@@ -168,8 +180,15 @@ groups = [
     { name = "anaconda-tools" }
 ]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
+</Tabs>
 
-### Containers
+### Containers 🔵 🟤 {#containers}
 
 The `containers` list contains objects with a `source` and optional `tls-verify` attribute.
 
@@ -185,6 +204,9 @@ The embedded containers are not started, to do so you can create systemd unit fi
 
 To embed the latest fedora container from http://quay.io, add this to your blueprint:
 
+
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[containers]]
 source = "quay.io/fedora/fedora:latest"
@@ -198,6 +220,23 @@ containers = [
     { source = "quay.io/fedora/fedora-minimal:latest", tls-verify = false, name = "fedora-m" },
 ]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "containers": [
+      { "source": "quay.io/fedora/fedora:latest" },
+      { "source": "quay.io/fedora/fedora-minimal:latest",
+        "tls_verify": false,
+        "name": "fedora-m"
+      }
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](../on-premises/installation/container-auth).
 
@@ -206,52 +245,57 @@ To access protected container resources a `containers-auth.json(5)` file can be 
 
 In the customizations we determine what goes into the image that's not in the default packages defined under [Content](#content).
 
-- [Hostname](#hostname)
-- [Kernel Command Line Arguments](#kernel-command-line-arguments)
-- [SSH Keys](#ssh-keys)  
-  <Highlight colorVar="hosted">[customizations.users.user](https://developers.redhat.com/api-catalog/api/image-builder#schema-User)</Highlight>
-- [Additional Users](#additional-users)
-- [Additional Groups](#additional-groups)
-- [Timezone](#timezone)
-- [Locale](#locale)
-- [Firewall](#firewall)
-- [Systemd Services](#systemd-services)
-- [Files and Directories](#files-and-directories)
-  - [Directories](#directories)
-  - [Files](#files)
-- [Installation device](#installation-device)
-- [Ignition](#ignition)
-- [FDO](#fdo)
-- [Repositories](#repositories)  
-  <Highlight colorVar="hosted">[customizations.payload_repositories[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Repository)</Highlight>
-- [Filesystems](#filesystems)  
-  <Highlight colorVar="hosted">[customizations.filesystem[]](https://developers.redhat.com/api-catalog/api/image-builder#schema-Filesystem)</Highlight>
-- [OpenSCAP](#openscap)
-- [FIPS](#fips)
-
-### Hostname
+### Hostname 🔵 🟤 {#hostname}
 
 `customizations.hostname` is an *optional* string that can be used to configure the hostname of the final image:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations]
 hostname = "baseimage"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "hostname": "baseimage"
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 This is optional and can be left out to use the default hostname.
 
-### Kernel
+### Kernel 🔵 🟤 {#kernel}
 
 #### Kernel Command-Line Arguments
 
 An *optional* string that allows to append arguments to the bootloader kernel command line:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.kernel]
 append = "nosmt=force"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "kernel": {
+      "append": "nosmt=force"
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
-### SSH Keys
+### SSH Keys 🔵 🟤 {#ssh-keys}
 
 An *optional* list of objects containing:
 
@@ -264,14 +308,32 @@ An *optional* list of objects containing:
 
 Set an existing user's SSH key in the final image:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[customizations.sshkey]]
 user = "root"
 key = "PUBLIC SSH KEY"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "users": [
+      { "name": "root",
+        "ssh_key": "PUBLIC SSH KEY"
+      }
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
+
 The key will be added to the user's `authorized_keys` file in their home directory.
 
-### Additional Users
+### Additional Users 🔵  {#additional-users}
 
 An *optional* list of objects that contain the following attributes:
 
@@ -291,6 +353,8 @@ An *optional* list of objects that contain the following attributes:
 
 Add a user to the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[customizations.user]]
 name = "admin"
@@ -303,32 +367,88 @@ groups = ["widget", "users", "wheel"]
 uid = 1200
 gid = 1200
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "users": [
+      { "name": "admin",
+        "ssh_key": "PUBLIC SSH KEY"
+      }
+    ],
+    "groups": [
+      { "name": "admin",
+        "gid": 1200
+      }
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
-### Additional groups
+### Additional groups 🔵 🟤 {#additional-groups}
 
 An *optional* list of objects that contain the following attributes:
 
 - `name` a **required** string that sets the name of the group.
 - `gid` a **required** integer that sets the id of the group.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[customizations.group]]
 name = "widget"
 gid = 1130
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "groups": [
+      { "name": "widget",
+        "gid": 1130
+      }
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
-### Timezone
+### Timezone 🔵 🟤 {#timezone}
 
 An *optional* object that contains the following attributes:
 
 - `timezone` an *optional* string. If not provided the UTC timezone is used..
 - `ntpservers` an *optional* list of strings containing NTP servers to use. If not provided the distribution defaults are used.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.timezone]
 timezone = "US/Eastern"
 ntpservers = ["0.north-america.pool.ntp.org", "1.north-america.pool.ntp.org"]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "timezone": {
+      "timezone": "US/Eastern",
+      "ntpservers": [
+        "0.north-america.pool.ntp.org",
+        "1.north-america.pool.ntp.org"
+      ]
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 The values supported by timezone can be listed by running the command:
 
@@ -338,7 +458,7 @@ $ timedatectl list-timezones
 
 Some image types have already NTP servers setup such as Google Cloud images. These cannot be overridden because they are required to boot in the selected environment. However, the timezone will be updated to the one selected in the blueprint.
 
-### Locale
+### Locale 🔵 🟤 {#locale}
 
 An *optional* object that contains the following attributes to customize the locale settings for the system:
 
@@ -347,11 +467,27 @@ An *optional* object that contains the following attributes to customize the loc
 
 Multiple languages can be added. The first one becomes the primary, and the others are added as secondary. You must include one or more languages or keyboards in the section.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.locale]
 languages = ["en_US.UTF-8"]
 keyboard = "us"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "locale": {
+      "languages": ["en_US.UTF-8"],
+      "keyboard": "us"
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 The values supported by languages can be listed by running can be listed by running the command:
 
@@ -365,7 +501,7 @@ The values supported by keyboard can be listed by running the command:
 $ localectl list-keymaps
 ```
 
-### Firewall
+### Firewall 🔵 🟤 {#firewall}
 
 An *optional* object containing the following attributes:
 
@@ -378,10 +514,25 @@ By default the firewall blocks all access, except for services that enable their
 
 *Note: Ports are configured using the `port:protocol` format; port ranges are configured using `portA-portB:protocol` format:*
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.firewall]
 ports = ["22:tcp", "80:tcp", "imap:tcp", "53:tcp", "53:udp", "30000-32767:tcp", "30000-32767:udp"]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "firewall": {
+      "ports": ["22:tcp", "80:tcp", "imap:tcp", "53:tcp", "53:udp", "30000-32767:tcp", "30000-32767:udp"]
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 Numeric ports, or their names from `/etc/services` can be used in the ports enabled/disabled lists.
 
@@ -389,11 +540,29 @@ The blueprint settings extend any existing settings in the image templates. Thus
 
 If the distribution uses `firewalld` you can specify services listed by `firewall-cmd --get-services` in a `customizations.firewall.services` section:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.firewall.services]
 enabled = ["ftp", "ntp", "dhcp"]
 disabled = ["telnet"]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "firewall": {
+      "services": {
+        "enabled": ["ftp", "ntp", "dhcp"],
+        "disabled": ["telnet"]
+      }
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 Remember that the `firewall.services` are different from the names in `/etc/services`.
 
@@ -401,23 +570,39 @@ Both are optional, if they are not used leave them out or set them to an empty l
 
 *Note: The Google and OpenStack templates explicitly disable the firewall for their environment. This cannot be overridden by the blueprint.*
 
-### Systemd Services
+### Systemd Services 🔵 🟤 {#systemd-services}
 
 An *optional* object containing the following attributes:
 - `enabled` an *optional* list of strings containing services to be enabled.
 - `disabled` an *optional* list of strings containing services to be disabled.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.services]
 enabled = ["sshd", "cockpit.socket", "httpd"]
 disabled = ["postfix", "telnetd"]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "services":{
+      "enabled": ["sshd", "cockpit.socket", "httpd"],
+      "disabled": ["postfix", "telnetd"],
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 This section can be used to control which services are enabled at boot time. Some image types already have services enabled or disabled in order for the image to work correctly, and cannot be overridden. For example, `ami` image type requires `sshd`, `chronyd`, and `cloud-init` services. Without them, the image will not boot. Blueprint services do not replace these services, but add them to the list of services already present in the templates, if any.
 
 The service names are systemd service units. You may specify any systemd unit file accepted by systemctl enable, for example, cockpit.socket:
 
-### Files and directories
+### Files and directories 🔵 🟤 {#files-and-directories}
 
 You can use blueprint customizations to create custom files and directories in the image. These customizations are currently restricted only to the `/etc` directory.
 
@@ -435,6 +620,8 @@ You can create custom directories by specifying items in the `customizations.dir
 
 The following example creates a directory `/etc/foobar` with all the default settings:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[customizations.directories]]
 path = "/etc/foobar"
@@ -443,6 +630,24 @@ user = "root"
 group = "root"
 ensure_parents = false
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "directories": [
+      { "path": "/etc/foobar",
+        "mode": "0755",
+        "user": "root",
+        "group": "root",
+        "ensure_parents": false
+      }
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 - `path` is the path to the directory to create. It must be an absolute path under `/etc`. This is the only required field.
 - `mode` is the octal mode to set on the directory. If not specified, the default is `0755`. The leading zero is optional.
@@ -467,6 +672,8 @@ Using the `files` customization comes with a high chance of creating an image th
 
 The following example creates a file `/etc/foobar` with the contents `Hello world!`:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[customizations.files]]
 path = "/etc/foobar"
@@ -475,6 +682,24 @@ user = "root"
 group = "root"
 data = "Hello world!"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "files": [
+      { "path": "/etc/foobar",
+        "mode": "0644",
+        "user": "root",
+        "group": "root",
+        "data": "Hello world!"
+      }
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 - `path` is the path to the file to create. It must be an absolute under `/etc`. This is the only required field.
 - `mode` is the octal mode to set on the file. If not specified, the default is `0644`. The leading zero is optional.
@@ -483,17 +708,32 @@ data = "Hello world!"
 - `data` is the plain text contents of the file. If not specified, the default is an empty file.
 
 Note that the `data` property can be specified in any of the ways supported by TOML. Some of them require escaping certain characters and others don't. Please refer to the [TOML specification](https://toml.io/en/v1.0.0#string) for more details.
-### Installation device
+
+### Installation device 🔵 🟤 {#installation-device}
 
 The `customizations.installation_device` variable is required by
 the `edge-simplified-installer` image. It allows the user to define
 the destination device for the installation.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations]
 installation_device = "/dev/sda"
 ```
-### Ignition
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "installation_device": "/dev/sda"
+  }
+}
+```
+</TabItem>
+</Tabs>
+
+### Ignition 🔵 🟤 {#ignition}
 
 The `customizations.ignition` section allows users to provide [Ignition](https://coreos.github.io/ignition/) configuration files to be used in `edge-raw-image` and `edge-simplified-installer` images. Check the RHEL for Edge (`r4e`) [butane](https://coreos.github.io/butane/specs/) specification for a description of the supported configuration options.
 
@@ -501,23 +741,57 @@ The blueprint configuration can be done *either* by embedding an Ignition config
 
 #### `ignition.embedded` configuration
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.ignition.embedded]
 config = "eyJpZ25pdGlvbiI6eyJ2ZXJzaW9uIjoiMy4zLjAifSwicGFzc3dkIjp7InVzZXJzIjpbeyJncm91cHMiOlsid2hlZWwiXSwibmFtZSI6ImNvcmUiLCJwYXNzd29yZEhhc2giOiIkNiRqZnVObk85dDFCdjdOLjdrJEhxUnhxMmJsdFIzek15QUhqc1N6YmU3dUJIWEVyTzFZdnFwaTZsamNJMDZkUUJrZldYWFpDdUUubUpja2xQVHdhQTlyL3hwSmlFZFdEcXR4bGU3aDgxIn1dfX0="
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "ignition": {
+      "embedded": {
+        "config": "eyJpZ25pdGlvbiI6eyJ2ZXJzaW9uIjoiMy4zLjAifSwicGFzc3dkIjp7InVzZXJzIjpbeyJncm91cHMiOlsid2hlZWwiXSwibmFtZSI6ImNvcmUiLCJwYXNzd29yZEhhc2giOiIkNiRqZnVObk85dDFCdjdOLjdrJEhxUnhxMmJsdFIzek15QUhqc1N6YmU3dUJIWEVyTzFZdnFwaTZsamNJMDZkUUJrZldYWFpDdUUubUpja2xQVHdhQTlyL3hwSmlFZFdEcXR4bGU3aDgxIn1dfX0="
+      }
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 Add a `base64` encoded Ignition configuration in the `config` field. This Ignition configuration will be included in the `edge-simplified-installer` image.
 
 #### `ignition.firstboot` configuration
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.ignition.firstboot]
 url = "http://some-server/configuration.ig"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "ignition": {
+      "firstboot": {
+        "url": "http://some-server/configuration.ig"
+      }
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 Add a URL pointing to the Ignition configuration that will be fetched during the first boot in the `url` field. Available for both `edge-simplified-installer` and `edge-raw-image`.
 
-### FDO
+### FDO 🔵 🟤 {#fdo}
 
 The `customizations.fdo` section allows users to configure [FIDO Device Onboard (FDO)](https://github.com/fdo-rs/fido-device-onboard-rs) device initialization parameters. It is only available with the `edge-simplified-installer` or `iot-simplified-installer` image types.
 
@@ -527,14 +801,30 @@ The user must choose one of the device initialization methods providing `diun_pu
 
 The user may provide an IFACE name at `di_mfg_string_type_mac_iface`.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.fdo]
 manufacturing_server_url = "http://192.168.122.199:8080"
 diun_pub_key_insecure = "true"
 di_mfg_string_type_mac_iface = "enp2s0"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "fdo": {
+      "manufacturing_server_url": "http://192.168.122.199:8080",
+      "diun_pub_key_insecure": "true"
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
-### Repositories
+### Repositories 🔵 🟤 {#repositories}
 
 Third-party repositories are supported by the blueprint customizations. A repository can be defined and enabled in the blueprints which will then be saved to the `/etc/yum.repos.d` directory in an image.
 An optional `filename` argument can be set, otherwise the repository will be saved using the the repository ID, i.e. `/etc/yum.repos.d/<repo-id>.repo`.
@@ -544,6 +834,8 @@ wish to install a package from a third-party repository, please continue reading
 
 The following example can be used to create a third-party repository:
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[customizations.repositories]]
 id = "example"
@@ -553,6 +845,24 @@ gpgcheck=true
 gpgkeys = [ "https://example.com/public-key.asc" ]
 enabled=true
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "custom_repositories": [
+      "id": "example",
+      "name": "Example repo",
+      "baseurl": [ "https://example.com/yum/download" ],
+      "check_gpg": true,
+      "gpgkey" : [ "https://example.com/public-key.asc" ],
+      "enabled": true
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 Since no filename is specified, the repo will be saved to `/etc/yum.repos.d/example.repo`.
 
@@ -576,15 +886,32 @@ The blueprint accepts the following options:
 The blueprint accepts both inline GPG keys and GPG key urls. If an inline GPG key is provided it will be saved to the `/etc/pki/rpm-gpg` directory and will be referenced accordingly
 in the repository configuration. **GPG keys are not imported to the RPM database** and will only be imported when first installing a package from the third-party repository.
 
-### Filesystems
+### Filesystems 🔵 🟤 {#filesystems}
 
 The blueprints can be extended to provide filesytem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [[customizations.filesystem]]
 mountpoint = "/var"
 minsize = 2147483648
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "filesystem": [
+      { "mountpoint": "/var",
+        "min_size": 2147483648
+      }
+    ]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 Filesystem customizations are currently **not** supported for the following image types:
 
@@ -637,7 +964,7 @@ The following mountpoints are allowed, but their sub-directories are **not** all
 
 - `/usr`
 
-### OpenSCAP
+### OpenSCAP 🔵 🟤 {#openscap}
 
 From `RHEL 8.7` & `RHEL 9.1` support has been added for `OpenSCAP` build-time remediation. The blueprints accept two fields:
 - the `datastream` path to the remediation instructions (optional)
@@ -647,11 +974,26 @@ If the datastream parameter is not provided, `osbuild-composer` will now provide
 
 Please see [the OpenSCAP page](oscap-remediation) for the list of available security profiles.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.openscap]
 datastream = "/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml"
 profile_id = "xccdf_org.ssgproject.content_profile_cis"
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "openscap": {
+      "profile_id": "xccdf_org.ssgproject.content_profile_cis"
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 #### OpenSCAP Tailoring
 
@@ -664,6 +1006,8 @@ are functionally equivalent.
 
 Note: the generated tailoring file is saved to the image as `/usr/share/xml/osbuild-oscap-tailoring/tailoring.xml`
 
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
 ```toml
 [customizations.openscap]
 datastream = "/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml"
@@ -673,17 +1017,61 @@ profile_id = "xccdf_org.ssgproject.content_profile_cis"
 selected = [ "xccdf_org.ssgproject.content_bind_crypto_policy" ]
 unselected = [ "grub2_password" ]
 ```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
+</Tabs>
 
-#### FIPS
+#### FIPS 🔵 🟤 {#fips}
 
 Enables/disables the system FIPS mode (disabled by default).
 Currently only `edge-raw-image`, `edge-installer`, `edge-simplified-installer`,
 `edge-ami` and `edge-vsphere` images support this customization.
 
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
 ```toml
 [customizations]
 fips = true
 ```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "fips": {
+      "enabled": true
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
+
+### Architecture 🟤 {#architecture}
+
+Select the target architecture the image should be built for.
+On premises, we don't support multi-arch builds. The architecture of the image is determined by the architecture of the host.
+
+<Tabs values={tabValuesHostedOnly} defaultValue="hosted" >
+<TabItem value="on-premises" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "image_requests": [
+    { "architecture": "x86_64" }
+  ]
+}
+```
+</TabItem>
+</Tabs>
 
 ## Example Blueprints
 

@@ -39,20 +39,31 @@
 
 .highlight.box {
   padding: 0.2rem;
-  color: #fff;
 }
 
 .highlight.box.on-premises {
-  background-color: var(--on-premises-color);
+  border: 1px solid var(--on-premises-color);
+
 }
 .highlight.box.hosted {
-  background-color: var(--hosted-color);
+  border: 1px solid var(--hosted-color);
 }
 
-.highlight.tab.on-premises {
-  border-top: 3px solid var(--on-premises-color);
-}
-.highlight.tab.hosted {
-  border-top: 3px solid var(--hosted-color);
+.highlight.tab.disabled {
+  color: #bbb;
 }
 
+.highlight.tab.on-premises.tabs__item--active {
+  border-bottom: 3px solid var(--on-premises-color);
+  background-color: #E5F2FD;
+}
+
+.highlight.tab.hosted.tabs__item--active {
+  border-bottom: 3px solid var(--hosted-color);
+  background-color: #FFEFE2;
+}
+
+.highlight.tab.disabled.tabs__item--active {
+  border-bottom: none;
+  background-color: #eee;
+}
