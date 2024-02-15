@@ -71,7 +71,7 @@ go mod edit -replace github.com/osbuild/images=<path to your local checkout of o
 
 Alternatively, you can also use a remote fork/branch of the code:
 ```
-go mod edit -replace github.com/osbuild/images=github.com/<username>/images@<commit>
+go mod edit -replace github.com/osbuild/images=github.com/username>/images@<commit
 ./tools/prepare-source.sh
 ```
 
