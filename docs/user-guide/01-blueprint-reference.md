@@ -576,6 +576,8 @@ An *optional* object containing the following attributes:
 - `enabled` an *optional* list of strings containing services to be enabled.
 - `disabled` an *optional* list of strings containing services to be disabled.
 
+If a service enabled or disabled through the corresponding attributes does not exist in the image that is being built then this customization will fail and the build will fail as a result.
+
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
 ```toml
