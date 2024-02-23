@@ -60,6 +60,11 @@ At build-time, the following software is required:
  * `go >= 1.19`
  * `python-docutils >= 0.13`
  * `krb5-devel` for fedora/rhel or `libkrb5-dev` for debian/ubuntu`
+ * `btrfs-progs-devel` for fedora/rhel or `libbtrfs-dev` for debian/ubuntu
+ * `device-mapper-devel` for fedora/rhel or `libdevmapper-dev` for debian/ubuntu
+ * `gpgme-devel` for fedora/rhel or `libgpgme-dev` for debian/ubuntu
+ * `rpmdevtools` (only for `make push-check`)
+ * `rpmlint` (only for `make push-check`)
 
 ### Build
 
@@ -75,6 +80,20 @@ The man-pages require `python-docutils` and can be built via:
 
 ```sh
 make man
+```
+
+### Run Tests
+
+To run our tests locally just call
+
+```sh
+make unit-tests
+```
+
+Before pushing something for a pull request you should run this check to avoid problems with required github actions
+
+```sh
+make push-check
 ```
 
 ### Repository:
