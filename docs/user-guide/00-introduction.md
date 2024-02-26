@@ -21,3 +21,34 @@ Composes are individual builds of a system image, based on a specific version of
 
 Customizations are specifications for the image that are not packages. This includes users, groups, and SSH keys.
 
+### Image Builder output formats
+
+Image Builder can create images in multiple output formats shown in the following table.
+
+**Table 1. Image Builder output formats**
+
+| Description  | CLI name | File extension  | 
+| ------------- |:-------------:| ------------- |
+| QEMU Image    | qcow2     | .qcow2  | 
+| Disk Archive  | tar     | .tar      | 
+| Amazon Web Services | raw     | .raw      | 
+| Microsoft Azure | vhd     | .vhd      | 
+| Google Cloud Platform | gce    | .tar.gz     | 
+| VMware vSphere | vmdk     | .vmdk      | 
+| VMware vSphere | ova     | .ova     | 
+| Openstack | openstack     | .qcow2     | 
+| IoT Commit | iot-commit    | .tar      | 
+| IoT Container | iot-container | .tar      | 
+| IoT Installer | iot-installer | .iso     | 
+| IoT Raw Image| iot-raw-image  | .raw.xz      | 
+| IoT Simplified Installer | iot-simplified-installer | .iso      | 
+| IoT AMI | iot-ami | .ami      | 
+| IoT VMDK | iot-vmdk | .vmdk      | 
+| Installer | live-installer | iso     | 
+| Oracle Cloud Infrastructure | oci     | .qcow2      | 
+
+To check the supported types, run the command:
+
+```
+$ composer-cli compose types
+```
