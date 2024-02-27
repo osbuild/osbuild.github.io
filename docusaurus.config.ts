@@ -146,6 +146,10 @@ const config: Config = {
             from: '/docs/service/architecture',
             to: '/docs/hosted/architecture',
           },
+          {
+            from: '/docs/service/fedora-console',
+            to: '/docs/hosted/fedora-console',
+          },
         ],
       }
     ],
