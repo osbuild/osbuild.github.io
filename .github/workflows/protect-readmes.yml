@@ -1,0 +1,22 @@
+name: Protect generated developer guide
+# Ensure that READMEs are not inadvertently changed in a pull request as those changes
+# would be dropped on the next CI run
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  protect-developer-guide:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes
+        run: |
+          python3 scripts/protect_readmes.py readme-list
