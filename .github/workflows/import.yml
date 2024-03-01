@@ -1,0 +1,127 @@
+#
+# Import Resources
+#
+# This workflow runs periodically and under given triggers on the main branch
+# and imports resources from external repositories, prepares them for
+# publication and then pushes them to main. If nothing changed, no commit
+# will be created nor pushed.
+#
+# Note that Github operations triggered from a workflow will *NEVER* trigger
+# other workflows. Therefore, no precautions are necessary to prevent entering
+# into loops.
+#
+
+name: Import Resources
+
+on:
+  push:
+    branches:
+    - main
+  schedule:
+  - cron:  '0 0 * * *'
+
+concurrency: wf-import
+
+jobs:
+  import:
+    name: Import Resources to be Published
+    runs-on: ubuntu-latest
+
+    steps:
+    #
+    # System Setup
+    #
+    # Install all dependencies required to generate a wide range of resources
+    # we import from external repositories.
+    #
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install pandoc
+    - name: Configure GIT
+      run: |
+        git config user.name "${{ secrets.GIT_USERNAME }}"
+        git config user.email "${{ secrets.GIT_EMAIL }}"
+
+    #
+    # Configuration Variables
+    #
+    # This fetches external information like osbuild release version numbers,
+    # etc., and saves them as output variables. This makes them available to
+    # following steps as:
+    #
+    #     ${{ steps.config.outputs.OSBUILD_VERSION }}
+    #         Evaluates to the latest osbuild release tag-name. This is usually
+    #         the version number prefixed with 'v'.
+    #
+    #     ${{ steps.config.outputs.OSBUILD_COMPOSER_VERSION }}
+    #         Evaluates to the latest osbuild-composer release tag-name. This
+    #         is usually the version number prefixed with 'v'.
+    #
+    - name: Declare Configuration Variables
+      id: config
+      run: |
+        OSBUILD_VERSION=$(curl --silent "https://api.github.com/repos/osbuild/osbuild/releases/latest" | jq -r .tag_name)
+        OSBUILD_COMPOSER_VERSION=$(curl --silent "https://api.github.com/repos/osbuild/osbuild-composer/releases/latest" | jq -r .tag_name)
+        echo "OSBUILD_VERSION=${OSBUILD_VERSION}" >>$GITHUB_OUTPUT
+        echo "OSBUILD_COMPOSER_VERSION=${OSBUILD_COMPOSER_VERSION}" >>$GITHUB_OUTPUT
+
+    #
+    # Setup Checkout
+    #
+    # Fetch the local repository, as well as all external ones that we need
+    # data from. The local one is cloned into `webpages`, the external ones
+    # into their respective subdirectories.
+    #
+    - name: Clone local repository
+      uses: actions/checkout@v4
+      with:
+        path: webpages
+    - name: Clone osbuild repository
+      uses: actions/checkout@v4
+      with:
+        repository: osbuild/osbuild
+        ref: ${{ steps.config.outputs.OSBUILD_VERSION }}
+        path: osbuild
+    - name: Clone osbuild-composer repository
+      uses: actions/checkout@v4
+      with:
+        repository: osbuild/osbuild-composer
+        ref: ${{ steps.config.outputs.OSBUILD_COMPOSER_VERSION }}
+        path: osbuild-composer
+
+    #
+    # Import Schemas
+    #
+    # Import all the schema files from the different repositories and make them
+    # available in a combined `schemas/` directory.
+    #
+    - name: Import Schemas
+      run: |
+        cp "osbuild/schemas/*.json" "webpages/static/html/"
+
+    #
+    # Import Manpages
+    #
+    - name: Build and import Manpages
+      run: |
+        make man -f osbuild/Makefile SRCDIR=osbuild BUILDDIR=build
+        for MAN in build/docs/* ; do
+          echo "Generating: ${MAN}.html"
+          cat "${MAN}" | \
+            pandoc --from man --to html < build/docs/${MAN} > ${MAN}.html
+        done
+        cp "build/docs/osbuild*.html" "webpages/static/html/"
+
+    #
+    # Deploy Imported Resources
+    #
+    # Create an automated commit with all modified resources. If the commit was
+    # non-empty (i.e., `git commit` did not fail), push it out.
+    #
+    - name: Deploy Imported Resources
+      working-directory: webpages
+      run: |
+        git add static/html
+        git commit -m "Update osbuild's man page" || echo "Nothing changed."
+        git push
