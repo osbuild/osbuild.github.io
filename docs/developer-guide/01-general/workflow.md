@@ -20,15 +20,15 @@ should summarize what the commit is doing.
 
 ## Pull requests 🌟
 
-We try to follow some best practices around pull requests.
+We try to follow some best practices around pull requests. Some of them are [encoded in a CI pipeline already](https://github.com/osbuild/pr-best-practices).
 
 1. A pull request should be one or more commits which form a coherent unit, it can be
 rebased/rewritten/force-pushed until it's fit for merging.
 2. All changes shall be tested. If new tests are necessary to cover new functionality, it should be part of the pull request.
 3. Pull requests shall always be as small as possible, to make them easy and quick to review.
-4. The pull request title shall contain the relevant Jira ticket. Each commit shall contain a reference to the Jira ticket, too.
+4. The pull request title shall contain [a reference to the relevant Jira ticket](https://issues.redhat.com).
 5. Every pull request shall have a clear summary.
-6. Every pull request shall be eagerly reviewed, ideally within a day after being marked as ready for review.
+6. Every pull request shall be eagerly reviewed, ideally within a day after being marked as ready for review. [Our internal review queue helps the team with that](https://github.com/osbuild/pr-review-queue).
 
 This is how the workflow works:
 1. Pull requests should be opened from a developer's own fork to avoid random branches on the origin.
