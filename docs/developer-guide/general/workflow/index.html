@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.1.1">
 <title data-rh="true">Development workflow 🏗️ | Image Builder</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://saurus.osbuild.org/docs/developer-guide/general/workflow"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Development workflow 🏗️ | Image Builder"><meta data-rh="true" name="description" content="Commits 💎"><meta data-rh="true" property="og:description" content="Commits 💎"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://saurus.osbuild.org/docs/developer-guide/general/workflow"><link data-rh="true" rel="alternate" href="https://saurus.osbuild.org/docs/developer-guide/general/workflow" hreflang="en"><link data-rh="true" rel="alternate" href="https://saurus.osbuild.org/docs/developer-guide/general/workflow" hreflang="x-default"><link rel="stylesheet" href="/assets/css/styles.f4cea68d.css">
-<script src="/assets/js/runtime~main.e6221564.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.57cc5647.js" defer="defer"></script>
 <script src="/assets/js/main.f69f572c.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard" data-theme="light">
@@ -23,15 +23,15 @@ should summarize what the commit is doing.</li>
 <li>GitHub truncates the first line if it&#x27;s longer than 65 characters, which is something to keep in mind as well.</li>
 </ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="pull-requests-">Pull requests 🌟<a href="#pull-requests-" class="hash-link" aria-label="Direct link to Pull requests 🌟" title="Direct link to Pull requests 🌟">​</a></h2>
-<p>We try to follow some best practices around pull requests.</p>
+<p>We try to follow some best practices around pull requests. Some of them are <a href="https://github.com/osbuild/pr-best-practices" target="_blank" rel="noopener noreferrer">encoded in a CI pipeline already</a>.</p>
 <ol>
 <li>A pull request should be one or more commits which form a coherent unit, it can be
 rebased/rewritten/force-pushed until it&#x27;s fit for merging.</li>
 <li>All changes shall be tested. If new tests are necessary to cover new functionality, it should be part of the pull request.</li>
 <li>Pull requests shall always be as small as possible, to make them easy and quick to review.</li>
-<li>The pull request title shall contain the relevant Jira ticket. Each commit shall contain a reference to the Jira ticket, too.</li>
+<li>The pull request title shall contain <a href="https://issues.redhat.com" target="_blank" rel="noopener noreferrer">a reference to the relevant Jira ticket</a>.</li>
 <li>Every pull request shall have a clear summary.</li>
-<li>Every pull request shall be eagerly reviewed, ideally within a day after being marked as ready for review.</li>
+<li>Every pull request shall be eagerly reviewed, ideally within a day after being marked as ready for review. <a href="https://github.com/osbuild/pr-review-queue" target="_blank" rel="noopener noreferrer">Our internal review queue helps the team with that</a>.</li>
 </ol>
 <p>This is how the workflow works:</p>
 <ol>
