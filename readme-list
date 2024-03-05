@@ -24,3 +24,6 @@ cockpit-composer/main/README.md:docs/developer-guide/02-projects/cockpit-compose
 cockpit-composer/main/test/README.md:docs/developer-guide/02-projects/cockpit-composer/testing.md
 # RPM Repo
 rpmrepo/main/README.md:docs/developer-guide/02-projects/rpmrepo/index.md
+# Weldr-client
+weldr-client/main/README.md:docs/developer-guide/02-projects/composer-cli/index.md
+weldr-client/main/HACKING.md:docs/developer-guide/02-projects/composer-cli/HACKING.md
