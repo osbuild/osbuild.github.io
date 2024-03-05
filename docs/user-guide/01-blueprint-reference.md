@@ -76,20 +76,6 @@ version = "*"
 name = "openssh-server"
 version = "*"
 ```
-</TabItem>
-<TabItem value="hosted">
-```json
-{
-  "image_name": "tmux",
-  "image_description": "tmux image with openssh",
-  "distribution": "fedora-38",
-  "customizations": {
-    "packages": ["tmux", "openssh-server"]
-  }
-}
-```
-</TabItem>
-</Tabs>
 
 ```toml
 name = "tmux"
@@ -107,6 +93,31 @@ version = "*"
 name = "openssh-server"
 version = "*"
 ```
+</TabItem>
+<TabItem value="hosted">
+```json
+{
+  "image_name": "tmux",
+  "image_description": "tmux image with openssh",
+  "distribution": "fedora-38",
+  "customizations": {
+    "packages": ["tmux", "openssh-server"]
+  }
+}
+```
+
+```json
+{
+  "image_name": "tmux",
+  "image_description": "tmux image with openssh",
+  "distribution": "rhel-8.4",
+  "customizations": {
+    "packages": ["tmux", "openssh-server"]
+  }
+}
+```
+</TabItem>
+</Tabs>
 
 ## Content
 
