@@ -12,8 +12,8 @@ def file_has_changed(filename):
     Verify that the file has not been changed.
     """
     if not os.path.isfile(filename):
-        print(f"Error: File not found: {filename}")
-        exit(1)
+        print(f"⚠️ Warning: File not found: {filename}"
+              "  This likely means that a new file is added to the sync.")
 
     try:
         output = subprocess.check_output(['git', 'diff', '--exit-code', 'HEAD..origin/main', '--', filename])
