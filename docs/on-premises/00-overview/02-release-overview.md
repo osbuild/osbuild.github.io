@@ -6,13 +6,13 @@
 *9.3* | 47-1 | 93-1 | 88-1
 *9.4* | 50-1 | 110-1 | 101-1
 *CentOS Stream 8* | 50-1 | 110-1 | 100-1
-*CentOS Stream 9* | 50-1 | 110-1 | 100-1
+*CentOS Stream 9* | 50-1 | 111-1 | 101-1
 *Fedora 37* | 47-1 | 99-1 | 94-1
-*Fedora 38* | 50-1 | 109-1 | 101-1
-*Fedora 39* | 50-1 | 109-1 | 101-1
+*Fedora 38* | 50-1 | 111-1 | 101-1
+*Fedora 39* | 50-1 | 111-1 | 101-1
 *Git* | 50 | 111 | 102
-*Service* | n/a | n/a | [v101-1-g51a6b085](https://github.com/osbuild/osbuild-composer/compare/v101-1-g51a6b085...main)
-*Workers* | n/a | [v109](https://github.com/osbuild/osbuild/compare/v109...main) | [v101-1-g51a6b085](https://github.com/osbuild/osbuild-composer/compare/v101-1-g51a6b085...main)
+*Service* | n/a | n/a | [v102-14-g1659d190](https://github.com/osbuild/osbuild-composer/compare/v102-14-g1659d190...main)
+*Workers* | n/a | [v109](https://github.com/osbuild/osbuild/compare/v109...main) | [v102-14-g1659d190](https://github.com/osbuild/osbuild-composer/compare/v102-14-g1659d190...main)
 
 ---
 
