@@ -1,10 +1,10 @@
 # Using the commandline
 
-An image is specified by a blueprint and an image type. Unless you specify otherwise, it will use the same distribution and version (e.g. Fedora 33) as the host system. The architecture will always be the same as the one on the host.
+An image is specified by a blueprint and an image type. Unless you specify otherwise, it will use the same distribution and version (e.g. Fedora 39) as the host system. The architecture will always be the same as the one on the host.
 
 ## Blueprints management using composer-cli
 
-`osbuild-composer` provides a storage for blueprints. To store a `blueprint.toml` blueprint file, run this command:
+`osbuild-composer` provides storage for blueprints. To store a `blueprint.toml` blueprint file, run this command:
 
 ```
 $ composer-cli blueprints push blueprint.toml
