@@ -42,7 +42,7 @@ const FeatureList: FeatureItem[] = [
 function Feature({title, description, link}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center padding-horiz--md">
+      <div className={"text--center padding-horiz--md " + styles.featureBlock}>
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
         <div className={styles.buttons}>
