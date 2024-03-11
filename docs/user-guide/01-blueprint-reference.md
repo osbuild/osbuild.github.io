@@ -148,7 +148,7 @@ name = "openssh-server"
 version = "8.*"
 ```
 
-Or in alternative syntax:
+Or in alternative syntax[^1]:
 
 ```toml
 packages = [
@@ -184,7 +184,7 @@ For example, if you want to install the `anaconda-tools` group, add the followin
 name = "anaconda-tools"
 ```
 
-Or in alternative syntax:
+Or in alternative syntax[^1]:
 
 ```toml
 groups = [
@@ -223,7 +223,7 @@ To embed the latest fedora container from http://quay.io, add this to your bluep
 source = "quay.io/fedora/fedora:latest"
 ```
 
-Or in alternative syntax:
+Or in alternative syntax[^1]:
 
 ```toml
 containers = [
@@ -1192,3 +1192,6 @@ fips = true
 manufacturing_server_url = "https://fdo.example.com"
 diun_pub_key_insecure = true
 ```
+
+[^1]: Arguments written in the alternative syntax have to be *before* any other section! So at the beginning
+of the file before any line beginning with a square bracket.
