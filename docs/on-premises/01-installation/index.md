@@ -10,6 +10,8 @@ For CLI only, run the following command to install necessary packages:
 $ sudo dnf install osbuild-composer composer-cli
 ```
 
+Note that `composer-cli` is a virtual provides for the actual package name, which is `weldr-client` for historical reasons.
+
 To enable the service, run this command:
 
 ```
