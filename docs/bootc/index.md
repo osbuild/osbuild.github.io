@@ -46,6 +46,33 @@ sudo podman run \
     quay.io/centos-bootc/fedora-bootc:eln
 ```
 
+### Using local containers
+
+To use containers from local container's storage rather than a registry, we need to ensure two things:
+- the container exists in local storage
+- mount the local container storage
+
+Since the container is run in `rootful` only root container storage paths are allowed.
+
+```bash
+sudo podman run \
+    --rm \
+    -it \
+    --privileged \
+    --pull=newer \
+    --security-opt label=type:unconfined_t \
+    -v $(pwd)/config.json:/config.json \
+    -v $(pwd)/output:/output \
+    -v /var/lib/containers/storage:/var/lib/containers/storage \
+    quay.io/centos-bootc/bootc-image-builder:latest \
+    --type qcow2 \
+    --config /config.json \
+    --local \
+    localhost/bootc:eln
+```
+
+When using the --local flag, we need to mount the storage path as a volume. With this enabled, it is assumed that the target container is in the container storage.
+
 ### Running the resulting QCOW2 file on Linux (x86_64)
 
 A virtual machine can be launched using `qemu-system-x86_64` or with `virt-install` as shown below.
@@ -119,6 +146,9 @@ Flags:
 | **--config**     | Path to a [build config](#-build-config)                         |       ❌      |
 | **--tls-verify** | Require HTTPS and verify certificates when contacting registries |    `true`     |
 | **--type**       | [Image type](#-image-types) to build                             |    `qcow2`    |
+
+The `--type` parameter can be given multiple times and multiple outputs will
+be produced.
 
 *💡 Tip: Flags in **bold** are the most important ones.*
 
