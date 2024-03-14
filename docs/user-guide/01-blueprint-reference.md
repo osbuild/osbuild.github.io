@@ -899,6 +899,37 @@ The blueprint accepts the following options:
 The blueprint accepts both inline GPG keys and GPG key urls. If an inline GPG key is provided it will be saved to the `/etc/pki/rpm-gpg` directory and will be referenced accordingly
 in the repository configuration. **GPG keys are not imported to the RPM database** and will only be imported when first installing a package from the third-party repository.
 
+### Partitioning mode 🔵 🟤 {#partitioning-mode}
+
+The `customizations.partitioning_mode` variable can be used to select how the
+disk image will be partitioned. `auto-lvm` will use raw unless there are one or
+more [filesystem customizations](#filesystems) in which case it will use LVM.
+`lvm` always uses LVM, even when there are no extra mountpoints. `raw` uses raw
+partitions even when there are one or more mountpoints.
+
+Supported modes:
+- `auto-lvm` uses raw unless [filesystem customizations](#filesystems) are included.
+- `raw` always uses raw partitions
+- `lvm` always uses LVM partitions
+
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
+```toml
+[customizations]
+partitioning_mode = "lvm"
+```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "partitioning_mode": "lvm"
+  }
+}
+```
+</TabItem>
+</Tabs>
+
 ### Filesystems 🔵 🟤 {#filesystems}
 
 The blueprints can be extended to provide filesytem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
