@@ -615,6 +615,31 @@ This section can be used to control which services are enabled at boot time. Som
 
 The service names are systemd service units. You may specify any systemd unit file accepted by systemctl enable, for example, cockpit.socket:
 
+### Partitioning mode 🔵 🟤 {#partitioning-mode}
+
+An *optional* string where valid options are:
+- `auto-lvm` - Enable Logical Volume Management (LVM) only if there are [custom filsystems](#filesystems) given (default)
+- `lvm` - Enable LVM always
+- `raw` - Disable LVM
+
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
+```toml
+[customizations]
+partitioning_mode = "lvm"
+```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "partitioning_mode": "lvm"
+  }
+}
+```
+</TabItem>
+</Tabs>
+
 ### Files and directories 🔵 🟤 {#files-and-directories}
 
 You can use blueprint customizations to create custom files and directories in the image. These customizations are currently restricted only to the `/etc` directory.
