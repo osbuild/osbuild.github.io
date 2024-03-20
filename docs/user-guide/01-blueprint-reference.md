@@ -629,11 +629,9 @@ The service names are systemd service units. You may specify any systemd unit fi
 
 ### Files and directories 🔵 🟤 {#files-and-directories}
 
-You can use blueprint customizations to create custom files and directories in the image. These customizations are currently restricted only to the `/etc` directory.
+You can use blueprint customizations to create custom files and directories in the image. When using the custom files and directories customization, the following rules apply:
 
-When using the custom files and directories customization, the following rules apply:
-
-- The path must be an absolute path and must be under `/etc` or `/root`.
+- The path must be an absolute path and must be under `/etc`, `/root` or `/usr/local`.
 - There must be no duplicate paths of the same directory.
 - There must be no duplicate paths of the same file.
 
