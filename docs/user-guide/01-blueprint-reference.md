@@ -208,12 +208,15 @@ These list entries describe the container images to be embedded into the image.
 - The `source` attribute is a **required** string and is a reference to a container image at a registry.
 - The `name` attribute is an *optional* string to set the name under which the container image will be saved in the image. If not specified `name` falls back to the same value as `source`.
 - The `tls-verify` attribute is an *optional* boolean to disable TLS verification of the source download. By default this is set to `true`.
+- The `local-storage` attribute is an *optional* boolean to pull the container image from the host's local-storage. By default this is set to `false`.
 
 The container is pulled during the image build and stored in the image at the default local container storage location that is appropriate for the image type, so that all supported container tools like `podman` and `cri-o` will be able to work with it.
 
 The embedded containers are not started, to do so you can create systemd unit files or quadlets with the files customization.
 
-To embed the latest fedora container from http://quay.io, add this to your blueprint:
+Container images from local-storage are only supported on-premise.
+
+To embed the latest fedora container from http://quay.io and a container from your host, add this to your blueprint:
 
 
 <Tabs values={tabValues} >
@@ -221,6 +224,10 @@ To embed the latest fedora container from http://quay.io, add this to your bluep
 ```toml
 [[containers]]
 source = "quay.io/fedora/fedora:latest"
+
+[[containers]]
+source = "localhost/test:latest"
+local-storage = true
 ```
 
 Or in alternative syntax[^1]:
@@ -229,6 +236,7 @@ Or in alternative syntax[^1]:
 containers = [
     { source = "quay.io/fedora/fedora:latest" },
     { source = "quay.io/fedora/fedora-minimal:latest", tls-verify = false, name = "fedora-m" },
+    { source = "localhost/test:latest", local-storage = true },
 ]
 ```
 </TabItem>
