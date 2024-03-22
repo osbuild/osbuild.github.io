@@ -586,8 +586,10 @@ Both are optional, if they are not used leave them out or set them to an empty l
 An *optional* object containing the following attributes:
 - `enabled` an *optional* list of strings containing services to be enabled.
 - `disabled` an *optional* list of strings containing services to be disabled.
+- `masked` *optional* list of strings for services to mask.
 
 If a service enabled or disabled through the corresponding attributes does not exist in the image that is being built then this customization will fail and the build will fail as a result.
+However, the corresponding package is not required on the image when masking a service.
 
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
@@ -595,6 +597,7 @@ If a service enabled or disabled through the corresponding attributes does not e
 [customizations.services]
 enabled = ["sshd", "cockpit.socket", "httpd"]
 disabled = ["postfix", "telnetd"]
+masked = ["rpcbind"]
 ```
 </TabItem>
 <TabItem value="hosted" >
@@ -604,6 +607,7 @@ disabled = ["postfix", "telnetd"]
     "services":{
       "enabled": ["sshd", "cockpit.socket", "httpd"],
       "disabled": ["postfix", "telnetd"],
+      "masked": ["rpcbind"],
     }
   }
 }
