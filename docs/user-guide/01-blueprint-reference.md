@@ -365,6 +365,7 @@ An *optional* list of objects that contain the following attributes:
 - `groups` an *optional* list of strings.
 - `uid` an *optional* integer.
 - `gid` an *optional* integer.
+- `expiredate` an *optional* integer.
 
 *Warning: `key` expects the entire content of the public key file, traditionally `~/.ssh/id_rsa.pub` but any algorithm supported by the operating system in the image is valid*
 
@@ -385,6 +386,7 @@ shell = "/usr/bin/bash"
 groups = ["widget", "users", "wheel"]
 uid = 1200
 gid = 1200
+expiredate = 12345
 ```
 </TabItem>
 <TabItem value="hosted" >
