@@ -9,7 +9,7 @@
 | GCP                  | Google Cloud Platform |
 | Image Build          | One request from osbuild-composer to osbuild-worker. Its result is a single image. |
 | Image Type           | Image file format usually associated with a specific use case. For example: AMI for AWS, qcow2 for OpenStack, etc. |
-| Manifest             | Input for the osbuild tool. It should be a precise definition of an image. See https://www.osbuild.org/man/osbuild-manifest.5 for more information. |
+| Manifest             | Input for the osbuild tool. It should be a precise definition of an image. See https://github.com/osbuild/osbuild/blob/main/docs/osbuild-manifest.5.rst for more information. |
 | osbuild              | Low-level tool for building images. Not meant for end-user usage. |
 | osbuild-composer     | HTTP service for building OS images.                         |
 | OSTree               | Base technology for immutable OS images: Fedora IoT and RHEL Edge |
