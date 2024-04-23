@@ -1127,6 +1127,65 @@ On premises, we don't support multi-arch builds. The architecture of the image i
 </TabItem>
 </Tabs>
 
+### Installer 🔵 🟤 {#installer}
+
+Anaconda installer (ISO) image types support the following extra customizations.
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
+```toml
+[customizations.installer]
+unattended = true
+sudo-nopasswd = ["user", "%wheel"]
+```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "installer": {
+      "unattended": true,
+      "sudo-nopasswd": ["user", "%wheel"]
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
+
+- `unattended`: creates a kickstart file that makes the installation fully automatic. This includes setting the following options by default:
+    - `text` display mode.
+    - `en_US.UTF-8` language/locale.
+    - `us` keyboard layout.
+    - `UTC` timezone.
+    - `zerombr`, `clearpart`, and `autopart` to automatically wipe and partition the first disk.
+    - `network` options to enable dhcp and auto-activation.
+
+Or, in plain kickstart form:
+```
+liveimg --url file:///run/install/repo/liveimg.tar.gz
+lang en_US.UTF-8
+keyboard us
+timezone UTC
+zerombr
+clearpart --all --initlabel
+text
+autopart --type=plain --fstype=xfs --nohome
+reboot --eject
+network --device=link --bootproto=dhcp --onboot=on --activate
+```
+Blueprint customizations that match the kickstart options (`languages`, `keyboard`, `timezone`) will change the value in the kickstart file as well.
+
+- `sudo-nopasswd`: adds a snippet to the kickstart file that, after installation, will create drop-in files in `/etc/sudoers.d` to allow the specified users and groups to run `sudo` without a password (groups must be prefixed with `%`). For example, setting the value to `["user", "%wheel"]` will create the following kickstart `%post` section:
+```
+%post
+echo -e "user\tALL=(ALL)\tNOPASSWD: ALL" > "/etc/sudoers.d/user"
+chmod 0440 /etc/sudoers.d/user
+echo -e "%wheel\tALL=(ALL)\tNOPASSWD: ALL" > "/etc/sudoers.d/%wheel"
+chmod 0440 /etc/sudoers.d/%wheel
+restorecon -rvF /etc/sudoers.d
+%end
+```
+
 ## Example Blueprints
 
 ### Multiple customizations
