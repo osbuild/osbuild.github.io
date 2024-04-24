@@ -96,6 +96,11 @@ ostreesetup --nogpg --url=http://10.0.2.2:8000/repo/ --osname=iot --remote=iot -
 For those interested in all the options, you can read [Anaconda’s documentation](https://anaconda-installer.readthedocs.io/en/latest/index.html).
 
 The crucial part is on the last line. Here, `ostreesetup` command is used to fetch the OSTree commit. Now for those wondering about the IP address, this tutorial uses `qemu` to boot the virtual machine and `10.0.2.2` is an address which you can use to reach the host system from the guest: [User Networking](https://wiki.qemu.org/Documentation/Networking#User_Networking_.28SLIRP.29).
+Also consider:
+
+* the `osname` is a given, based on the underlying OS,
+* the remote name can be any [valid ostree remote name](https://ostreedev.github.io/ostree/man/ostree-remote.html),
+* and the reference is the default coming from the underlying OS, based on the pattern `<os>/<major version>/<architecture>/<product>` (we could have overwritten it as we created our commit, by using the `start-ostree` sub-command and its options).
 
 ## Setting up an HTTP server
 
@@ -108,6 +113,9 @@ ADD *.tar *.ks /var/www/html
 EXPOSE 80
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 ```
+
+Remember that `ADD *.tar` will unpack the tarball file and that this tarball contains a `/repo/` containing the commit data.
+This explains why the `ostreesetup` command in the above kickstart can grab it from an URL ending in `/repo/`.
 
 Make sure you have everything in the build directory (keep in mind that the UUID is random, so it will be different in your case):
 
