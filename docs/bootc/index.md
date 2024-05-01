@@ -141,13 +141,14 @@ Flags:
 
 ### Detailed description of optional flags
 
-| Argument          | Description                                                         | Default Value |
-|-------------------|---------------------------------------------------------------------|:-------------:|
-| **--chown**       | chown the ouput directory to match the specified UID:GID            |       ❌      |
-| **--config**      | Path to a [build config](#-build-config)                            |       ❌      |
-| **--tls-verify**  | Require HTTPS and verify certificates when contacting registries    |    `true`     |
-| **--type**        | [Image type](#-image-types) to build                                |    `qcow2`    |
-| **--target-arch** | [Target arch](#-target-architecture) to build                       |       ❌      |
+| Argument          | Description                                                                                        | Default Value |
+|-------------------|----------------------------------------------------------------------------------------------------|:-------------:|
+| **--chown**       | chown the output directory to match the specified UID:GID                                          |       ❌      |
+| **--config**      | Path to a [build config](#-build-config)                                                           |       ❌      |
+| **--rootfs**      | Root filesystem type. Overrides the default from the source container. Supported values: ext4, xfs |
+| **--tls-verify**  | Require HTTPS and verify certificates when contacting registries                                   |    `true`     |
+| **--type**        | [Image type](#-image-types) to build                                                               |    `qcow2`    |
+| **--target-arch** | [Target arch](#-target-architecture) to build                                                      |       ❌      |
 
 The `--type` parameter can be given multiple times and multiple outputs will
 be produced.
@@ -276,14 +277,14 @@ The following volumes can be mounted inside the container:
 
 ## 📝 Build config
 
-A build config is a Toml (or JSON) file with customizations for the resulting image. A path to the file is passed via  the `--config` argument. The customizations are specified under a `blueprint.customizations` object.
+A build config is a Toml (or JSON) file with customizations for the resulting image. A path to the file is passed via  the `--config` argument. The customizations are specified under a `customizations` object.
 
 As an example, let's show how you can add a user to the image:
 
 Firstly create a file `./config.toml` and put the following content into it:
 
 ```json
-[[blueprint.customizations.user]]
+[[customizations.user]]
 name = "alice"
 password = "bob"
 key = "ssh-rsa AAA ... user@email.com"
@@ -339,11 +340,9 @@ Example:
 
 ```json
 {
-  "blueprint": {
-    "customizations": {
-      "kernel": {
-        "append": "mitigations=auto,nosmt"
-      }
+  "customizations": {
+    "kernel": {
+      "append": "mitigations=auto,nosmt"
     }
   }
 }
