@@ -15,9 +15,9 @@ x86 / MBR gap:
     now it is 2048), which leaves a gap between it and the MBR,
     where the core image can be embedded in
 x86 / BIOS boot:
-    A dedicated partition with a specific GUID[1] is used.
+    A dedicated partition with a specific GUID\[1\] is used.
 ppc64le / Open Firmware:
-    A dedicated partition with a specified GUID[2] is used.
+    A dedicated partition with a specified GUID\[2\] is used.
     On ppc64le with Open Firmware a special partition called
     'PrEP partition' is used the store the grub2 core; the
     firmware looks for this partition and directly loads and
@@ -29,8 +29,8 @@ stage (core image). Therefore the location of the core image is
 patched into the boot image.
 On ppc64le, the firmware itself directly loads the complete core
 image and transfers control to it.
-[1] 21686148-6449-6E6F-744E-656564454649
-[2] 9E1A2D38-C612-4316-AA26-8B49521E5A8B
+\[1\] 21686148-6449-6E6F-744E-656564454649
+\[2\] 9E1A2D38-C612-4316-AA26-8B49521E5A8B
 
 ## Schema 1
 

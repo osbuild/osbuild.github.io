@@ -30,6 +30,11 @@ TEMPLATE = """
 def escape(text):
     text = text.replace("<", r"\<")
     text = text.replace(">", r"\>")
+    text = text.replace("[", r"\[")
+    text = text.replace("]", r"\]")
+    text = text.replace("{", r"\{")
+    text = text.replace("}", r"\}")
+
     return text
 
 

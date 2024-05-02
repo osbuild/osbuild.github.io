@@ -4,7 +4,7 @@
 **Transforms the tree to an ostree layout**
 
 Uses `rpm-ostree compose` to transform a "normal" file system tree into
-an OSTree conforming layout (see [1]). Among other things the main steps
+an OSTree conforming layout (see \[1\]). Among other things the main steps
 are:
   - moves /etc to /usr/etc
   - move /boot to /usr/lib/ostree-boot
@@ -12,7 +12,7 @@ are:
   - re-creates the initramfs (via dracut)
   - adds altfiles module to NSS
   - Re-compiles SELinux policy (semodule -nB)
-  - Migrates /usr/etc/{passwd, group} to /usr/lib/
+  - Migrates /usr/etc/\{passwd, group\} to /usr/lib/
   - Postprocess SELinux policy
   - Convert /var to use tmpfiles.d
   - Prepares symlinks
@@ -21,12 +21,12 @@ are:
     - /var/lib/vagrant -\> /usr/lib/vagrant
   - copies the rpmdb
 The configuration options, `etc_group_members` corresponds to the
-Treefile[2] option of rpm-ostree. In brief: The groups mentioned
+Treefile\[2\] option of rpm-ostree. In brief: The groups mentioned
 in `etc_group_members` will be stored in /etc/groups instead of
 /usr/etc/groups (which is read-only). Therefore all groups that
 human users need to be part of.
-[1] https://ostree.readthedocs.io/en/latest/manual/adapting-existing/
-[2] https://rpm-ostree.readthedocs.io/en/latest/manual/treefile/
+\[1\] https://ostree.readthedocs.io/en/latest/manual/adapting-existing/
+\[2\] https://rpm-ostree.readthedocs.io/en/latest/manual/treefile/
 
 ## Schema 1
 

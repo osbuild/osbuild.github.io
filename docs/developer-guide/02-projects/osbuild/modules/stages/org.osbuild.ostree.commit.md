@@ -4,12 +4,12 @@
 **Assemble a file system tree into a ostree commit**
 
 Needs a file system tree that is already conforming to the ostree
-system layout[1], specified via the `tree` input and commits it
+system layout\[1\], specified via the `tree` input and commits it
 to a repository. The repository must have been created at `/repo`.
 Additional metadata is stored in `/compose.json` which contains
 the commit compose information. This is also returned via the
 metadata API to osbuild.
-[1] https://ostree.readthedocs.io/en/stable/manual/adapting-existing/
+\[1\] https://ostree.readthedocs.io/en/stable/manual/adapting-existing/
 
 ## Schema 1
 

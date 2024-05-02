@@ -3,9 +3,9 @@
 
 **Initialize a new stateroot for a new OS**
 
-Initializes a new stateroot (see [1]) for the OS with the
+Initializes a new stateroot (see \[1\]) for the OS with the
 name `osname`.
-[1] https://ostree.readthedocs.io/en/latest/manual/deployment/
+\[1\] https://ostree.readthedocs.io/en/latest/manual/deployment/
 
 ## Schema 1
 

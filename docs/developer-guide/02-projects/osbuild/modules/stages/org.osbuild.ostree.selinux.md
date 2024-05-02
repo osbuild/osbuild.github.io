@@ -1,9 +1,9 @@
 
 # org.osbuild.ostree.selinux
 
-**Fix SELinux labels for an OSTree deployment[1].**
+**Fix SELinux labels for an OSTree deployment\[1\].**
 
-[1] https://ostree.readthedocs.io/en/latest/manual/deployment/
+\[1\] https://ostree.readthedocs.io/en/latest/manual/deployment/
 
 ## Schema 1
 

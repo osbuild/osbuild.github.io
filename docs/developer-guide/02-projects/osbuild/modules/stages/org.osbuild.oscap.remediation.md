@@ -5,10 +5,10 @@
 
 The OpenSCAP scanner can be run on the image tree and the remediation can be carried
 out during build time. The stage takes the OpenSCAP config as input and then runs the
-the utility in chroot to scan and remediate [1] the tree during image at build time.
+the utility in chroot to scan and remediate \[1\] the tree during image at build time.
 The stage generates an html report and xml results file both saved to the `data_dir`
 directory. It defaults to `/root` if not configured.
-[1] https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/manual/manual.adoc#remediating-system
+\[1\] https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/manual/manual.adoc#remediating-system
 Buildhost commands used: `chroot`, `xz`.
 
 ## Schema 1

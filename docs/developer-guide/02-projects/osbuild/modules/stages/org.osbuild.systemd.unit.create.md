@@ -18,20 +18,20 @@ of options:
     - 'ConditionPathExists' - string
     - 'ConditionPathIsDirectory' - string
     - 'DefaultDependencies' - bool
-    - 'Requires' - [strings]
-    - 'Wants' - [strings]
-    - 'After' - [strings]
+    - 'Requires' - \[strings\]
+    - 'Wants' - \[strings\]
+    - 'After' - \[strings\]
   - 'Service' section
     - 'Type' - string
     - 'RemainAfterExit' - bool
-    - 'ExecStartPre' - [string]
-    - 'ExecStopPost' - [string]
-    - 'ExecStart' - [string]
-    - 'Environment' - [object]
-    - 'EnvironmentFile' - [string]
+    - 'ExecStartPre' - \[string\]
+    - 'ExecStopPost' - \[string\]
+    - 'ExecStart' - \[string\]
+    - 'Environment' - \[object\]
+    - 'EnvironmentFile' - \[string\]
   - 'Install' section
-    - 'WantedBy' - [string]
-    - 'RequiredBy' - [string]
+    - 'WantedBy' - \[string\]
+    - 'RequiredBy' - \[string\]
 
 ## Schema 1
 

@@ -3,8 +3,8 @@
 
 **Wrap OSTree commits into a oci container image**
 
-For more information see [1].
-[1] https://github.com/ostreedev/ostree-rs-ext#module-container-bridging-between-ostree-and-ocidocker-images
+For more information see \[1\].
+\[1\] https://github.com/ostreedev/ostree-rs-ext#module-container-bridging-between-ostree-and-ocidocker-images
 
 ## Schema 1
 

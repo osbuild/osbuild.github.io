@@ -3,7 +3,7 @@
 
 **Assemble an OCI image archive**
 
-Assemble an Open Container Initiative[1] image[2] archive, i.e. a
+Assemble an Open Container Initiative\[1\] image\[2\] archive, i.e. a
 tarball whose contents is in the OCI image layout.
 The content of the container will consist of the base layer provided
 via the `base` layer. On top of that further inputs provided via the
@@ -11,8 +11,8 @@ via the `base` layer. On top of that further inputs provided via the
 Currently the only required options are `filename` and `architecture`.
 The execution parameters for the image, which then should form the base
 for the container, can be given via `config`. They have the same format
-as the `config` option for the "OCI Image Configuration" (see [2]),
-except those that map to the "Go type map[string]struct{}", which are
+as the `config` option for the "OCI Image Configuration" (see \[2\]),
+except those that map to the "Go type map\[string\]struct\{\}", which are
 represented as array of strings.
 Manifest annotations can be included via the `annotation` options. Any
 `key`, `value` pair is allowed, with the exception of the pre-defined
@@ -25,10 +25,10 @@ an OSTree commit via the following:
 The `org.osbuild.layer` value can either bey a index (starting at 0),
 or a digest in the form of \<algorithm\>:\<checksum\>.
 The final resulting tarball, aka a "oci-archive", can be imported via
-podman[3] with `podman pull oci-archive:\<archive\>`.
-[1] https://www.opencontainers.org/
-[2] https://github.com/opencontainers/image-spec/
-[3] https://podman.io/
+podman\[3\] with `podman pull oci-archive:\<archive\>`.
+\[1\] https://www.opencontainers.org/
+\[2\] https://github.com/opencontainers/image-spec/
+\[3\] https://podman.io/
 
 ## Schema 1
 
