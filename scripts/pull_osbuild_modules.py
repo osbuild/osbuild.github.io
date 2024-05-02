@@ -26,10 +26,12 @@ TEMPLATE = """
 ```
 """
 
+
 def escape(text):
     text = text.replace("<", r"\<")
     text = text.replace(">", r"\>")
     return text
+
 
 def main():
     root = pathlib.Path(__file__).parent.parent
