@@ -1,10 +1,10 @@
 
 # org.osbuild.kernel-cmdline.bls-append
 
-**Add kernel command line parameters to a BLS [1] config either in
+**Add kernel command line parameters to a BLS \[1\] config either in
 the tree or in a mount.**
 
-[1] https://freedesktop.org/wiki/Specifications/BootLoaderSpec/
+\[1\] https://freedesktop.org/wiki/Specifications/BootLoaderSpec/
 
 ## Schema 1
 

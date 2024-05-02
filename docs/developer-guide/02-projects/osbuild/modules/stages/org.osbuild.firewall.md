@@ -14,7 +14,7 @@ Enabling or disabling a service that is already enabled or disabled will not
 cause an error.
 Attempting to enable/disable an unknown service name will cause this stage to
 fail. Known service names are determined by the contents of firewalld's
-configuration directories, usually `/{lib,etc}/firewalld/services/*.xml`, and
+configuration directories, usually `/\{lib,etc\}/firewalld/services/*.xml`, and
 may vary from release to release.
 WARNING: this stage uses `chroot` to run `firewall-offline-cmd` inside the
 target tree, which means it may fail unexpectedly when the buildhost and target

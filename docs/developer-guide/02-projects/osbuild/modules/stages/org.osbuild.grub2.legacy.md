@@ -8,9 +8,9 @@ capable of using the Booloader Specific (BLS).
 Sets the GRUB2 boot/root filesystem to `rootfs`. If a separated boot
 partition is used it can be specified via `bootfs`. The file-systems
 can be identified either via
-  - uuid (`{"uuid": "\<uuid\>"}`)
-  - label (`{"label": "\<label\>"}`)
-  - device (`{"device": "\<device\>"}`, only for the root file system)
+  - uuid (`\{"uuid": "\<uuid\>"\}`)
+  - label (`\{"label": "\<label\>"\}`)
+  - device (`\{"device": "\<device\>"\}`, only for the root file system)
 The kernel boot argument will be composed of the root file system id
 and additional options specified in `config.cmdline`, if any.
 This stage will overwrite `/etc/default/grub`, `/boot/grub2/grubenv`;
@@ -20,11 +20,11 @@ If BIOS boot support is requested via `bios` this stage will also
 overwrite `/boot/grub2/grub.cfg` and will copy the GRUB2 files from the
 buildhost into the target tree:
 * `/usr/share/grub/unicode.pf2`          -\> `/boot/grub2/fonts/`
-* `/usr/lib/grub/$platform/*.{mod,lst}` -\> `/boot/grub2/$platform/`
+* `/usr/lib/grub/$platform/*.\{mod,lst\}` -\> `/boot/grub2/$platform/`
   * NOTE: skips `fdt.lst`, which is an empty file
 NB: with bios support enabled, this stage will fail if the buildhost
 doesn't have `/usr/lib/grub/$platform/` and `/usr/share/grub/unicode.pf2`.
-If UEFI support is enabled via `uefi: {"vendor": "\<vendor\>"}` this stage will
+If UEFI support is enabled via `uefi: \{"vendor": "\<vendor\>"\}` this stage will
 also write the `grub.cfg` to `boot/efi/EFI/\<vendor\>/grub.cfg`. EFI binaries
 and accompanying data can be installed from the built root via `uefi.install`.
 Both UEFI and Legacy can be specified at the same time (hybrid boot).

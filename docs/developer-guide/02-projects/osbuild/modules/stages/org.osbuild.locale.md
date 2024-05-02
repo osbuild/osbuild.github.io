@@ -7,7 +7,7 @@ Sets the system language to the given `language`, which must be a valid locale
 identifier, like "en_US.UTF-8".
 Removes `/etc/locale.conf` and then uses `systemd-firstboot` from the buildhost,
 with the `--locale` flag, which will write a new `/etc/locale.conf` in the
-target system with `LANG={language}`.
+target system with `LANG=\{language\}`.
 
 ## Schema 1
 

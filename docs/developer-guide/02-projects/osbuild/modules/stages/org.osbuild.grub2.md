@@ -6,10 +6,10 @@
 Configure the system to use GRUB2 as the bootloader, and set boot options.
 Sets the GRUB2 boot/root filesystem to `rootfs`. If a separated boot
 partition is used it can be specified via `bootfs`. The file-systems
-can be identified either via uuid (`{"uuid": "\<uuid\>"}`) or label
-(`{"label": "\<label\>"}`). The kernel boot argument will be composed
+can be identified either via uuid (`\{"uuid": "\<uuid\>"\}`) or label
+(`\{"label": "\<label\>"\}`). The kernel boot argument will be composed
 of the root file system id and additional options specified in
-`{kernel_opts}`, if any.
+`\{kernel_opts\}`, if any.
 Configures GRUB2 to boot via the Boot Loader Specification
 (https://systemd.io/BOOT_LOADER_SPECIFICATION), which is the default
 behavior in Fedora 30 and later.
@@ -19,13 +19,13 @@ If Legacy boot support is requested via `legacy` this stage will also
 overwrite `/boot/grub2/grub.cfg` and will copy the GRUB2 files from the
 buildhost into the target tree:
 * `/usr/share/grub/unicode.pf2`          -\> `/boot/grub2/fonts/`
-* `/usr/lib/grub/$platform/*.{mod,lst}` -\> `/boot/grub2/$platform/`
+* `/usr/lib/grub/$platform/*.\{mod,lst\}` -\> `/boot/grub2/$platform/`
   * NOTE: skips `fdt.lst`, which is an empty file
 The $platform variable (default: i386-pc) refers to target platform
 that grub2 is mean to ran on (see grub-install(1)'s `--target`)
 NB: with legacy support enabled, this stage will fail if the buildhost
 doesn't have `/usr/lib/grub/$platform/` and `/usr/share/grub/unicode.pf2`.
-If UEFI support is enabled via `uefi: {"vendor": "\<vendor\>"}` this stage will
+If UEFI support is enabled via `uefi: \{"vendor": "\<vendor\>"\}` this stage will
 also write the `grub.cfg` to `boot/efi/EFI/\<vendor\>/grub.cfg`. EFI binaries
 and accompanying data can be installed from the built root via `uefi.install`.
 Both UEFI and Legacy can be specified at the same time (hybrid boot).

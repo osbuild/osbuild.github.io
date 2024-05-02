@@ -16,7 +16,7 @@ a few steps:
    arguments or grub configuration to set. These arguments/config
    are primarily console settings.
 4. Apply any platform specific kernel arguments along with the
-   `ignition.platform.id={platform-name}` kernel argument.
+   `ignition.platform.id=\{platform-name\}` kernel argument.
 5. Create the grub console.cfg file and apply any platform
    specific grub console configuration.
 This stage is highly CoreOS specific and subject to change in the

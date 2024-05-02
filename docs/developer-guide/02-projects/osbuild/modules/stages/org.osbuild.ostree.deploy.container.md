@@ -3,7 +3,7 @@
 
 **Deploy an OStree commit**
 
-Create an OSTree deployment[1] for a given container image input
+Create an OSTree deployment\[1\] for a given container image input
 
 ## Schema 1
 

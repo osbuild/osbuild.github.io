@@ -6,7 +6,7 @@
 
 Initialize the sysroot and pull and deploy an OStree commit
 Initializes a clean ostree based system root, pulls the given `commit` and
-creates a deployment from it using `osname` as the new stateroot (see [1]).
+creates a deployment from it using `osname` as the new stateroot (see \[1\]).
 Since OStree internally uses a hardlink farm to create the file system tree
 for the deployment from the commit data, the mountpoints for the final image
 need to be supplied via the `mounts` option, as hardlinks must not span
@@ -17,7 +17,7 @@ entries to boot the system, which contain this the kernel command line.
 The `rootfs` option can be used to indicate the root file system, containing
 the sysroot and the deployments. Additional kernel options can be passed via
 `kernel_opts`.
-[1] https://ostree.readthedocs.io/en/latest/manual/deployment/
+\[1\] https://ostree.readthedocs.io/en/latest/manual/deployment/
 
 ## Schema 1
 

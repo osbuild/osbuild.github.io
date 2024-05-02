@@ -6,7 +6,7 @@
 All repo-specific options, except the 'type' option, are supported. The 'type'
 repo options is not supported, since it accepts only a single value, therefore
 the ability to set it adds no value.
-Only a subset of options which can be used in both, a repo or [main] section
+Only a subset of options which can be used in both, a repo or \[main\] section
 configuration, is supported, specifically:
   - gpgcheck
   - repo_gpgcheck
