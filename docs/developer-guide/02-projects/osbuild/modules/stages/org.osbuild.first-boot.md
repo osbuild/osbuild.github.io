@@ -1,0 +1,44 @@
+
+# org.osbuild.first-boot
+
+**Execute commands on first-boot**
+
+Sequentially execute a list of commands on first-boot / instantiation.
+This stage uses a logic similar to systemd's first-boot to execute a given
+script only the first time the image is booted.
+An empty flag file /etc/osbuild-first-boot is written to /etc and a systemd
+service is enabled that is only run when the file exits, and will remove it
+before executing the given commands.
+If the flag-file cannot be removed, the service fails without executing
+any further first-boot commands.
+
+## Schema 1
+
+```json
+{
+  "additionalProperties": false,
+  "required": [
+    "commands"
+  ],
+  "properties": {
+    "commands": {
+      "type": "array",
+      "description": "The command lines to execute",
+      "items": {
+        "type": "string"
+      }
+    },
+    "wait_for_network": {
+      "type": "boolean",
+      "description": "Wait for the network to be up before executing",
+      "default": false
+    }
+  }
+}
+```
+
+## Schema 2
+
+```json
+{}
+```
