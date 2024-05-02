@@ -1,0 +1,75 @@
+
+# org.osbuild.mkdir
+
+**Create directories within the tree.**
+
+Can create one or more directories, optionally also the
+intermediate directories. The stage can gracefully handle
+directories that already exist.
+Please note that the stage won't change the mode of existing
+directories. If you want to change the mode of an existing
+directory, you need to use the `org.osbuild.chmod` stage.
+Mode is applied only to newly created directories and umask
+value is taken into account.
+In the initial version of this stage, there was a bug that caused
+the stage to accept relative paths. This behaviour is kept for
+backward compatibility, thus the following paths are equal:
+/path/to/directory
+path/to/directory
+However, using relative paths is strongly discouraged.
+
+## Schema 1
+
+```json
+{}
+```
+
+## Schema 2
+
+```json
+{
+  "options": {
+    "additionalProperties": false,
+    "properties": {
+      "paths": {
+        "type": "array",
+        "additionalItems": false,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^\\/?(?!\\.\\.)((?!\\/\\.\\.\\/).)+$"
+            },
+            "mode": {
+              "type": "number",
+              "description": "Numeric octal mode"
+            },
+            "parents": {
+              "type": "boolean",
+              "description": "Create intermediate directories",
+              "default": false
+            },
+            "exist_ok": {
+              "type": "boolean",
+              "description": "Do not fail if the directory already exists",
+              "default": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "devices": {
+    "type": "object",
+    "additionalProperties": true
+  },
+  "mounts": {
+    "type": "array"
+  }
+}
+```
