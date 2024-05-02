@@ -1,0 +1,49 @@
+name: Update developer guide
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+
+jobs:
+  update-developer-guide:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        run: |
+          git clone "https://${{ secrets.GIT_USERNAME }}:${{ secrets.SCHUTZBOT_TOKEN }}@github.com/osbuild/osbuild.github.io.git"
+          cd osbuild.github.io
+          git config user.email "${{ secrets.GIT_EMAIL }}"
+          git config user.name "${{ secrets.GIT_USERNAME }}"
+
+      - name: Pull modules
+        working-directory: ./osbuild.github.io
+        run: |
+          python3 scripts/pull_osbuild_modules.py
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: ./osbuild.github.io/package-lock.json
+
+      - name: Test build website
+        working-directory: ./osbuild.github.io
+        run: |
+          npm ci
+          npm run build
+
+      - name: Push updates
+        working-directory: ./osbuild.github.io
+        run: |
+          git add .
+          CHANGES=$(git status --porcelain | wc -l)
+          if [ "$CHANGES" -gt "0" ]; then
+            git status
+            git commit -m "Automated osbuild modules update"
+            git push origin main
+          else
+            echo "No updates found."
+          fi
