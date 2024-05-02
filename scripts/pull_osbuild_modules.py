@@ -53,7 +53,7 @@ def main():
             ]
         )
 
-        for tiep in ["stages", "sources"]:
+        for tiep in ["stages", "sources", "mounts"]:
             dest = (
                 root
                 / f"docs/developer-guide/02-projects/osbuild/modules/{tiep}"
