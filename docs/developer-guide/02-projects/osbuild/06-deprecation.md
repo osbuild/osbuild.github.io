@@ -1,4 +1,4 @@
-# Deprecation
+# Deprecation Policy
 
 `osbuild` gives the guarantee that a given [manifest](./manifest) will produce the same image as long as any external sources remain available in any future versions of `osbuild`.
 

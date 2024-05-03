@@ -61,7 +61,7 @@ def main():
         for tiep in ["stages", "sources", "mounts", "inputs"]:
             dest = (
                 root
-                / f"docs/developer-guide/02-projects/osbuild/modules/{tiep}"
+                / f"docs/developer-guide/02-projects/osbuild/04-modules/{tiep}"
             )
 
             for file in dest.glob("*.md"):
