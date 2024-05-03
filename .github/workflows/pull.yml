@@ -17,6 +17,16 @@ jobs:
           git config user.email "${{ secrets.GIT_EMAIL }}"
           git config user.name "${{ secrets.GIT_USERNAME }}"
 
+      - name: Test pull_readmes script
+        working-directory: ./osbuild.github.io/scripts
+        run: |
+          python3 test_pull_readmes.py
+
+      - name: Pull readmes and fix links
+        working-directory: ./osbuild.github.io
+        run: |
+          python3 scripts/pull_readmes.py readme-list
+
       - name: Pull modules
         working-directory: ./osbuild.github.io
         run: |
@@ -42,7 +52,7 @@ jobs:
           CHANGES=$(git status --porcelain | wc -l)
           if [ "$CHANGES" -gt "0" ]; then
             git status
-            git commit -m "Automated osbuild modules update"
+            git commit -m "Automated developer guide update"
             git push origin main
           else
             echo "No updates found."
