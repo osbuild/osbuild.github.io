@@ -192,7 +192,8 @@ commands are supported here.
           "enum": [
             "registry",
             "oci",
-            "oci-archive"
+            "oci-archive",
+            "dir"
           ],
           "description": "Use the given transport, Anaconda's default is 'registry'"
         },
