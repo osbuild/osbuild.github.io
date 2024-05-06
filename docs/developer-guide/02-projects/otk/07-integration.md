@@ -10,4 +10,4 @@ There will be requirements on an omnifest to be consumed by [images](../images).
 
 ## koji
 
-The plan is to extend the [koji-osbuild](../koji-osbuild)-plugin with additional tasks that make use of `otk`. We want to provide a workflow similar to kickstarts and livemediacreator.
+The plan is to extend the koji-osbuild-plugin with additional tasks that make use of `otk`. We want to provide a workflow similar to kickstarts and livemediacreator.
