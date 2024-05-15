@@ -21,6 +21,7 @@ of options:
     - 'Requires' - \[strings\]
     - 'Wants' - \[strings\]
     - 'After' - \[strings\]
+    - 'Before' - \[strings\]
   - 'Service' section
     - 'Type' - string
     - 'RemainAfterExit' - bool
@@ -90,6 +91,12 @@ of options:
               }
             },
             "After": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Before": {
               "type": "array",
               "items": {
                 "type": "string"
