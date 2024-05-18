@@ -1,15 +1,15 @@
 
 # org.osbuild.systemd.unit.create
 
-**Create Systemd services unit file**
+**Create a Systemd unit file**
 
-This stage allows to create Systemd unit files in
-`/usr/lib/systemd/system/`. The `filename` property specifies the
-'.service' file to be added. These names are validated using the
-same rules as specified by systemd.unit(5) and they must contain the
-'.service' suffix (other types of unit files are not supported).
-'unit-type' determines if the unit file is created at global or
-system level,'unit-path' will determine the systemd unit load path.
+This stage allows to create Systemd unit files. The `filename` property
+specifies the, '.service' or '.mount' file to be added. These names are
+validated using the, same rules as specified by systemd.unit(5) and they
+must contain the, '.service' or '.mount' suffix (other types of unit files
+are not supported). 'unit-type' determines if the unit file is created at
+'global' (user) or 'system' paths,'unit-path' will determine the systemd
+unit load path.
 
 The Unit configuration can currently specify the following subset
 of options:
@@ -30,6 +30,11 @@ of options:
     - 'ExecStart' - \[string\]
     - 'Environment' - \[object\]
     - 'EnvironmentFile' - \[string\]
+  - 'Mount' section
+    - 'What' - string
+    - 'Where' - string
+    - 'Type' - string
+    - 'Options' - string
   - 'Install' section
     - 'WantedBy' - \[string\]
     - 'RequiredBy' - \[string\]
@@ -46,7 +51,7 @@ of options:
   "properties": {
     "filename": {
       "type": "string",
-      "pattern": "^[\\w:.\\\\-]+[@]{0,1}[\\w:.\\\\-]*\\.service$"
+      "pattern": "^[\\w:.\\\\-]+[@]{0,1}[\\w:.\\\\-]*\\.(service|mount)$"
     },
     "unit-type": {
       "type": "string",
@@ -69,10 +74,29 @@ of options:
     "config": {
       "additionalProperties": false,
       "type": "object",
-      "required": [
-        "Unit",
-        "Service",
-        "Install"
+      "oneOf": [
+        {
+          "required": [
+            "Unit",
+            "Service",
+            "Install"
+          ],
+          "not": {
+            "required": [
+              "Mount"
+            ]
+          }
+        },
+        {
+          "required": [
+            "Mount"
+          ],
+          "not": {
+            "required": [
+              "Service"
+            ]
+          }
+        }
       ],
       "description": "Configuration for a '.service' unit.",
       "properties": {
@@ -188,6 +212,32 @@ of options:
               "items": {
                 "type": "string"
               }
+            }
+          }
+        },
+        "Mount": {
+          "additionalProperties": false,
+          "type": "object",
+          "description": "'Mount' configuration section of a unit file.",
+          "required": [
+            "What"
+          ],
+          "properties": {
+            "What": {
+              "description": "Absolute path to device node",
+              "type": "string"
+            },
+            "Where": {
+              "description": "Absolute path for a file or directory for the mountpoint",
+              "type": "string"
+            },
+            "Type": {
+              "descriptions": "File system type",
+              "type": "string"
+            },
+            "Options": {
+              "descriptions": "Mount options to use when mounting",
+              "type": "string"
             }
           }
         },
