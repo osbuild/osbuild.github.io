@@ -10,6 +10,11 @@ Have [podman](https://podman.io/) installed on your system. Either through your 
 Linux or through [Podman Desktop](https://podman.io/) if you are on macOS or Windows. If you want to run the resulting
 virtual machine(s) or installer media you can use [qemu](https://www.qemu.org/).
 
+A very nice GUI extension for Podman Desktop is also
+[available](https://github.com/containers/podman-desktop-extension-bootc).
+The command line examples below can be all handled by
+Podman Desktop.
+
 On macOS, the podman machine must be running in rootful mode:
 
 ```bash
@@ -28,7 +33,7 @@ for more general information!  Note that outside of initial experimentation, it'
 (or reuse a derived image built via someone else) and then use this project to make a disk image from your custom image.
 
 The generic base images do not include a default user. This example injects a [user configuration file](#-build-config)
-by adding a volume-mount for the local file as well as the `--config` flag to the bootc-image-builder container.
+by adding a volume-mount for the local file to the bootc-image-builder container.
 
 The following command will create a QCOW2 disk image. First, create `./config.toml` as described above to configure user access.
 
@@ -113,7 +118,6 @@ Usage:
 
 Flags:
       --chown string           chown the ouput directory to match the specified UID:GID
-      --config string          build config file (default: /config.toml if present)
       --tls-verify             require HTTPS and verify certificates when contacting registries (default true)
       --type string            image type to build [qcow2, ami] (default "qcow2")
       --target-arch string     architecture to build image for (default is the native architecture)
@@ -124,7 +128,6 @@ Flags:
 | Argument          | Description                                                                                        | Default Value |
 |-------------------|----------------------------------------------------------------------------------------------------|:-------------:|
 | **--chown**       | chown the output directory to match the specified UID:GID                                          |       ❌      |
-| **--config**      | Path to a [build config](#-build-config)                                                           |       ❌      |
 | **--rootfs**      | Root filesystem type. Overrides the default from the source container. Supported values: ext4, xfs |
 | **--tls-verify**  | Require HTTPS and verify certificates when contacting registries                                   |    `true`     |
 | **--type**        | [Image type](#-image-types) to build                                                               |    `qcow2`    |
@@ -257,7 +260,7 @@ The following volumes can be mounted inside the container:
 
 ## 📝 Build config
 
-A build config is a Toml (or JSON) file with customizations for the resulting image. A path to the file is passed via  the `--config` argument. The customizations are specified under a `customizations` object.
+A build config is a Toml (or JSON) file with customizations for the resulting image. The config file is mapped into the container directory to `/config.toml`. The customizations are specified under a `customizations` object.
 
 As an example, let's show how you can add a user to the image:
 
