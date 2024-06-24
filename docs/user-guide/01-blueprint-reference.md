@@ -292,12 +292,15 @@ This is optional and can be left out to use the default hostname.
 
 #### Kernel Command-Line Arguments
 
-An *optional* string that allows to append arguments to the bootloader kernel command line:
+An *optional* object that contains the following attributes:
+- `name` an *optional* string which kernel to use
+- `append` an *optional* string to append arguments to the bootloader kernel command line
 
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
 ```toml
 [customizations.kernel]
+name = "kernel-debug"
 append = "nosmt=force"
 ```
 </TabItem>
@@ -306,6 +309,7 @@ append = "nosmt=force"
 {
   "customizations": {
     "kernel": {
+      "name": "kernel-debug",
       "append": "nosmt=force"
     }
   }
