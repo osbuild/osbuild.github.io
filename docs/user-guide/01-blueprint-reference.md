@@ -1,6 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly } from '@site/src/components/Highlight';
+import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly, tabValuesWithBootc } from '@site/src/components/Highlight';
 import '@site/src/css/custom.css';
 
 # Blueprint Reference
@@ -13,6 +13,8 @@ Analogously the request content of the
 describes customizations of an image the <Highlight colorVar="hosted">🟤&nbsp;hosted</Highlight> service should be building.
 Not all customizations are supported in the API but those existing, are highlighted here with a
 <Highlight colorVar="hosted">🟤&nbsp;hosted</Highlight> label.
+
+Additionally, there is <Highlight colorVar="bootc">🟣&nbsp;bootc</Highlight> which is supposed to be used from within podman desktop.
 
 > An important thing to note is that these customizations are not applicable to all image types. `osbuild-composer` currently has no good validation or warning system in place to tell you if a customization in your blueprint is not supported for the image type you're building. The customization may be silently dropped.
 
@@ -33,6 +35,11 @@ version = "0.0.1"
   "image_name": "basic-example",
   "image_description": "A basic blueprint"
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -117,6 +124,11 @@ version = "*"
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 ## Content
@@ -166,6 +178,11 @@ packages = [
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 ### Groups 🔵 {#groups}
@@ -193,6 +210,11 @@ groups = [
 ```
 </TabItem>
 <TabItem value="hosted" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
 ```
 ℹ️ Currently not supported
 ```
@@ -255,6 +277,11 @@ containers = [
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 To access protected container resources a `containers-auth.json(5)` file can be used, see [Container registry credentials](../on-premises/installation/container-auth).
@@ -284,11 +311,16 @@ hostname = "baseimage"
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 This is optional and can be left out to use the default hostname.
 
-### Kernel 🔵 🟤 {#kernel}
+### Kernel 🔵 🟤 🟣 {#kernel}
 
 #### Kernel Command-Line Arguments
 
@@ -296,7 +328,7 @@ An *optional* object that contains the following attributes:
 - `name` an *optional* string which kernel to use
 - `append` an *optional* string to append arguments to the bootloader kernel command line
 
-<Tabs values={tabValues} >
+<Tabs values={tabValuesWithBootc} >
 <TabItem value="on-premises" >
 ```toml
 [customizations.kernel]
@@ -314,6 +346,13 @@ append = "nosmt=force"
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```toml
+[customizations.kernel]
+# name - not yet supported
+append = "nosmt=force"
 ```
 </TabItem>
 </Tabs>
@@ -352,11 +391,16 @@ key = "PUBLIC SSH KEY"
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 The key will be added to the user's `authorized_keys` file in their home directory.
 
-### Additional Users 🔵  {#additional-users}
+### Additional Users 🔵 🟤 🟣 {#additional-users}
 
 An *optional* list of objects that contain the following attributes:
 
@@ -377,7 +421,7 @@ An *optional* list of objects that contain the following attributes:
 
 Add a user to the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
 
-<Tabs values={tabValues} >
+<Tabs values={tabValuesWithBootc} >
 <TabItem value="on-premises" >
 ```toml
 [[customizations.user]]
@@ -411,16 +455,25 @@ expiredate = 12345
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+[[customizations.user]]
+name = "alice"
+password = "bob"
+key = "ssh-rsa AAA ... user@email.com"
+groups = ["wheel"]
+```
+</TabItem>
 </Tabs>
 
-### Additional groups 🔵 🟤 {#additional-groups}
+### Additional groups 🔵 🟤 🟣 {#additional-groups}
 
 An *optional* list of objects that contain the following attributes:
 
 - `name` a **required** string that sets the name of the group.
 - `gid` a **required** integer that sets the id of the group.
 
-<Tabs values={tabValues} >
+<Tabs values={tabValuesWithBootc} >
 <TabItem value="on-premises" >
 ```toml
 [[customizations.group]]
@@ -439,6 +492,13 @@ gid = 1130
     ]
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```toml
+[[customizations.group]]
+name = "widget"
+gid = 1130
 ```
 </TabItem>
 </Tabs>
@@ -471,6 +531,11 @@ ntpservers = ["0.north-america.pool.ntp.org", "1.north-america.pool.ntp.org"]
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -510,6 +575,11 @@ keyboard = "us"
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -557,6 +627,11 @@ ports = ["22:tcp", "80:tcp", "imap:tcp", "53:tcp", "53:udp", "30000-32767:tcp", 
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 Numeric ports, or their names from `/etc/services` can be used in the ports enabled/disabled lists.
@@ -585,6 +660,11 @@ disabled = ["telnet"]
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -625,6 +705,11 @@ masked = ["rpcbind"]
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -674,6 +759,11 @@ ensure_parents = false
     ]
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -728,6 +818,11 @@ data = "Hello world!"
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 - `path` is the path to the file to create. It must be an absolute under `/etc`. This is the only required field.
@@ -760,6 +855,11 @@ installation_device = "/dev/sda"
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 ### Ignition 🔵 🟤 {#ignition}
@@ -790,6 +890,11 @@ config = "eyJpZ25pdGlvbiI6eyJ2ZXJzaW9uIjoiMy4zLjAifSwicGFzc3dkIjp7InVzZXJzIjpbey
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 Add a `base64` encoded Ignition configuration in the `config` field. This Ignition configuration will be included in the `edge-simplified-installer` image.
@@ -814,6 +919,11 @@ url = "http://some-server/configuration.ig"
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -849,6 +959,11 @@ di_mfg_string_type_mac_iface = "enp2s0"
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -889,6 +1004,11 @@ enabled=true
     ]
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -944,13 +1064,18 @@ partitioning_mode = "lvm"
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
-### Filesystems 🔵 🟤 {#filesystems}
+### Filesystems 🔵 🟤 🟣 {#filesystems}
 
 The blueprints can be extended to provide filesytem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
 
-<Tabs values={tabValues} >
+<Tabs values={tabValuesWithBootc} >
 <TabItem value="on-premises" >
 ```toml
 [[customizations.filesystem]]
@@ -969,6 +1094,14 @@ minsize = 2147483648
     ]
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```toml
+# only '/' and '/boot' supported here
+[[customizations.filesystem]]
+mountpoint = "/boot"
+minsize = 2147483648
 ```
 </TabItem>
 </Tabs>
@@ -1053,6 +1186,11 @@ profile_id = "xccdf_org.ssgproject.content_profile_cis"
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 #### OpenSCAP Tailoring
@@ -1083,6 +1221,11 @@ unselected = [ "grub2_password" ]
 ℹ️ Currently not supported
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 #### FIPS 🔵 🟤 {#fips}
@@ -1109,6 +1252,11 @@ fips = true
 }
 ```
 </TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
+```
+</TabItem>
 </Tabs>
 
 ### Architecture 🟤 {#architecture}
@@ -1129,6 +1277,11 @@ On premises, we don't support multi-arch builds. The architecture of the image i
     { "architecture": "x86_64" }
   ]
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1154,6 +1307,11 @@ sudo-nopasswd = ["user", "%wheel"]
     }
   }
 }
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ Currently not supported
 ```
 </TabItem>
 </Tabs>

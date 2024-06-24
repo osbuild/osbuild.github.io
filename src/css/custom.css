@@ -16,6 +16,7 @@
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --on-premises-color: SteelBlue;
+  --bootc-color: MediumPurple;
   --hosted-color: SandyBrown;
 }
 
@@ -30,6 +31,7 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --on-premises-color: SteelBlue;
+  --bootc-color: MediumPurple;
   --hosted-color: SandyBrown;
 }
 
@@ -43,10 +45,12 @@
 
 .highlight.box.on-premises {
   border: 1px solid var(--on-premises-color);
-
 }
 .highlight.box.hosted {
   border: 1px solid var(--hosted-color);
+}
+.highlight.box.bootc {
+  border: 1px solid var(--bootc-color);
 }
 
 .highlight.tab.disabled {
@@ -66,4 +70,8 @@
 .highlight.tab.disabled.tabs__item--active {
   border-bottom: none;
   background-color: #eee;
+}
+.highlight.tab.bootc.tabs__item--active {
+  border-bottom: 3px solid var(--bootc-color);
+  background-color: #f0ebfa;
 }
