@@ -419,6 +419,16 @@ An *optional* list of objects that contain the following attributes:
 
 *Note: If the password starts with $6$, $5$, or $2b$ it will be stored as an encrypted password. Otherwise it will be treated as a plain text password.*
 
+To generate an encrypted password you might want to use `openssl`:
+```shell
+openssl passwd -6
+```
+
+or `mkpasswd`
+``` shell
+mkpasswd -m sha-512
+```
+
 Add a user to the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
 
 <Tabs values={tabValuesWithBootc} >
