@@ -4,17 +4,27 @@ import React from 'react';
 export const tabValues = [
     { label: '🔵 on premises', value: 'on-premises', attributes: { className: 'highlight tab on-premises' } },
     { label: '🟤 hosted', value: 'hosted', attributes: { className: 'highlight tab hosted' } },
+    { label: '⚪ bootc', value: 'bootc', attributes: { className: 'highlight tab disabled' } },
 ];
 
 export const tabValuesOnPremiseOnly = [
     { label: '🔵 on premises', value: 'on-premises', attributes: { className: 'highlight tab on-premises' } },
     { label: '⚪ hosted', value: 'hosted', attributes: { className: 'highlight tab disabled' } },
+    { label: '⚪ bootc', value: 'bootc', attributes: { className: 'highlight tab disabled' } },
 ];
 
 export const tabValuesHostedOnly = [
     { label: '⚪ on premises', value: 'on-premises', attributes: { className: 'highlight tab disabled' } },
     { label: '🟤 hosted', value: 'hosted', attributes: { className: 'highlight tab hosted' } },
+    { label: '⚪ bootc', value: 'bootc', attributes: { className: 'highlight tab disabled' } },
 ];
+
+export const tabValuesWithBootc = [
+    { label: '🔵 on premises', value: 'on-premises', attributes: { className: 'highlight tab on-premises' } },
+    { label: '🟤 hosted', value: 'hosted', attributes: { className: 'highlight tab hosted' } },
+    { label: '🟣 bootc', value: 'bootc', attributes: { className: 'highlight tab bootc' } },
+];
+
 
 
 //colorVars - see css/custom.css
