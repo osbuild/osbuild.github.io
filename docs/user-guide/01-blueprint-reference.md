@@ -39,7 +39,7 @@ version = "0.0.1"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -126,7 +126,7 @@ version = "*"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -180,7 +180,7 @@ packages = [
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -211,12 +211,12 @@ groups = [
 </TabItem>
 <TabItem value="hosted" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -279,7 +279,7 @@ containers = [
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -313,7 +313,7 @@ hostname = "baseimage"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -393,7 +393,7 @@ key = "PUBLIC SSH KEY"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -545,7 +545,7 @@ ntpservers = ["0.north-america.pool.ntp.org", "1.north-america.pool.ntp.org"]
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -589,7 +589,7 @@ keyboard = "us"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -639,7 +639,7 @@ ports = ["22:tcp", "80:tcp", "imap:tcp", "53:tcp", "53:udp", "30000-32767:tcp", 
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -674,7 +674,7 @@ disabled = ["telnet"]
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -719,7 +719,7 @@ masked = ["rpcbind"]
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -773,7 +773,7 @@ ensure_parents = false
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -830,7 +830,7 @@ data = "Hello world!"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -867,7 +867,7 @@ installation_device = "/dev/sda"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -902,7 +902,7 @@ config = "eyJpZ25pdGlvbiI6eyJ2ZXJzaW9uIjoiMy4zLjAifSwicGFzc3dkIjp7InVzZXJzIjpbey
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -933,7 +933,7 @@ url = "http://some-server/configuration.ig"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -973,7 +973,7 @@ di_mfg_string_type_mac_iface = "enp2s0"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1018,7 +1018,7 @@ enabled=true
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1076,7 +1076,7 @@ partitioning_mode = "lvm"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1198,7 +1198,7 @@ profile_id = "xccdf_org.ssgproject.content_profile_cis"
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1228,12 +1228,12 @@ unselected = [ "grub2_password" ]
 </TabItem>
 <TabItem value="hosted" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1264,7 +1264,7 @@ fips = true
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1277,7 +1277,7 @@ On premises, we don't support multi-arch builds. The architecture of the image i
 <Tabs values={tabValuesHostedOnly} defaultValue="hosted" >
 <TabItem value="on-premises" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 <TabItem value="hosted" >
@@ -1291,7 +1291,7 @@ On premises, we don't support multi-arch builds. The architecture of the image i
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
@@ -1321,7 +1321,7 @@ sudo-nopasswd = ["user", "%wheel"]
 </TabItem>
 <TabItem value="bootc" >
 ```
-ℹ️ Currently not supported
+ℹ️ - Currently not supported
 ```
 </TabItem>
 </Tabs>
