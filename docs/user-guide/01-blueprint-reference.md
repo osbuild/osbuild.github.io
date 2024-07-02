@@ -1360,6 +1360,46 @@ restorecon -rvF /etc/sudoers.d
 %end
 ```
 
+#### Installer Kickstart 🔵 🟤 {#installer-kickstart}
+
+Alternatively, a custom kickstart can be included using the following customization.
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
+```toml
+[customizations.installer.kickstart]
+contents = """
+text --non-interactive
+zerombr
+clearpart --all --initlabel --disklabel=gpt
+autopart --noswap --type=lvm
+network --bootproto=dhcp --device=link --activate --onboot=on
+"""
+```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "installer": {
+      "kickstart": {
+        "contents": "text --non-interactive\nzerombr\nclearpart --all --initlabel --disklabel=gpt\nautopart --noswap --type=lvm\nnetwork --bootproto=dhcp --device=link --activate --onboot=on"
+      }
+    }
+  }
+}
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
+Note that osbuild-composer will automatically add the command that installs the system (`liveimg` or `ostreesetup`) if one is relevant for the image type (`image-installer` and `edge-installer`/`iot-installer` respectively), so this line or any line that conflicts with it should not be included. See the relevant [Kickstart documentation](https://pykickstart.readthedocs.io/en/latest/kickstart-docs.html#ostreecontainer) for more information.
+This customization cannot be used in combination with any other installer customizations.
+
+
 ## Example Blueprints
 
 ### Multiple customizations
