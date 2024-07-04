@@ -1,4 +1,4 @@
-# Uploading an image to to a bucket in a Generic S3 server
+# Uploading an image to a bucket in a Generic S3 server
 
 `osbuild-composer` provides the users with a convenient way to upload images, of all sorts, directly to a bucket in a Generic S3 server right after the image is built.
 
