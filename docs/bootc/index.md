@@ -51,7 +51,7 @@ sudo podman run \
     --privileged \
     --pull=newer \
     --security-opt label=type:unconfined_t \
-    -v $(pwd)/config.toml:/config.toml \
+    -v $(pwd)/config.toml:/config.toml:ro \
     -v $(pwd)/output:/output \
     -v /var/lib/containers/storage:/var/lib/containers/storage \
     quay.io/centos-bootc/bootc-image-builder:latest \
@@ -288,7 +288,7 @@ sudo podman run \
     --privileged \
     --pull=newer \
     --security-opt label=type:unconfined_t \
-    -v $(pwd)/config.toml:/config.toml \
+    -v $(pwd)/config.toml:/config.toml:ro \
     -v $(pwd)/output:/output \
     quay.io/centos-bootc/bootc-image-builder:latest \
     --type qcow2 \
@@ -310,17 +310,19 @@ Example:
 
 ```json
 {
-  "user": [
-    {
-      "name": "alice",
-      "password": "bob",
-      "key": "ssh-rsa AAA ... user@email.com",
-      "groups": [
-        "wheel",
-        "admins"
-      ]
-    }
-  ]
+  "customizations": {
+    "user": [
+      {
+        "name": "alice",
+        "password": "bob",
+        "key": "ssh-rsa AAA ... user@email.com",
+        "groups": [
+          "wheel",
+          "admins"
+        ]
+      }
+    ]
+  }
 }
 ```
 
