@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.4.0">
 <title data-rh="true">Manifest generation | Image Builder</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Manifest generation | Image Builder"><meta data-rh="true" name="description" content="This document explains how manifests are generated in code. It is useful for"><meta data-rh="true" property="og:description" content="This document explains how manifests are generated in code. It is useful for"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation"><link data-rh="true" rel="alternate" href="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation" hreflang="en"><link data-rh="true" rel="alternate" href="https://saurus.osbuild.org/docs/developer-guide/projects/images/code-manifest-generation" hreflang="x-default"><link rel="stylesheet" href="/assets/css/styles.001b8615.css">
-<script src="/assets/js/runtime~main.444da728.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.3998e235.js" defer="defer"></script>
 <script src="/assets/js/main.94c709c9.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard" data-theme="light">
@@ -33,7 +33,7 @@ stage-sequences.</li>
 </li>
 <li>Serialization: Creates the sequence of stages based on each pipeline and
 produces <a href="https://pkg.go.dev/github.com/osbuild/images@main/pkg/manifest#OSBuildManifest" target="_blank" rel="noopener noreferrer"><code>manifest.OSBuildManifest</code></a>, which
-is a <code>[]byte</code> array with custom un/marshalling methods.<!-- -->
+is a <code>[]byte</code> array with custom unmarshalling/marshalling methods.<!-- -->
 <ul>
 <li>This stage requires the content specifications resolved from the manifest
 source specifications (package specs, container specs, ostree commit
@@ -60,7 +60,7 @@ implements separately. The function is responsible for:</p>
 <a href="https://pkg.go.dev/github.com/osbuild/images@main/pkg/image#ImageKind" target="_blank" rel="noopener noreferrer"><code>image.ImageKind</code></a> object, and</li>
 <li>Instantiating the manifest using <code>ImageKind.InstantiateManifest()</code>.</li>
 </ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="the-os-pipeline">The OS pipeline<a class="hash-link" aria-label="Direct link to The OS pipeline" title="Direct link to The OS pipeline" href="/docs/developer-guide/projects/images/code-manifest-generation#the-os-pipeline"> ​</a></h3>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="the-os-pipeline">The OS pipeline<a class="hash-link" aria-label="Direct link to The OS pipeline" title="Direct link to The OS pipeline" href="/docs/developer-guide/projects/images/code-manifest-generation#the-os-pipeline">​</a></h3>
 <p>The <a href="https://pkg.go.dev/github.com/osbuild/images@main/pkg/manifest#OS" target="_blank" rel="noopener noreferrer">OS</a> pipeline is the biggest and most central
 pipeline. It is responsible for generating the stages that will create the main
 OS tree of the resulting image. Almost all customizations that control specific
