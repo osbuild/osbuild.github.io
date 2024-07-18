@@ -19,6 +19,7 @@ Notes:
       "additionalProperties": false,
       "required": [
         "datastream",
+        "tailored_profile_id",
         "tailoring_file"
       ],
       "type": "object",
@@ -27,6 +28,10 @@ Notes:
         "datastream": {
           "type": "string",
           "description": "The path to the datastream file"
+        },
+        "tailored_profile_id": {
+          "type": "string",
+          "description": "The id of the new customized (tailored) OpenSCAP profile"
         },
         "tailoring_file": {
           "type": "string",
@@ -38,8 +43,7 @@ Notes:
       "additionalProperties": false,
       "required": [
         "profile_id",
-        "datastream",
-        "new_profile"
+        "datastream"
       ],
       "type": "object",
       "description": "OpenSCAP configuration variables",
@@ -54,7 +58,11 @@ Notes:
         },
         "new_profile": {
           "type": "string",
-          "description": "The name of the new customized OpenSCAP profile"
+          "description": "The id of the new customized (tailored) OpenSCAP profile"
+        },
+        "tailored_profile_id": {
+          "type": "string",
+          "description": "The id of the new customized (tailored) OpenSCAP profile"
         },
         "selected": {
           "type": "array",
