@@ -1216,7 +1216,8 @@ profile, tailoring profile `xccdf_org.ssgproject.content_profile_cis_osbuild_tai
 is `org.ssgproject.content`, so the prefix may be omitted for rules under this namespace, i.e. `org.ssgproject.content_grub2_password` and `grub2_password`
 are functionally equivalent.
 
-Note: the generated tailoring file is saved to the image as `/usr/share/xml/osbuild-oscap-tailoring/tailoring.xml`
+Note: the generated tailoring file is saved to the image as `/usr/share/xml/osbuild-oscap-tailoring/tailoring.xml` or, for newer releases,
+in the `/oscap_data` directory, this is the location used for other OpenSCAP related artifacts.
 
 <Tabs values={tabValuesOnPremiseOnly} >
 <TabItem value="on-premises" >
