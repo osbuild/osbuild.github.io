@@ -41,9 +41,21 @@ Notes:
     },
     "tailoring": {
       "additionalProperties": false,
-      "required": [
-        "profile_id",
-        "datastream"
+      "oneOf": [
+        {
+          "required": [
+            "profile_id",
+            "datastream",
+            "new_profile"
+          ]
+        },
+        {
+          "required": [
+            "profile_id",
+            "datastream",
+            "tailored_profile_id"
+          ]
+        }
       ],
       "type": "object",
       "description": "OpenSCAP configuration variables",
