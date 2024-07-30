@@ -1047,6 +1047,8 @@ in the repository configuration. **GPG keys are not imported to the RPM database
 
 ### Partitioning mode 🔵 🟤 {#partitioning-mode}
 
+_See the section of the guide on [Partitioning](partitioning) for more details._
+
 The `customizations.partitioning_mode` variable can be used to select how the
 disk image will be partitioned. `auto-lvm` will use raw unless there are one or
 more [filesystem customizations](#filesystems) in which case it will use LVM.
@@ -1082,6 +1084,8 @@ partitioning_mode = "lvm"
 </Tabs>
 
 ### Filesystems 🔵 🟤 🟣 {#filesystems}
+
+_See the section of the guide on [Partitioning](partitioning) for more details._
 
 The blueprints can be extended to provide filesytem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
 
