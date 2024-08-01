@@ -1300,10 +1300,10 @@ On premises, we don't support multi-arch builds. The architecture of the image i
 </TabItem>
 </Tabs>
 
-### Installer 🔵 🟤 {#installer}
+### Installer 🔵 🟤 🟣 {#installer}
 
 Anaconda installer (ISO) image types support the following extra customizations.
-<Tabs values={tabValues} >
+<Tabs values={tabValuesWithBootc} >
 <TabItem value="on-premises" >
 ```toml
 [customizations.installer]
@@ -1324,8 +1324,10 @@ sudo-nopasswd = ["user", "%wheel"]
 ```
 </TabItem>
 <TabItem value="bootc" >
-```
-ℹ️ - Currently not supported
+```toml
+[customizations.installer]
+unattended = true
+sudo-nopasswd = ["user", "%wheel"]
 ```
 </TabItem>
 </Tabs>
@@ -1364,10 +1366,10 @@ restorecon -rvF /etc/sudoers.d
 %end
 ```
 
-#### Installer Kickstart 🔵 🟤 {#installer-kickstart}
+#### Installer Kickstart 🔵 🟤 🟣 {#installer-kickstart}
 
 Alternatively, a custom kickstart can be included using the following customization.
-<Tabs values={tabValues} >
+<Tabs values={tabValuesWithBootc} >
 <TabItem value="on-premises" >
 ```toml
 [customizations.installer.kickstart]
@@ -1394,8 +1396,15 @@ network --bootproto=dhcp --device=link --activate --onboot=on
 ```
 </TabItem>
 <TabItem value="bootc" >
-```
-ℹ️ - Currently not supported
+```toml
+[customizations.installer.kickstart]
+contents = """
+text --non-interactive
+zerombr
+clearpart --all --initlabel --disklabel=gpt
+autopart --noswap --type=lvm
+network --bootproto=dhcp --device=link --activate --onboot=on
+"""
 ```
 </TabItem>
 </Tabs>
