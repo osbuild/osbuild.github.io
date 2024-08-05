@@ -1403,6 +1403,56 @@ network --bootproto=dhcp --device=link --activate --onboot=on
 Note that osbuild-composer will automatically add the command that installs the system (`liveimg` or `ostreesetup`) if one is relevant for the image type (`image-installer` and `edge-installer`/`iot-installer` respectively), so this line or any line that conflicts with it should not be included. See the relevant [Kickstart documentation](https://pykickstart.readthedocs.io/en/latest/kickstart-docs.html#ostreecontainer) for more information.
 This customization cannot be used in combination with any other installer customizations.
 
+#### Anaconda Modules 🔵 {#installer-kickstart}
+
+The Anaconda installer can be configured by enabling or disabling its dbus modules.
+
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
+```toml
+[customizations.installer.modules]
+enable = []
+disable = []
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
+The following module names are known and supported:
+- `org.fedoraproject.Anaconda.Modules.Localization`
+- `org.fedoraproject.Anaconda.Modules.Network` 
+- `org.fedoraproject.Anaconda.Modules.Payloads`
+- `org.fedoraproject.Anaconda.Modules.Runtime`
+- `org.fedoraproject.Anaconda.Modules.Security`
+- `org.fedoraproject.Anaconda.Modules.Services`
+- `org.fedoraproject.Anaconda.Modules.Storage`
+- `org.fedoraproject.Anaconda.Modules.Subscription`
+- `org.fedoraproject.Anaconda.Modules.Timezone`
+- `org.fedoraproject.Anaconda.Modules.Users`
+
+*Note: The values are not validated. Any name listed under `enable` will be added to the Anaconda configuration. This way, new or unknown modules can be enabled. However, it also means that mistyped or incorrect values may cause Anaconda to fail to start.*
+
+By default, the following modules are enabled for all Anaconda ISOs:
+- `org.fedoraproject.Anaconda.Modules.Network` 
+- `org.fedoraproject.Anaconda.Modules.Payloads`
+- `org.fedoraproject.Anaconda.Modules.Storage`
+
+Other modules are automatically enabled based on the ISO type and blueprint customizations. For example, adding a `user` customization to an ISO build will enable the `org.fedoraproject.Anaconda.Modules.Users` module.
+
+##### Enable vs Disable priority
+
+The `disable` list is processed after the `enable` list and therefore takes priority. In other words, adding the same module in both `enable` and `disable` will result in the module being **disabled**.
+Furthermore, adding a module that is enabled by default to `disable` will result in the module being **disabled**.
+
 
 ## Example Blueprints
 
