@@ -1216,7 +1216,8 @@ profile, tailoring profile `xccdf_org.ssgproject.content_profile_cis_osbuild_tai
 is `org.ssgproject.content`, so the prefix may be omitted for rules under this namespace, i.e. `org.ssgproject.content_grub2_password` and `grub2_password`
 are functionally equivalent.
 
-Note: the generated tailoring file is saved to the image as `/usr/share/xml/osbuild-oscap-tailoring/tailoring.xml`
+Note: the generated tailoring file is saved to the image as `/usr/share/xml/osbuild-oscap-tailoring/tailoring.xml` or, for newer releases,
+in the `/oscap_data` directory, this is the location used for other OpenSCAP related artifacts.
 
 <Tabs values={tabValuesOnPremiseOnly} >
 <TabItem value="on-premises" >
@@ -1241,6 +1242,46 @@ unselected = [ "grub2_password" ]
 ```
 </TabItem>
 </Tabs>
+
+### OpenSCAP JSON Tailoring
+
+The OpenSCAP team has developed a [json schema](https://github.com/ComplianceAsCode/schemas/blob/b91c8e196a8cc515e0cc7f10b2c5a02b4179c0e5/tailoring/schema.json)
+as an abstraction to the standard XML tailoring file. This approach helps simplify the process of tailoring an OpenSCAP profile.
+A basic example can be found [here](https://github.com/ComplianceAsCode/schemas/blob/b91c8e196a8cc515e0cc7f10b2c5a02b4179c0e5/tailoring/example-basic.json_tailoring).
+
+Both the `profile_id` and the `filepath` options are required and the `profile_id` needs to match the `profile_id` used in the json tailoring file.
+
+Note: users will need to use [custom files](#Files) to save the json tailoring file to the image. The generated xml tailoring file is saved to
+the image as `/oscap_data/tailoring.xml`.
+
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
+```toml
+[customizations.openscap]
+datastream = "/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml"
+profile_id = "xccdf_org.ssgproject.content_profile_cis"
+
+[customizations.openscap.json_tailoring]
+profile_id = "name-of-profile-used-in-json-tailoring-file"
+filepath =  "/some/path/tailoring-file.json"
+
+[[customizations.files]]
+path = "/some/path/tailoring-file.json"
+data = "<json-tailoring-file-contents>"
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
 
 #### FIPS 🔵 🟤 {#fips}
 
@@ -1506,7 +1547,7 @@ name = "example-system-fips-mode"
 description = "A FIPS enabled base system"
 version = "0.0.1"
 
-[ostree] 
+[ostree]
 
 ref= "test/edge"
 url= "http://example.com/repo"
