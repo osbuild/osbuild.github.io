@@ -18,19 +18,19 @@ jobs:
           git config user.name "${{ secrets.GIT_USERNAME }}"
 
       - name: Test pull_readmes script
-        working-directory: ./osbuild.github.io/scripts
+        working-directory: ./osbuild.github.io
         run: |
-          python3 test_pull_readmes.py
+          make test
 
       - name: Pull readmes and fix links
         working-directory: ./osbuild.github.io
         run: |
-          python3 scripts/pull_readmes.py readme-list
+          make pull-readmes
 
       - name: Pull modules
         working-directory: ./osbuild.github.io
         run: |
-          python3 scripts/pull_osbuild_modules.py
+          make pull-osbuild-modules
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -42,8 +42,7 @@ jobs:
       - name: Test build website
         working-directory: ./osbuild.github.io
         run: |
-          npm ci
-          npm run build
+          make build
 
       - name: Push updates
         working-directory: ./osbuild.github.io

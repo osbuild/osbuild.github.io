@@ -19,4 +19,4 @@ jobs:
 
       - name: Check for changes
         run: |
-          python3 scripts/protect_readmes.py readme-list
+          make protect-readmes
