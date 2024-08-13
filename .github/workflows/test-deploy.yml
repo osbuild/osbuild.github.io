@@ -20,6 +20,6 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: make install-dependencies
       - name: Test build website
-        run: yarn build
+        run: make build-website
