@@ -1351,7 +1351,7 @@ data = "<json-tailoring-file-contents>"
 </Tabs>
 
 
-#### FIPS 🔵 🟤 {#fips}
+### FIPS 🔵 🟤 {#fips}
 
 Enables/disables the system FIPS mode (disabled by default).
 Currently only `edge-raw-image`, `edge-installer`, `edge-simplified-installer`,
