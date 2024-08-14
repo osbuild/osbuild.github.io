@@ -6,7 +6,9 @@ import subprocess
 import sys
 import tempfile
 
-TEMPLATE = """
+TEMPLATE = """---
+custom_edit_url: {custom_edit_url}
+---
 # {title}
 <!--
 [//]: # ( DO NOT MODIFY THIS FILE! )
@@ -77,7 +79,7 @@ def main():
             for schema in repo.glob(f"{tiep}/*.json"):
                 title = str(schema.name).removesuffix(".meta.json")
                 datas = json.loads(schema.read_text())
-
+                originating_url = f"https://github.com/osbuild/osbuild/tree/main/{tiep}/{schema.name}"
                 text = TEMPLATE.format(
                     title=title,
                     summary=escape(datas.get("summary", "")),
@@ -86,7 +88,8 @@ def main():
                     ),
                     schema_1=json.dumps(datas.get("schema", {}), indent=2),
                     schema_2=json.dumps(datas.get("schema_2", {}), indent=2),
-                    originating_url=f"https://github.com/osbuild/osbuild/tree/main/{tiep}/{schema.name}",
+                    originating_url=originating_url,
+                    custom_edit_url=originating_url
                 )
 
                 (dest / f"{title}.md").write_text(text)
