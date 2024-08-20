@@ -1,3 +1,6 @@
+---
+custom_edit_url: https://github.com/osbuild/image-builder/blob/main/README.md
+---
 Image Builder
 =============
 
@@ -62,3 +65,4 @@ To run the project use `make run` target
 
  - **Apache-2.0**
  - See LICENSE file for details.
+

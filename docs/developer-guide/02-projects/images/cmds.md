@@ -1,3 +1,6 @@
+---
+custom_edit_url: https://github.com/osbuild/images/blob/main/docs/developer/cmds.md
+---
 ### Useful cmds
 
 The following utilities, defined in the `cmd/` directory, are useful for
@@ -160,3 +163,4 @@ perform the same actions as the `teardown` subcommand.
 The `cmd/list-images` utility simply lists all available combinations of
 distribution, architecture, and image type. It also supports filtering one or
 more of those three variables.
+

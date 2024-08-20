@@ -1,3 +1,6 @@
+---
+custom_edit_url: https://github.com/osbuild/images/blob/main/README.md
+---
 Images
 ======
 
@@ -38,3 +41,4 @@ will launch theses tests automatically.
 
  - **Apache-2.0**
  - See LICENSE file for details.
+

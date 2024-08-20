@@ -1,3 +1,6 @@
+---
+custom_edit_url: https://github.com/osbuild/rpmrepo/blob/main/README.md
+---
 RPMrepo Snapshots
 =================
 
@@ -233,3 +236,4 @@ Which will return a JSON list of the snapshots names.
 
  - **Apache-2.0**
  - See LICENSE file for details.
+
