@@ -9,9 +9,8 @@ help:
 .PHONY: test
 .ONESHELL:
 test: ## test pulling the readmes from the other projects
-	pushd scripts
+	cd scripts
 	python3 test_pull_readmes.py
-	popd
 
 .PHONY: pull-readmes
 pull-readmes: ## pull the readmes from other projects given in `readme-list`
