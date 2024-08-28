@@ -1,6 +1,18 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import { execSync } from 'child_process';
+
+function getGitHash() {
+  try {
+    return execSync('git rev-parse HEAD').toString().trim();
+  } catch (error) {
+    console.error('Error getting Git hash:', error);
+    return 'unknown';
+  }
+}
+
+const gitHash = getGitHash();
 
 const config: Config = {
   title: 'Image Builder',
@@ -155,5 +167,16 @@ const config: Config = {
     ],
   ],
 };
+
+if (gitHash !== 'unknown') {
+  const moreSection = config.themeConfig.footer.links.find((section) => section.title === 'More');
+
+  if (moreSection) {
+    moreSection.items.push({
+      label: 'Changelog',
+      href: `https://github.com/osbuild/osbuild.github.io/commits/${gitHash}`,
+    });
+  }
+}
 
 export default config;
