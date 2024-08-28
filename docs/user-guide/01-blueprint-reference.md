@@ -357,6 +357,74 @@ append = "nosmt=force"
 </TabItem>
 </Tabs>
 
+### Subscription-manager (RHSM) 🔵 {#rhsm}
+
+An optional set of configuration options for the Red Hat Subscription Manager (RHSM) client.
+
+The customization expects that `subscription-manager` package is installed in the image, which is by default part of the RHEL distribution bootable images. To explicitly install the package, add it to the [packages section in the blueprint](#packages).
+
+The customization is not supported on Fedora distribution images.
+
+To configure RHSM in the final image:
+
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
+```toml
+[customizations.rhsm.config.dnf_plugins.product_id]
+enabled = true
+
+[customizations.rhsm.config.dnf_plugins.subscription_manager]
+enabled = true
+
+[customizations.rhsm.config.subscription_manager.rhsm]
+manage_repos = true
+
+[customizations.rhsm.config.subscription_manager.rhsmcertd]
+auto_registration = true
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
+### RPM configuration 🔵 {#rpm}
+
+An optional set of RPM configuration options. Currently, only importing RPM GPG keys from a file in the image is supported.
+
+`files` is a list of strings containing the paths to the GPG keys to import. The files must be present in the image.
+
+To configure RPM in the final image:
+
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
+```toml
+[customizations.rpm.import_keys]
+files = [
+  "/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-18-primary",
+  "/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-19-primary"
+]
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
 ### SSH Keys 🔵 🟤 {#ssh-keys}
 
 An *optional* list of objects containing:
