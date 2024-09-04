@@ -8,7 +8,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 [//]: # ( Rather change the source of this: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild.bootupd.gen-metadata.meta.json )
 -->
 
-**Transforms /usr/lib/ostree-boot into a bootupd-compatible update payload.**
+**Transforms `/usr/lib/ostree-boot` into a bootupd-compatible update payload.**
 
 Scrapes metadata (e.g. RPM versions) about shim/grub and puts them along with their component files in
 `/usr/lib/bootupd/updates/`.

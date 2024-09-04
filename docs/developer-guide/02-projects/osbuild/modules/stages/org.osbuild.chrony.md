@@ -28,11 +28,11 @@ subset of options which can be specified for each timeserver item:
   - 'maxpoll'
   - 'iburst' (defaults to true)
   - 'prefer' (defaults to false)
-The 'leapsectz' option configures chrony behavior related to automatic checking
+The `leapsectz` option configures chrony behavior related to automatic checking
 of the next occurrence of the leap second, using the provided timezone. Its
 value is a string representing a timezone from the system tz database (e.g.
 'right/UTC'). If an empty string is provided, then all occurrences of
-'leapsectz' directive are removed from the configuration.
+`leapsectz` directive are removed from the configuration.
 Constraints:
   - Exactly one of 'timeservers' or 'servers' options must be provided.
 

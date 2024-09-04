@@ -12,7 +12,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 
 Stage to copy items, that is files or trees, from inputs to mount
 points or the tree. Multiple items can be copied. The source and
-destination is an url. Supported locations ('schemes') are `tree`,
+destination is an URL. Supported locations ('schemes') are `tree`,
 `mount` and `input`.
 The path format follows the rsync convention that if the paths
 ends with a slash `/` the content of that directory is copied not

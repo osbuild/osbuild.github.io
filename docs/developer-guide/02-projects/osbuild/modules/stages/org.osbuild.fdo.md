@@ -12,7 +12,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 
 FDO stage to write down the initial DIUN pub key root certificates
 to be read by the manufacturer client
-This will create a '/fdo_diun_root_certs.pem' with content
+This will create a `/fdo_diun_root_certs.pem` with content
 specified via the `rootcerts` input.
 
 ## Schema 1

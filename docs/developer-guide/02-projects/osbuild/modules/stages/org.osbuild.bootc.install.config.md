@@ -12,7 +12,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 
 The bootc install process supports some basic customization. This
 configuration file is in TOML format, and will be discovered by the
-installation process in via drop-in files in /usr/lib/bootc/install that
+installation process via drop-in files in `/usr/lib/bootc/install` that
 are processed in alphanumerical order.
 The individual files are merged into a single final installation config, so
 it is supported for e.g. a container base image to provide a default root

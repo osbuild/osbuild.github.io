@@ -8,11 +8,11 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 [//]: # ( Rather change the source of this: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild.fstab.meta.json )
 -->
 
-**Create /etc/fstab entries for filesystems**
+**Create `/etc/fstab` entries for filesystems**
 
 Each filesystem item must have at least the fs_spec, i.e `uuid`,
 `label`, `partlabel` or `device` and a `path` (mount point).
-This stage replaces /etc/fstab, removing any existing entries.
+This stage replaces `/etc/fstab`, removing any existing entries.
 NB: The ostree configuration options are experimental and might
 be replaced with a different mechanism in the near future.
 

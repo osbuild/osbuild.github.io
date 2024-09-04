@@ -8,7 +8,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 [//]: # ( Rather change the source of this: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild.crypttab.meta.json )
 -->
 
-**Create /etc/crypttab entries for encrypted block devices**
+**Create `/etc/crypttab` entries for encrypted block devices**
 
 See crypttab(5) for a detailed description of the format but in brief:
 each item in the list of `volumes` describes an encrypted block device

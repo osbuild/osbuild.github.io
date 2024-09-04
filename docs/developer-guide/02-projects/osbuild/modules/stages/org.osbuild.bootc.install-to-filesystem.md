@@ -10,9 +10,9 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 
 **Run bootc install to-filesystem**
 
-Note that this needs the disk.img in the inputs as one continous
+Note that this needs the disk.img in the inputs as one continuous
 devices so that bootupd can install grub to the mbr. It also needs
-all relevant mount points for booting (e.g. /boot, /boot/efi) in
+all relevant mount points for booting (e.g. `/boot`, `/boot/efi`) in
 mounted in the "mounts" path.
 Buildhost commands used: bootc
 
