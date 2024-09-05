@@ -5,7 +5,7 @@ Image Builder is available in various distributions:
 - [CentOS Stream](https://www.centos.org/centos-stream/)
 - [Red Hat Enterprise Linux (RHEL)](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
 
-You can see an overview of [which version is released where here](./release-overview).
+You can see an overview of [which version is released where here](./02-release-overview.md).
 
 ![Diagram](./image-builder-on-premises.svg)
 
