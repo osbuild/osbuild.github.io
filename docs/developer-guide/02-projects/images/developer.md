@@ -17,6 +17,7 @@ To build images, you will also need to install `osbuild` and its sub-packages.
 
 The full list of dependencies is:
 - `gpgme-devel`
+- `btrfs-progs-devel`
 - `osbuild`
 - `osbuild-depsolve-dnf`
 - `osbuild-luks2`
