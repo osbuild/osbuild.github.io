@@ -194,7 +194,7 @@ The `groups` list contains objects with a `name`-attribute.
 
 For example, if you want to install the `anaconda-tools` group, add the following to your blueprint:
 
-<Tabs values={tabValuesOnPremiseOnly} >
+<Tabs values={tabValues} >
 <TabItem value="on-premises" >
 ```toml
 [[groups]]
