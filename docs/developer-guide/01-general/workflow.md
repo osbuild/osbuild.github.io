@@ -2,7 +2,7 @@
 
 ## Commits 💎
 
-1. Commits should be easy to read.
+1. Commits should be easy to read and ideally do only a single thing.
 2. The commit message should explain clearly what it's trying to do and why. Refer to the format we prefer below.
 3. A Jira issue or - where applicable - a GitHub issue reference should be added to automatically link and potentially close a related issue if it exists.
 
@@ -11,12 +11,23 @@
 ```
 <module>: Topic of the commit
 
-Body of the commit, describing the changes in more detail.
+Body of the commit, describing the changes in more detail including the
+why/what/how.
 ```
 
 - The `<module>` should point to the area of the codebase (for instance `tests` or `tools`). The topic
 should summarize what the commit is doing.
 - GitHub truncates the first line if it's longer than 65 characters, which is something to keep in mind as well.
+- GitHub PR descriptions are disconnected from the actual `git`
+history and will not show up in e.g. `git blame` or `git log` so consider
+them more ephemeral.
+
+A good commit message will help our future selfs to get back into the
+context that the author had when writing the code. It should include
+decisions/considerations/background that were important when the
+commit was written so that a `git show <commit>` provides a concise
+way to (re)acquire this context. See [this](https://github.com/osbuild/osbuild/commit/a2e212bb2641cf28e5701ad4a2202261c2c5ee5c) as an example.
+
 
 ## Pull requests 🌟
 
