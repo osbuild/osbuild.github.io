@@ -185,7 +185,7 @@ packages = [
 </TabItem>
 </Tabs>
 
-### Groups 🔵 {#groups}
+### Groups 🔵&nbsp;🟤 {#groups}
 
 The `groups` list contains objects with a `name`-attribute.
 - The `name` attribute is a **required** string and must match the id of a package group in the repositories exactly.
@@ -210,8 +210,12 @@ groups = [
 ```
 </TabItem>
 <TabItem value="hosted" >
-```
-ℹ️ - Currently not supported
+```json
+{
+  "customizations": {
+    "packages": ["@anaconda-tools"],
+  }
+}
 ```
 </TabItem>
 <TabItem value="bootc" >
