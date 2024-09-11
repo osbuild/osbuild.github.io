@@ -48,27 +48,11 @@ Root hash gets written to `root_hash_file`
     "properties": {
       "data_device": {
         "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "path"
-        ],
-        "properties": {
-          "path": {
-            "type": "string"
-          }
-        }
+        "additionalProperties": true
       },
       "hash_device": {
         "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "path"
-        ],
-        "properties": {
-          "path": {
-            "type": "string"
-          }
-        }
+        "additionalProperties": true
       }
     }
   }
