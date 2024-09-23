@@ -1,17 +1,18 @@
 # Releases
 |       | cockpit-composer    | osbuild    | osbuild-composer    |
 |-------|---------------------|------------|---------------------|
-*8.10* | 50-1 | 110-1 | 101-1
 *8.9* | 47-1 | 93-1 | 88-1
+*8.10* | 50-1 | 110-1 | 101-1
 *9.3* | 47-1 | 93-1 | 88-1
 *9.4* | 50-1 | 110-1 | 101-1
+*9.5* | 52-1 | 126-1 | 118-1
+*9.6* | 52-1 | 126-1 | 118-1
 *CentOS Stream 9* | 52-1 | 126-1 | 118-1
-*Fedora 37* | 47-1 | 99-1 | 94-1
-*Fedora 38* | 50-1 | 118-1 | 106-1
 *Fedora 39* | 52-1 | 126-1 | 118-1
+*Fedora 40* | 52-1 | 126-1 | 118-1
 *Git* | 52 | 129 | 121
-*Service* | n/a | n/a | [v119-8-gd6031ae8](https://github.com/osbuild/osbuild-composer/compare/v119-8-gd6031ae8...main)
-*Workers* | n/a | [v123-10-gdf83c62](https://github.com/osbuild/osbuild/compare/v123-10-gdf83c62...main) | [v115-50-g812b3317](https://github.com/osbuild/osbuild-composer/compare/v115-50-g812b3317...main)
+*Service* | n/a | n/a | [v121](https://github.com/osbuild/osbuild-composer/compare/v121...main)
+*Workers* | n/a | [v129](https://github.com/osbuild/osbuild/compare/v129...main) | [v121](https://github.com/osbuild/osbuild-composer/compare/v121...main)
 
 ---
 
