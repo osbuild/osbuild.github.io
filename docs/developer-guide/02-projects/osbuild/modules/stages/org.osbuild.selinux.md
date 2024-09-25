@@ -35,8 +35,17 @@ may not match the tree's policy.
 {
   "options": {
     "additionalProperties": false,
-    "required": [
-      "file_contexts"
+    "anyOf": [
+      {
+        "required": [
+          "file_contexts"
+        ]
+      },
+      {
+        "required": [
+          "labels"
+        ]
+      }
     ],
     "properties": {
       "file_contexts": {
