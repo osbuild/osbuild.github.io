@@ -113,6 +113,10 @@ Buildhost commands used: `tar` and any needed compression program.
         "description": "Make archive files sparse",
         "type": "boolean",
         "default": false
+      },
+      "transform": {
+        "type": "string",
+        "description": "Used to transform filenames and directly passed to --transform"
       }
     }
   },
