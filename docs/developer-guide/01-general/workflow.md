@@ -22,11 +22,11 @@ should summarize what the commit is doing.
 history and will not show up in e.g. `git blame` or `git log` so consider
 them more ephemeral.
 
-A good commit message will help our future selfs to get back into the
+A good commit message will help our future selves to get back into the
 context that the author had when writing the code. It should include
-decisions/considerations/background that were important when the
+decisions, considerations, and background information that were important when the
 commit was written so that a `git show <commit>` provides a concise
-way to (re)acquire this context. See [this](https://github.com/osbuild/osbuild/commit/a2e212bb2641cf28e5701ad4a2202261c2c5ee5c) as an example.
+way to (re)acquire this context. See [this commit message](https://github.com/osbuild/osbuild/commit/a2e212bb2641cf28e5701ad4a2202261c2c5ee5c) as an example.
 
 
 ## Pull requests 🌟
