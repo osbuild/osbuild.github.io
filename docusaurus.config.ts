@@ -114,6 +114,10 @@ const config: Config = {
           title: 'Community',
           items: [
             {
+              label: 'Discussions',
+              href: 'https://github.com/orgs/osbuild/discussions',
+            },
+            {
               label: 'Matrix',
               href: 'https://matrix.to/#/#image-builder:fedoraproject.org',
             },
