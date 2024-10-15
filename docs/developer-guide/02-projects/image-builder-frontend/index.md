@@ -9,6 +9,15 @@ custom_edit_url: https://github.com/osbuild/image-builder-frontend/blob/main/REA
 [//]: # ( Rather change the source of this: https://github.com/osbuild/image-builder-frontend/blob/main/README.md )
 -->
 
+Frontend code for Image Builder.
+
+## Project
+
+* **Website**: https://www.osbuild.org
+* **Bug Tracker**: https://github.com/osbuild/image-builder-frontend/issues
+* **Discussions**: https://github.com/orgs/osbuild/discussions
+* **Matrix**: #image-builder on [fedoraproject.org](https://matrix.to/#/#image-builder:fedoraproject.org)
+
 ## Principles
 
 1. We want to use the latest and greatest web technologies.
