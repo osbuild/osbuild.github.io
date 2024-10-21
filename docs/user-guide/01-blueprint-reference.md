@@ -1,6 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly, tabValuesBootcOnly, tabValuesAll } from '@site/src/components/Highlight';
+import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly, tabValuesBootcOnly, tabValuesOnPremBootc, tabValuesAll } from '@site/src/components/Highlight';
 import '@site/src/css/custom.css';
 
 # Blueprint Reference
@@ -1529,10 +1529,16 @@ This customization cannot be used in combination with any other installer custom
 
 The Anaconda installer can be configured by enabling or disabling its D-Bus modules.
 
-<Tabs values={tabValuesAll} defaultValue="bootc">
+<Tabs values={tabValuesOnPremBootc} defaultValue="bootc">
 <TabItem value="on-premises" >
-```
-ℹ️ - Currently not supported
+```toml
+[customizations.installer.modules]
+enable = [
+    "org.fedoraproject.Anaconda.Modules.Localization",
+]
+disable = [
+    "org.fedoraproject.Anaconda.Modules.Users",
+]
 ```
 </TabItem>
 <TabItem value="hosted" >
