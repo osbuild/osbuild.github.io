@@ -1,6 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly, tabValuesBootcOnly, tabValuesWithBootc } from '@site/src/components/Highlight';
+import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly, tabValuesBootcOnly, tabValuesAll } from '@site/src/components/Highlight';
 import '@site/src/css/custom.css';
 
 # Firstboot script

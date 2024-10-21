@@ -1,6 +1,6 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly, tabValuesBootcOnly, tabValuesWithBootc } from '@site/src/components/Highlight';
+import Highlight, { tabValues, tabValuesOnPremiseOnly, tabValuesHostedOnly, tabValuesBootcOnly, tabValuesAll } from '@site/src/components/Highlight';
 import '@site/src/css/custom.css';
 
 # Blueprint Reference
@@ -332,7 +332,7 @@ An *optional* object that contains the following attributes:
 - `name` an *optional* string which kernel to use
 - `append` an *optional* string to append arguments to the bootloader kernel command line
 
-<Tabs values={tabValuesWithBootc} >
+<Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
 [customizations.kernel]
@@ -503,7 +503,7 @@ mkpasswd -m sha-512
 
 Add a user to the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
 
-<Tabs values={tabValuesWithBootc} >
+<Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
 [[customizations.user]]
@@ -555,7 +555,7 @@ An *optional* list of objects that contain the following attributes:
 - `name` a **required** string that sets the name of the group.
 - `gid` a **required** integer that sets the id of the group.
 
-<Tabs values={tabValuesWithBootc} >
+<Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
 [[customizations.group]]
@@ -1161,7 +1161,7 @@ _See the section of the guide on [Partitioning](./07-partitioning.md) for more d
 
 The blueprints can be extended to provide filesytem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
 
-<Tabs values={tabValuesWithBootc} >
+<Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
 [[customizations.filesystem]]
@@ -1416,7 +1416,7 @@ On premises, we don't support multi-arch builds. The architecture of the image i
 ### Installer 🔵 🟤 🟣 {#installer}
 
 Anaconda installer (ISO) image types support the following extra customizations.
-<Tabs values={tabValuesWithBootc} >
+<Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
 [customizations.installer]
@@ -1482,7 +1482,7 @@ restorecon -rvF /etc/sudoers.d
 #### Installer Kickstart 🔵 🟤 🟣 {#installer-kickstart}
 
 Alternatively, a custom kickstart can be included using the following customization.
-<Tabs values={tabValuesWithBootc} >
+<Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
 [customizations.installer.kickstart]
@@ -1529,7 +1529,7 @@ This customization cannot be used in combination with any other installer custom
 
 The Anaconda installer can be configured by enabling or disabling its D-Bus modules.
 
-<Tabs values={tabValuesBootcOnly} defaultValue="bootc">
+<Tabs values={tabValuesAll} defaultValue="bootc">
 <TabItem value="on-premises" >
 ```
 ℹ️ - Currently not supported

@@ -25,7 +25,7 @@ export const tabValuesBootcOnly = [
     { label: '🟣 bootc', value: 'bootc', attributes: { className: 'highlight tab bootc' } },
 ];
 
-export const tabValuesWithBootc = [
+export const tabValuesAll = [
     { label: '🔵 on premises', value: 'on-premises', attributes: { className: 'highlight tab on-premises' } },
     { label: '🟤 hosted', value: 'hosted', attributes: { className: 'highlight tab hosted' } },
     { label: '🟣 bootc', value: 'bootc', attributes: { className: 'highlight tab bootc' } },
