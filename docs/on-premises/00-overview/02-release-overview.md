@@ -3,18 +3,18 @@ This table contains the currently released versions including a link to the chan
 
 |       | cockpit-composer    | osbuild    | osbuild-composer    |
 |-------|---------------------|------------|---------------------|
-*8.9* | [47-1](https://github.com/osbuild/cockpit-composer/commits/47) | [93-1](https://github.com/osbuild/osbuild/commits/93) | [88-1](https://github.com/osbuild/osbuild-composer/commits/88)
-*8.10* | [50-1](https://github.com/osbuild/cockpit-composer/commits/50) | [110-1](https://github.com/osbuild/osbuild/commits/110) | [101-1](https://github.com/osbuild/osbuild-composer/commits/101)
-*9.3* | [47-1](https://github.com/osbuild/cockpit-composer/commits/47) | [93-1](https://github.com/osbuild/osbuild/commits/93) | [88-1](https://github.com/osbuild/osbuild-composer/commits/88)
-*9.4* | [50-1](https://github.com/osbuild/cockpit-composer/commits/50) | [110-1](https://github.com/osbuild/osbuild/commits/110) | [101-1](https://github.com/osbuild/osbuild-composer/commits/101)
-*9.5* | [52-1](https://github.com/osbuild/cockpit-composer/commits/52) | [126-1](https://github.com/osbuild/osbuild/commits/126) | [118-1](https://github.com/osbuild/osbuild-composer/commits/118)
-*9.6* | [52-1](https://github.com/osbuild/cockpit-composer/commits/52) | [132-1](https://github.com/osbuild/osbuild/commits/132) | [124-1](https://github.com/osbuild/osbuild-composer/commits/124)
-*CentOS Stream 9* | [52-1](https://github.com/osbuild/cockpit-composer/commits/52) | [132-1](https://github.com/osbuild/osbuild/commits/132) | [118-1](https://github.com/osbuild/osbuild-composer/commits/118)
-*Fedora 39* | [52-1](https://github.com/osbuild/cockpit-composer/commits/52) | [132-1](https://github.com/osbuild/osbuild/commits/132) | [123-1](https://github.com/osbuild/osbuild-composer/commits/123)
-*Fedora 40* | [52-1](https://github.com/osbuild/cockpit-composer/commits/52) | [132-1](https://github.com/osbuild/osbuild/commits/132) | [123-1](https://github.com/osbuild/osbuild-composer/commits/123)
-*Git* | [52](https://github.com/osbuild/cockpit-composer/commits/52) | [v132](https://github.com/osbuild/osbuild/commits/v132) | [v124](https://github.com/osbuild/osbuild-composer/commits/v124)
-*Service* | [n/a](https://github.com/osbuild/cockpit-composer/commits/n/a) | [n/a](https://github.com/osbuild/osbuild/commits/n/a) | [[v123-15-gbccd1639](https://github.com/osbuild/osbuild-composer/compare/v123-15-gbccd1639...main)](https://github.com/osbuild/osbuild-composer/commits/[v123)
-*Workers* | [n/a](https://github.com/osbuild/cockpit-composer/commits/n/a) | [[v129](https://github.com/osbuild/osbuild/compare/v129...main)](https://github.com/osbuild/osbuild/commits/[v129](https://github.com/osbuild/osbuild/compare/v129...main)) | [[v121-15-gd0ac2f1a](https://github.com/osbuild/osbuild-composer/compare/v121-15-gd0ac2f1a...main)](https://github.com/osbuild/osbuild-composer/commits/[v121)
+*8.9* | [47-1](https://github.com/osbuild/cockpit-composer/releases/tag/47 | [93-1](https://github.com/osbuild/osbuild/releases/tag/v93 | [88-1](https://github.com/osbuild/osbuild-composer/releases/tag/v88
+*8.10* | [50-1](https://github.com/osbuild/cockpit-composer/releases/tag/50 | [110-1](https://github.com/osbuild/osbuild/releases/tag/v110 | [101-1](https://github.com/osbuild/osbuild-composer/releases/tag/v101
+*9.3* | [47-1](https://github.com/osbuild/cockpit-composer/releases/tag/47 | [93-1](https://github.com/osbuild/osbuild/releases/tag/v93 | [88-1](https://github.com/osbuild/osbuild-composer/releases/tag/v88
+*9.4* | [50-1](https://github.com/osbuild/cockpit-composer/releases/tag/50 | [110-1](https://github.com/osbuild/osbuild/releases/tag/v110 | [101-1](https://github.com/osbuild/osbuild-composer/releases/tag/v101
+*9.5* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52 | [126-1](https://github.com/osbuild/osbuild/releases/tag/v126 | [118-1](https://github.com/osbuild/osbuild-composer/releases/tag/v118
+*9.6* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52 | [132-1](https://github.com/osbuild/osbuild/releases/tag/v132 | [124-1](https://github.com/osbuild/osbuild-composer/releases/tag/v124
+*CentOS Stream 9* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52 | [132-1](https://github.com/osbuild/osbuild/releases/tag/v132 | [118-1](https://github.com/osbuild/osbuild-composer/releases/tag/v118
+*Fedora 39* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52 | [132-1](https://github.com/osbuild/osbuild/releases/tag/v132 | [123-1](https://github.com/osbuild/osbuild-composer/releases/tag/v123
+*Fedora 40* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52 | [132-1](https://github.com/osbuild/osbuild/releases/tag/v132 | [123-1](https://github.com/osbuild/osbuild-composer/releases/tag/v123
+*Git* | [52](https://github.com/osbuild/cockpit-composer/releases/tag/52 | [v132](https://github.com/osbuild/osbuild/releases/tag/v132 | [v124](https://github.com/osbuild/osbuild-composer/releases/tag/v124
+*Service* | n/a | n/a | [v123-15-gbccd1639](https://github.com/osbuild/osbuild-composer/compare/v123-15-gbccd1639...main)
+*Workers* | n/a | [v129](https://github.com/osbuild/osbuild/compare/v129...main) | [v121-15-gd0ac2f1a](https://github.com/osbuild/osbuild-composer/compare/v121-15-gd0ac2f1a...main)
 
 ---
 
