@@ -35,8 +35,12 @@ build-website: ## build the website (dependencies need to be met)
 build: install-dependencies build-website ## build the website in one go
 
 .PHONY: run
-run: ## run docusaurus locally for testing
+run: ## run docusaurus locally with auto-updates from the code (redirects don't work here)
 	npm start
+
+.PHONY: serve
+serve: build ## serve the pre-built docusaurus locally (redirects only work here, not with `make run`)
+	npm run serve
 
 .PHONY: protect-readmes
 protect-readmes: ## verify the READMEs don't get changed in a pull request (to be used in the workflow)
