@@ -1159,6 +1159,8 @@ partitioning_mode = "lvm"
 
 _See the section of the guide on [Partitioning](./07-partitioning.md) for more details._
 
+_See also the [Disk](#disk) section below for more advanced partitioning control._
+
 The blueprints can be extended to provide filesytem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
 
 <Tabs values={tabValuesAll} >
@@ -1242,6 +1244,121 @@ The following mountpoints are **not** allowed (including their sub-directories):
 The following mountpoints are allowed, but their sub-directories are **not** allowed:
 
 - `/usr`
+
+### Disk 🔵 🟤 🟣 {#disk}
+
+_See the section of the guide on [Partitioning](./07-partitioning.md) for more details._
+
+The disk customizations are an alternative to the [filesystem](#filesystems) customizations described above. They provide a more powerful interface to control the whole partitioning layout of the image.
+
+The two customizations are incompatible with each other; you may use one or the other, but not both in the same blueprint.
+
+The examples below are illustrative but not comprehensive. The [Partitioning](./07-partitioning.md) guide should be consulted to understand all the ways in which this customization can be used.
+
+<Tabs values={tabValuesOnPremBootc} >
+<TabItem value="on-premises" >
+```toml
+[[customization.disk.partitions]]
+type = "plain"
+label = "data"
+mountpoint = "/data"
+fs_type = "ext4"
+minsize = "50 GiB"
+
+[[customization.disk.partitions]]
+type = "lvm"
+name = "mainvg"
+minsize = "20 GiB"
+
+[[customization.disk.partitions.logical_volumes]]
+name = "rootlv"
+mountpoint = "/"
+label = "root"
+fs_type = "ext4"
+minsize = "2 GiB"
+
+[[customization.disk.partitions.logical_volumes]]
+name = "homelv"
+mountpoint = "/home"
+label = "home"
+fs_type = "ext4"
+minsize = "2 GiB"
+
+[[customization.disk.partitions.logical_volumes]]
+name = "swaplv"
+fs_type = "swap"
+minsize = "1 GiB"
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```json
+{
+  "customization": {
+    "disk": {
+      "partitions": [
+        {
+          "type": "plain",
+          "label": "data",
+          "mountpoint": "/data",
+          "fs_type": "ext4",
+          "minsize": "50 GiB"
+        },
+        {
+          "type": "lvm",
+          "name": "mainvg",
+          "minsize": "20 GiB",
+          "logical_volumes": [
+            {
+              "name": "rootlv",
+              "mountpoint": "/",
+              "label": "root",
+              "fs_type": "ext4",
+              "minsize": "2 GiB"
+            },
+            {
+              "name": "homelv",
+              "mountpoint": "/home",
+              "label": "home",
+              "fs_type": "ext4",
+              "minsize": "2 GiB"
+            },
+            {
+              "name": "swaplv",
+              "fs_type": "swap",
+              "minsize": "1 GiB"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+</TabItem>
+</Tabs>
+
+Disk customizations are currently **not** supported for the following image types:
+
+- `image-installer`
+- `edge-installer` (RHEL and CentOS) and `iot-installer` (Fedora)
+- `edge-simplified-installer` (RHEL and CentOS)
+
+In addition, the following image types do not create partitioned OS images and therefore filesystem customizations for these types are meaningless:
+
+- `edge-commit` (RHEL and CentOS) and `iot-commit` (Fedora)
+- `edge-container` (RHEL and CentOS) and `iot-container` (Fedora)
+- `tar`
+- `container`
+
+#### Allowed mountpoints
+
+The same mountpoint restrictions apply as described for [Filesystems](#filesystems).
+
 
 ### OpenSCAP 🔵 🟤 {#openscap}
 
