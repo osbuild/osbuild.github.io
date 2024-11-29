@@ -1685,7 +1685,7 @@ disable = [
 
 The following module names are known and supported:
 - `org.fedoraproject.Anaconda.Modules.Localization`
-- `org.fedoraproject.Anaconda.Modules.Network` 
+- `org.fedoraproject.Anaconda.Modules.Network`
 - `org.fedoraproject.Anaconda.Modules.Payloads`
 - `org.fedoraproject.Anaconda.Modules.Runtime`
 - `org.fedoraproject.Anaconda.Modules.Security`
@@ -1698,7 +1698,7 @@ The following module names are known and supported:
 *Note: The values are **not validated**. Any name listed under `enable` will be added to the Anaconda configuration. This way, new or unknown modules can be enabled. However, it also means that mistyped or incorrect values may cause Anaconda to fail to start.*
 
 By default, the following modules are enabled for all Anaconda ISOs:
-- `org.fedoraproject.Anaconda.Modules.Network` 
+- `org.fedoraproject.Anaconda.Modules.Network`
 - `org.fedoraproject.Anaconda.Modules.Payloads`
 - `org.fedoraproject.Anaconda.Modules.Storage`
 
