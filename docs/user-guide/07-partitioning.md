@@ -99,3 +99,61 @@ Multiple partitions can be defined. The following combination of partition types
 - `plain` and `lvm`: Plain partitions can be created alongside an LVM volume group. However, only one LVM volume group can be defined.
 - `plain` and `btrfs`: Plain partitions can be created alongside btrfs volumes. However, only one btrfs volume can be defined.
 - `btrfs` and `lvm` cannot be combined on the same partition table.
+
+### Examples
+
+1. The following blueprint defines two partitions. The first is a 50 GiB partition with an ext4 filesystem that will be mounted at `/data`. The second is an LVM volume group with three logical volumes, one for root `/`, one for home directories `/home`, and a swap space in that order. The LVM volume group will have 15 GiB of unallocated space.
+
+```toml
+[[customization.disk.partitions]]
+type = "plain"
+label = "data"
+mountpoint = "/data"
+fs_type = "ext4"
+minsize = "50 GiB"
+
+[[customization.disk.partitions]]
+type = "lvm"
+name = "mainvg"
+minsize = "20 GiB"
+
+[[customization.disk.partitions.logical_volumes]]
+name = "rootlv"
+mountpoint = "/"
+label = "root"
+fs_type = "ext4"
+minsize = "2 GiB"
+
+[[customization.disk.partitions.logical_volumes]]
+name = "homelv"
+mountpoint = "/home"
+label = "home"
+fs_type = "ext4"
+minsize = "2 GiB"
+
+[[customization.disk.partitions.logical_volumes]]
+name = "swaplv"
+fs_type = "swap"
+minsize = "1 GiB"
+```
+
+2. The following blueprint defines two partitions. The first is a 20 GiB btrfs volume with two subvolumes, one for root `/` and one for data `/data`. The second is a 4 GiB swap partition.
+
+```toml
+[[customizations.disk.partitions]]
+type = "btrfs"
+minsize = "20 GiB"
+
+[[customizations.disk.partitions.subvolumes]]
+name = "root"
+mountpoint = "/"
+
+[[customizations.disk.partitions.subvolumes]]
+name = "data"
+mountpoint = "/data"
+
+[[customizations.disk.partitions]]
+type = "plain"
+fs_type = "swap"
+minsize = "4 GiB"
+```
