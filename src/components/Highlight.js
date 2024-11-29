@@ -21,13 +21,13 @@ export const tabValuesHostedOnly = [
 
 export const tabValuesBootcOnly = [
     { label: '⚪ on premises', value: 'on-premises', attributes: { className: 'highlight tab disabled' } },
-    { label: 'l hosted', value: 'hosted', attributes: { className: 'highlight tab disabled' } },
+    { label: '⚪ hosted', value: 'hosted', attributes: { className: 'highlight tab disabled' } },
     { label: '🟣 bootc', value: 'bootc', attributes: { className: 'highlight tab bootc' } },
 ];
 
 export const tabValuesOnPremBootc = [
     { label: '🔵 on premises', value: 'on-premises', attributes: { className: 'highlight tab on-premises' } },
-    { label: 'l hosted', value: 'hosted', attributes: { className: 'highlight tab disabled' } },
+    { label: '⚪ hosted', value: 'hosted', attributes: { className: 'highlight tab disabled' } },
     { label: '🟣 bootc', value: 'bootc', attributes: { className: 'highlight tab bootc' } },
 ];
 
