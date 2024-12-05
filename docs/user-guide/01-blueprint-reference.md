@@ -1296,48 +1296,37 @@ minsize = "1 GiB"
 ```
 </TabItem>
 <TabItem value="bootc" >
-```json
-{
-  "customizations": {
-    "disk": {
-      "partitions": [
-        {
-          "type": "plain",
-          "label": "data",
-          "mountpoint": "/data",
-          "fs_type": "ext4",
-          "minsize": "50 GiB"
-        },
-        {
-          "type": "lvm",
-          "name": "mainvg",
-          "minsize": "20 GiB",
-          "logical_volumes": [
-            {
-              "name": "rootlv",
-              "mountpoint": "/",
-              "label": "root",
-              "fs_type": "ext4",
-              "minsize": "2 GiB"
-            },
-            {
-              "name": "homelv",
-              "mountpoint": "/home",
-              "label": "home",
-              "fs_type": "ext4",
-              "minsize": "2 GiB"
-            },
-            {
-              "name": "swaplv",
-              "fs_type": "swap",
-              "minsize": "1 GiB"
-            }
-          ]
-        }
-      ]
-    }
-  }
-}
+```toml
+[[customizations.disk.partitions]]
+type = "plain"
+label = "data"
+mountpoint = "/data"
+fs_type = "ext4"
+minsize = "50 GiB"
+
+[[customizations.disk.partitions]]
+type = "lvm"
+name = "mainvg"
+minsize = "20 GiB"
+
+[[customizations.disk.partitions.logical_volumes]]
+name = "rootlv"
+mountpoint = "/"
+label = "root"
+fs_type = "ext4"
+minsize = "2 GiB"
+
+[[customizations.disk.partitions.logical_volumes]]
+name = "homelv"
+mountpoint = "/home"
+label = "home"
+fs_type = "ext4"
+minsize = "2 GiB"
+
+[[customizations.disk.partitions.logical_volumes]]
+name = "swaplv"
+fs_type = "swap"
+minsize = "1 GiB"
 ```
 </TabItem>
 </Tabs>
@@ -1664,21 +1653,14 @@ disable = [
 ```
 </TabItem>
 <TabItem value="bootc" >
-```json
-{
-  "customizations": {
-    "installer": {
-      "modules": {
-        "enable": [
-          "org.fedoraproject.Anaconda.Modules.Localization"
-        ],
-        "disable": [
-          "org.fedoraproject.Anaconda.Modules.Users"
-        ]
-      }
-    }
-  }
-}
+```toml
+[customizations.installer.modules]
+enable = [
+    "org.fedoraproject.Anaconda.Modules.Localization",
+]
+disable = [
+    "org.fedoraproject.Anaconda.Modules.Users",
+]
 ```
 </TabItem>
 </Tabs>
