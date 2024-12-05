@@ -1258,33 +1258,33 @@ The examples below are illustrative but not comprehensive. The [Partitioning](./
 <Tabs values={tabValuesOnPremBootc} >
 <TabItem value="on-premises" >
 ```toml
-[[customization.disk.partitions]]
+[[customizations.disk.partitions]]
 type = "plain"
 label = "data"
 mountpoint = "/data"
 fs_type = "ext4"
 minsize = "50 GiB"
 
-[[customization.disk.partitions]]
+[[customizations.disk.partitions]]
 type = "lvm"
 name = "mainvg"
 minsize = "20 GiB"
 
-[[customization.disk.partitions.logical_volumes]]
+[[customizations.disk.partitions.logical_volumes]]
 name = "rootlv"
 mountpoint = "/"
 label = "root"
 fs_type = "ext4"
 minsize = "2 GiB"
 
-[[customization.disk.partitions.logical_volumes]]
+[[customizations.disk.partitions.logical_volumes]]
 name = "homelv"
 mountpoint = "/home"
 label = "home"
 fs_type = "ext4"
 minsize = "2 GiB"
 
-[[customization.disk.partitions.logical_volumes]]
+[[customizations.disk.partitions.logical_volumes]]
 name = "swaplv"
 fs_type = "swap"
 minsize = "1 GiB"
@@ -1298,7 +1298,7 @@ minsize = "1 GiB"
 <TabItem value="bootc" >
 ```json
 {
-  "customization": {
+  "customizations": {
     "disk": {
       "partitions": [
         {
