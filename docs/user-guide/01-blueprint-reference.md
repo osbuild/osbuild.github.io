@@ -538,7 +538,7 @@ expiredate = 12345
 ```
 </TabItem>
 <TabItem value="bootc" >
-```
+```toml
 [[customizations.user]]
 name = "alice"
 password = "bob"
