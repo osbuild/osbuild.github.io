@@ -18,6 +18,9 @@ POST_TITLE_TEMPLATE = """
 -->
 """
 
+RELATIVE_LINK_PATTERN = r'\[(.*?)\]\((.*?)\)'
+
+
 def resolve_dirs(baseurl, relative_link):
     """
     Resolve relative links to absolute links.
@@ -61,8 +64,7 @@ def parse_markdown_and_replace_links(file_path, baseurl):
     with open(file_path, 'r', encoding='utf-8') as file:
         markdown_content = file.read()
 
-    relative_link_pattern = r'\[(.*?)\]\((.*?)\)'
-    parsed_content = re.sub(relative_link_pattern,
+    parsed_content = re.sub(RELATIVE_LINK_PATTERN,
                             lambda match: replace_relative_links(match, baseurl),
                             markdown_content, flags=re.DOTALL)
 
