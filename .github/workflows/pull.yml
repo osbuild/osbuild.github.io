@@ -32,11 +32,6 @@ jobs:
         run: |
           make pull-osbuild-modules
 
-      - name: Pull otk
-        working-directory: ./osbuild.github.io
-        run: |
-          make pull-otk
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
