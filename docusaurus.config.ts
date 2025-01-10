@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import { execSync } from 'child_process';
 
@@ -29,6 +29,7 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'osbuild', // Usually your GitHub org/user name.
   projectName: 'osbuild.github.io', // Usually your repo name.
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
