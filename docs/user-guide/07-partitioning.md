@@ -10,11 +10,11 @@ In addition to the above, certain directories have hard-coded minimum sizes whic
 
 ## Using Filesystem customizations
 
-When using the [Filesystem customizations](blueprint-reference#filesystems), the final partition table of an image built with image builder is determined by a combination of the following:
+When using the [Filesystem customizations](01-blueprint-reference.md#filesystems), the final partition table of an image built with image builder is determined by a combination of the following:
 1. The base partition table for a given image type.
 2. The relevant blueprint customizations:
-    1. [Partitioning mode](blueprint-reference#partitioning-mode).
-    2. [Filesystem customizations](blueprint-reference#filesystems).
+    1. [Partitioning mode](01-blueprint-reference.md#partitioning-mode).
+    2. [Filesystem customizations](01-blueprint-reference.md#filesystems).
 3. The image size parameter of the build request.
     1. On the command line, this is the `--size` argument of the `composer-cli compose start` command.
     2. In the service, this is the `size` parameter of an `image_request`.
@@ -30,11 +30,11 @@ The partitioning mode controls how the partition table is modified from the imag
 - `raw` will not convert any partition to LVM or Btrfs.
 - `lvm` will always convert the partition that contains the root mountpoint `/` to an LVM Volume Group and create a root Logical Volume. Any extra mountpoints, except `/boot`, will be added to the Volume Group as new Logical Volumes.
 - `btrfs` will convert the partition that contains the root mountpoint `/` to a Btrfs volume and create a root subvolume. Any extra mountpoints, except `/boot`, will be added to the Btrfs volume as new Btrfs subvolumes.
-- `auto-lvm` is the default mode and will convert a raw partition table to an LVM-based one if and only if new mountpoints are defined in the [filesystems customization](blueprint-reference#filesystems). See also the [Mountpoints](#mountpoints) section below.
+- `auto-lvm` is the default mode and will convert a raw partition table to an LVM-based one if and only if new mountpoints are defined in the [filesystems customization](01-blueprint-reference.md#filesystems). See also the [Mountpoints](#mountpoints) section below.
 
 #### Mountpoints
 
-New filesystems and minimum partition sizes are defined using the [filesystems customization](blueprint-reference#filesystems) in the blueprint. By default, if new mountpoints are created, a partition table is automatically converted to LVM (see [Partitioning modes](#partitioning-modes) above).
+New filesystems and minimum partition sizes are defined using the [filesystems customization](01-blueprint-reference.md#filesystems) in the blueprint. By default, if new mountpoints are created, a partition table is automatically converted to LVM (see [Partitioning modes](#partitioning-modes) above).
 
 #### Image size
 
@@ -57,7 +57,7 @@ The combination above will create a disk with a partition table of the desired s
 
 ## Using Disk customizations
 
-When using the [Disk customizations](blueprint-reference#disk), the partition table can be described almost entirely using the blueprint. The customizations have the following structure:
+When using the [Disk customizations](01-blueprint-reference.md#disk), the partition table can be described almost entirely using the blueprint. The customizations have the following structure:
 - `partitions`: At the top level is a list of partitions.
   - `type`: Each partition has a `type`, which should be one of `plain`, `lvm`, or `btrfs`. If the `type` is not set, it defaults to `plain`. The rest of the required and optional properties of the partition depend on the `type`.
     - `plain`: A plain partition is a partition with a filesystem. It supports the following properties:

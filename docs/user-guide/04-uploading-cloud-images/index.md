@@ -4,9 +4,9 @@
 
 The following targets are supported:
 
-- [AWS](uploading-cloud-images/uploading-to-aws)
-- [AWS S3](uploading-cloud-images/uploading-to-aws-s3)
-- [Azure](uploading-cloud-images/uploading-to-azure)
-- [GCP](uploading-cloud-images/uploading-to-gcp)
-- [Oracle Cloud](uploading-cloud-images/uploading-to-oci)
-- [Generic S3](uploading-cloud-images/uploading-to-generic-s3)
+- [AWS](./01-uploading-to-aws.md)
+- [AWS S3](./02-uploading-to-aws-s3.md)
+- [Azure](./03-uploading-to-azure.md)
+- [GCP](./04-uploading-to-gcp.md)
+- [Oracle Cloud](./05-uploading-to-oci.md)
+- [Generic S3](./06-uploading-to-generic-s3.md)

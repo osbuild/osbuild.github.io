@@ -39,7 +39,7 @@ datastream = "/usr/share/xml/scap/ssg/content/ssg-fedora-ds.xml"
 
 
 
-See the [Supported profiles](./oscap-remediation#supported-profiles) table for supported profiles.
+See the [Supported profiles](./03-oscap-remediation.md#supported-profiles) table for supported profiles.
 
 `osbuild-composer` will then generate the necessary configurations for the `osbuild` stage based on the user
 customizations. Additionally, two packages will be added to the image, `openscap-scanner` (the `OpenSCAP` tool)
