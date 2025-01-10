@@ -15,7 +15,7 @@ This could lead to the following desired usecases:
 ## 1. Install a third-party package
 To install a third-party package at build time, it is necessary to enable the required third-party repository as a payload repository. This will not save any of the repository configurations
 to the image and will not make the repositories available to users on the system after the image has been built. For further information on how to install and configure `osbuild-composer`
-to use custom repositories for installing third-party packages, continue reading [here](../on-premises/installation/managing-repositories).
+to use custom repositories for installing third-party packages, continue reading [here](../on-premises/01-installation/managing-repositories.md).
 
 
 ## 2. Save repository configurations
