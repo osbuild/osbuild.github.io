@@ -21,7 +21,7 @@ The architecture documents in this section comply with the AppSRE contract.
 
 ## How to contribute
 
-Our [developer guide](../../developer-guide/index) is a great starting point to learn about our workflow, code style and more!
+Our [developer guide](../developer-guide/index) is a great starting point to learn about our workflow, code style and more!
 
 If you want to contribute to our frontend or backend, here are guides on how to get the respective stack set up for development:
  * [image-builder-frontend](https://github.com/RedHatInsights/image-builder-frontend#frontend-development)
@@ -45,15 +45,15 @@ If you want to contribute to our frontend or backend, here are guides on how to 
 * 🟢 Deployment metadata is open. [[1]](https://github.com/osbuild/osbuild-composer/blob/main/templates/composer.yml) [[2]](https://github.com/osbuild/image-builder/blob/main/templates/image-builder.yml)
 #### 🟢 Contribution workflow
 * 🟢 External contributors can follow the same workflow as team members.
-* 🟢 [The workflow is publicly documented.](../../developer-guide/general/workflow)
+* 🟢 [The workflow is publicly documented.](../developer-guide/general/workflow)
 * 🟢 Regular contributors can trigger CI.
 * 🟢 External contributions are eagerly reviewed.
 #### 🟠 Issue tracking and planning
 * 🟢 The issue tracker is public. [[1]](https://github.com/osbuild) [[2]](https://issues.redhat.com/issues/?jql=project%20%3D%20COMPOSER%20or%20(project%20%3D%20HMS%20AND%20component%20in%20(%22Image%20Builder%22)))
 * 🟠 The roadmap is public. [[1]](https://github.com/orgs/osbuild/projects)
 #### 🟢 Documentation
-* 🟢 [User documentation is public.](../../user-guide/introduction)
-* 🟢 [Developer documentation is public.](../../developer-guide/index)
+* 🟢 [User documentation is public.](../user-guide/introduction)
+* 🟢 [Developer documentation is public.](../developer-guide/index)
 #### 🟠 Communication
 * 🟢 [There is a public mailinglist.](mailto:image-builder@redhat.com)
 * 🔴 There are public meetings.

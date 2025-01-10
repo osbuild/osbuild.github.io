@@ -74,7 +74,7 @@ logs
 logs/osbuild.log
 ```
 
-From the example output above, the resulting tarball contains not only the `qcow2` image, but also a `JSON` file, which is the osbuild manifest (see the [Developer Guide](../../developer-guide/index) for more details), and a directory with logs.
+From the example output above, the resulting tarball contains not only the `qcow2` image, but also a `JSON` file, which is the osbuild manifest (see the [Developer Guide](../developer-guide/index) for more details), and a directory with logs.
 
 For more options, see the `help` text for `composer-cli`:
 
