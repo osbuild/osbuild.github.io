@@ -17,8 +17,6 @@ To install a third-party package at build time, it is necessary to enable the re
 to the image and will not make the repositories available to users on the system after the image has been built. For further information on how to install and configure `osbuild-composer`
 to use custom repositories for installing third-party packages, continue reading [here](../../on-premises/installation/managing-repositories).
 
-https://osbuild.org/docs/on-premises/installation/managing-repositories
-
 
 ## 2. Save repository configurations
 In the second scenario, to make third-party repository configurations persistent and make the repositories available to users on the system, one would use the blueprint `custom repository`
