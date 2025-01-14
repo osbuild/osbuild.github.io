@@ -44,6 +44,7 @@ Image Builder can create images in multiple output formats shown in the followin
 | IoT Simplified Installer | iot-simplified-installer | .iso      | 
 | IoT AMI | iot-ami | .ami      | 
 | IoT VMDK | iot-vmdk | .vmdk      | 
+| Installer | image-installer | iso     | 
 | Installer | live-installer | iso     | 
 | Oracle Cloud Infrastructure | oci     | .qcow2      | 
 
