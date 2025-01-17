@@ -29,10 +29,10 @@ If you want to contribute to our frontend or backend, here are guides on how to 
 
 ### How to reach out to us
 
-* Matrix: `#image-builder` on fedoraproject.org
-* Mailing List: [image-builder@redhat.com](mailto:image-builder@redhat.com)
-* Issues: [Service](https://issues.redhat.com/issues/?jql=project%20%3D%20HMS%20and%20component%20in%20(%22Image%20Builder%22)), [On premises](https://issues.redhat.com/issues/?jql=project%20%3D%20COMPOSER), [github.com/osbuild](https://github.com/osbuild)
-* Pull requests: [github.com/osbuild](https://github.com/osbuild)
+* **Matrix**: `#image-builder` on [fedoraproject.org](https://matrix.to/#/#image-builder:fedoraproject.org)
+* **Discussions**: https://github.com/orgs/osbuild/discussions
+* **Issues**: [Service](https://issues.redhat.com/issues/?jql=project%20%3D%20HMS%20and%20component%20in%20(%22Image%20Builder%22)), [On premises](https://issues.redhat.com/issues/?jql=project%20%3D%20COMPOSER)
+* **GitHub organization**: [github.com/osbuild](https://github.com/osbuild)
 
 ## How open is this service?
 
@@ -55,7 +55,8 @@ If you want to contribute to our frontend or backend, here are guides on how to 
 * 🟢 [User documentation is public.](../../user-guide/00-introduction.md)
 * 🟢 [Developer documentation is public.](../../developer-guide/00-index.md)
 #### 🟠 Communication
-* 🟢 [There is a public mailinglist.](mailto:image-builder@redhat.com)
+* 🟢 [There is a public 'matrix' chat.](https://matrix.to/#/#image-builder:fedoraproject.org)
+* 🟢 [There are public discussions.](https://github.com/orgs/osbuild/discussions)
 * 🔴 There are public meetings.
 #### 🟠 Open Site Reliability Engineering
 * 🟢 [There is an open status page.](https://status.redhat.com)
