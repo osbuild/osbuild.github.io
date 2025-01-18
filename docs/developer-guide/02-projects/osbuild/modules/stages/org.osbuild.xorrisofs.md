@@ -72,6 +72,10 @@ required.
       "efi": {
         "type": "string"
       },
+      "grub2mbr": {
+        "type": "string",
+        "description": "Install the argument (buildroot) as grub2 mbr, and create a grub2 bootable iso"
+      },
       "isohybridmbr": {
         "type": "string",
         "description": "Install the argument (buildroot) as ISOLINUX isohybrid MBR"

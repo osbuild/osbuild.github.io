@@ -39,6 +39,9 @@ of options:
     - 'Environment' - \[object\]
     - 'Network' - string
     - 'WorkingDir' - string
+    - 'SecurityLabelFileType' - string
+    - 'SecurityLabelType' - string
+    - 'Tmpfs' - string
   - 'Volume' section
     - 'VolumeName' - string
     - 'Driver' - string
@@ -272,6 +275,18 @@ of options:
             },
             "WorkingDir": {
               "description": "Working directory for initial process",
+              "type": "string"
+            },
+            "SecurityLabelFileType": {
+              "description": "SELinux file label to apply",
+              "type": "string"
+            },
+            "SecurityLabelType": {
+              "description": "SELinux label to apply",
+              "type": "string"
+            },
+            "Tmpfs": {
+              "description": "Mount a temporary filesystems at the specified location",
               "type": "string"
             }
           }

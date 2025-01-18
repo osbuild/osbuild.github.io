@@ -60,12 +60,13 @@ sudo podman run \
     --privileged \
     --pull=newer \
     --security-opt label=type:unconfined_t \
-    -v $(pwd)/config.toml:/config.toml:ro \
-    -v $(pwd)/output:/output \
+    -v ./config.toml:/config.toml:ro \
+    -v ./output:/output \
     -v /var/lib/containers/storage:/var/lib/containers/storage \
     quay.io/centos-bootc/bootc-image-builder:latest \
     --type qcow2 \
     --local \
+	--use-librepo=True \
     quay.io/centos-bootc/centos-bootc:stream9
 ```
 
@@ -130,29 +131,45 @@ Usage:
     --privileged \
     --pull=newer \
     --security-opt label=type:unconfined_t \
-    -v $(pwd)/output:/output \
+    -v ./output:/output \
     quay.io/centos-bootc/bootc-image-builder:latest \
     <imgref>
 
 Flags:
-      --chown string           chown the ouput directory to match the specified UID:GID
-      --tls-verify             require HTTPS and verify certificates when contacting registries (default true)
-      --type string            image type to build [qcow2, ami] (default "qcow2")
-      --target-arch string     architecture to build image for (default is the native architecture)
+      --chown string          chown the ouput directory to match the specified UID:GID
+      --output string         artifact output directory (default ".")
+      --progress string       type of progress bar to use (e.g. verbose,term) (default "auto")
+      --rootfs string         Root filesystem type. If not given, the default configured in the source container image is used.
+      --target-arch string    build for the given target architecture (experimental)
+      --tls-verify            require HTTPS and verify certificates when contacting registries (default true)
+      --type stringArray      image types to build [ami, anaconda-iso, gce, iso, qcow2, raw, vhd, vmdk] (default [qcow2])
+      --version               version for bootc-image-builder
+
+Global Flags:
+      --log-level string   logging level (debug, info, error); default error
+  -v, --verbose            Switch to verbose mode
 ```
 
 ### Detailed description of optional flags
 
 | Argument          | Description                                                                                               | Default Value |
 |-------------------|-----------------------------------------------------------------------------------------------------------|:-------------:|
-| **--chown**       | chown the output directory to match the specified UID:GID                                                 |       ❌      |
+| --chown           | chown the output directory to match the specified UID:GID                                                 |       ❌      |
+| --output          | output the artifact into the given output directory                                                       |      `.`      |
+| --progress        | Show progress in the given format, supported: verbose,term,debug. If empty it is auto-detected            |     `auto`    |
 | **--rootfs**      | Root filesystem type. Overrides the default from the source container. Supported values: ext4, xfs, btrfs |       ❌      |
-| **--tls-verify**  | Require HTTPS and verify certificates when contacting registries                                          |    `true`     |
-| **--type**        | [Image type](#-image-types) to build                                                                      |    `qcow2`    |
-| **--target-arch** | [Target arch](#-target-architecture) to build                                                             |       ❌      |
+| --tls-verify      | Require HTTPS and verify certificates when contacting registries                                          |     `true`    |
+| **--type**        | [Image type](#-image-types) to build (can be passed multiple times)                                       |     `qcow2`   |
+| --target-arch     | [Target arch](#-target-architecture) to build                                                             |       ❌      |
+| --log-level       | Change log level (debug, info, error)                                                                     |     `error`   |
+| -v,--verbose      | Switch output/progress to verbose mode (implies --log-level=info)                                         |     `false`   |
+| --use-librepo     | Download rpms using librepo (faster and more robust)                                                      |     `false`   |
 
-The `--type` parameter can be given multiple times and multiple outputs will
-be produced.
+The `--type` parameter can be given multiple times and multiple
+outputs will be produced. Note that comma or space separating the
+`image-types`will not work, but this example will: `--type qcow2
+--type ami`.
+
 
 *💡 Tip: Flags in **bold** are the most important ones.*
 
@@ -180,6 +197,16 @@ The architecture of the bootc OCI image and the bootc-image-builder image must m
 a non-native architecture bootc OCI image, say, building for x86_64 from an arm-based Mac, it is possible to run
 `podman build` with the `--platform linux/amd64` flag. In this case, to then build a disk image from the same arm-based Mac,
 you should provide `--target-arch amd64` when running the `bootc-image-builder` command.
+
+## Progress types
+
+The following progress types are supported:
+
+* verbose: No spinners or progress bar, just information and full osbuild output
+* term: Terminal based output, spinner, progressbar and most details of osbuild are hidden
+* debug: Details how the progress is called, mostly useful for bugreports
+
+Note that when no value is given the progress is auto-detected baed on the environment. When `stdin` is a terminal the "term" progress is used, otherwise "verbose". The output of `verbose` is exactaly the same as it was before progress reporting was implemented.
 
 ## ☁️ Cloud uploaders
 
@@ -303,12 +330,15 @@ sudo podman run \
     --privileged \
     --pull=newer \
     --security-opt label=type:unconfined_t \
-    -v $(pwd)/config.toml:/config.toml:ro \
-    -v $(pwd)/output:/output \
+    -v ./config.toml:/config.toml:ro \
+    -v ./output:/output \
     quay.io/centos-bootc/bootc-image-builder:latest \
     --type qcow2 \
     quay.io/centos-bootc/centos-bootc:stream9
 ```
+
+The configuration can also be passed in via stdin when `--config -`
+is used. Only JSON configuration is supported in this mode.
 
 ### Users (`user`, array)
 
@@ -523,7 +553,7 @@ FROM quay.io/centos-bootc/centos-bootc:stream9
 ADD wheel-passwordless-sudo /etc/sudoers.d/wheel-passwordless-sudo
 ```
 
-The contents of the file `$(pwd)/wheel-passwordless-sudo` should be
+The contents of the file `wheel-passwordless-sudo` should be
 
 ```text
 %wheel ALL=(ALL) NOPASSWD: ALL
@@ -536,14 +566,6 @@ Please report bugs to the [Bug Tracker](https://github.com/osbuild/bootc-image-b
 $ sudo podman run --rm -it quay.io/centos-bootc/bootc-image-builder:latest version
 ```
 
-## 📊 Project
-
-- **Website**: https://www.osbuild.org
-- **Bug Tracker**: https://github.com/osbuild/bootc-image-builder/issues
-- **Matrix**: #image-builder on [fedoraproject.org](https://matrix.to/#/#image-builder:fedoraproject.org)
-- **Mailing List**: image-builder@redhat.com
-- **Changelog**: https://github.com/osbuild/bootc-image-builder/releases
-
 ### Contributing
 
 Please refer to the [developer guide](https://www.osbuild.org/docs/developer-guide/index) to learn about our
@@ -554,6 +576,13 @@ workflow, code style and more.
 - **web**:   https://github.com/osbuild/bootc-image-builder
 - **https**: `https://github.com/osbuild/bootc-image-builder.git`
 - **ssh**:   `git@github.com:osbuild/bootc-image-builder.git`
+
+## 📊 Project
+
+- **Website**: https://www.osbuild.org
+- **Bug Tracker**: https://github.com/osbuild/bootc-image-builder/issues
+- **Matrix**: #image-builder on [fedoraproject.org](https://matrix.to/#/#image-builder:fedoraproject.org)
+* **Discussions**: https://github.com/orgs/osbuild/discussions
 
 ## 🧾 License
 

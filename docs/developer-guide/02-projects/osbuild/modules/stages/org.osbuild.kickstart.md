@@ -209,7 +209,8 @@ commands are supported here.
         },
         "signatureverification": {
           "type": "boolean",
-          "default": true
+          "default": true,
+          "description": "This field is deprecated and does nothing."
         }
       }
     },

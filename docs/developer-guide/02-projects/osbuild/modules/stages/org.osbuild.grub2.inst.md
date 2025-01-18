@@ -71,13 +71,29 @@ image and transfers control to it.
           "enum": [
             "ext4",
             "xfs",
-            "btrfs"
+            "btrfs",
+            "iso9660"
           ]
         },
         "binary": {
           "description": "grub-mkimage binary name",
           "type": "string",
           "default": "grub2-mkimage"
+        }
+      }
+    },
+    "prefix-path": {
+      "type": "object",
+      "description": "Grub2 config path on iso9660 eg. /boot/grub2",
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "description": "location of grub config inside the partition",
+          "type": "string",
+          "pattern": "/.*"
         }
       }
     },
@@ -120,7 +136,6 @@ image and transfers control to it.
   "required": [
     "filename",
     "platform",
-    "location",
     "core",
     "prefix"
   ],
@@ -150,6 +165,9 @@ image and transfers control to it.
       "oneOf": [
         {
           "$ref": "#/definitions/prefix-partition"
+        },
+        {
+          "$ref": "#/definitions/prefix-path"
         }
       ]
     },

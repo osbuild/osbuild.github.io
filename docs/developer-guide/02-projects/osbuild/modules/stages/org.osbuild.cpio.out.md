@@ -34,7 +34,7 @@ Buildhost commands used: `cpio`
     ],
     "properties": {
       "filename": {
-        "description": "Filename for tar archive",
+        "description": "Filename for cpio archive",
         "type": "string"
       },
       "append": {

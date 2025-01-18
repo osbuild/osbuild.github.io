@@ -23,8 +23,8 @@ of the pipeline description, and more.
 
  * **Website**: https://www.osbuild.org
  * **Bug Tracker**: https://github.com/osbuild/osbuild/issues
+ * **Discussions**: https://github.com/orgs/osbuild/discussions
  * **Matrix**: #image-builder on [fedoraproject.org](https://matrix.to/#/#image-builder:fedoraproject.org)
- * **Mailing List**: image-builder@redhat.com
  * **Changelog**: https://github.com/osbuild/osbuild/releases
 
 ### Principles
@@ -57,6 +57,7 @@ Additionally, the built-in stages require:
  * `tar >= 1.32`
  * `util-linux >= 235`
  * `skopeo`
+ * `python3-librepo`
 
 At build-time, the following software is required:
 
@@ -75,6 +76,13 @@ To verify changes made to the code use included makefile rules:
  * `make lint` to run linter on top of the code
  * `make test-all` to run base set of tests
  * `sudo make test-run` to run extended set of tests (takes long time)
+
+Also keep in mind that some tests require those prerequisites,
+otherwise they are skipped
+
+```
+sudo dnf install -y systemd-boot-unsigned erofs-utils pykickstart podman xfsprogs
+```
 
 ## Installation
 

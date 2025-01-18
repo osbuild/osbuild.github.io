@@ -46,7 +46,8 @@ Buildhost commands used: `mkfs.erofs`
             "enum": [
               "lz4",
               "lz4hc",
-              "lzma"
+              "lzma",
+              "zstd"
             ]
           },
           "level": {
@@ -54,6 +55,10 @@ Buildhost commands used: `mkfs.erofs`
             "type": "number"
           }
         }
+      },
+      "cluster-size": {
+        "description": "Maximum size of the compress physical cluster in bytes",
+        "type": "number"
       },
       "options": {
         "description": "Extended options for the filesystem, see mkfs.erofs(1)",

@@ -10,8 +10,8 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 
 **Set SELinux file contexts**
 
-Sets correct SELinux labels for every file in the tree, according to the
-SELinux policy installed inside the tree.
+Sets correct SELinux labels for every file in the tree or on mount, according to
+the SELinux policy.
 Uses the host's `setfiles` program and the tree's `file_contexts`, usually
     /etc/selinux/\<SELINUXTYPE\>/contexts/files/file_contexts
 where \<SELINUXTYPE\> is the value set in /etc/selinux/config (usually "targeted"
@@ -48,9 +48,15 @@ may not match the tree's policy.
       }
     ],
     "properties": {
-      "file_contexts": {
+      "target": {
         "type": "string",
-        "description": "Path to the active SELinux policy's `file_contexts`"
+        "description": "Target path in the tree or on a mount",
+        "pattern": "^mount://[^/]+/|^tree:///",
+        "default": "tree:///"
+      },
+      "file_contexts": {
+        "description": "Path to the active SELinux policy's `file_contexts`. Supports `tree://`, `mount://`, and `input://` schemes. Plain paths imply `tree://`.",
+        "type": "string"
       },
       "exclude_paths": {
         "type": "array",
@@ -68,7 +74,7 @@ may not match the tree's policy.
       },
       "force_autorelabel": {
         "type": "boolean",
-        "description": "Do not use. Forces auto-relabelling on first boot.",
+        "description": "Do not use. Forces auto-relabelling on first boot. Affects target's root or tree:/// by default",
         "default": false
       }
     }
@@ -79,6 +85,10 @@ may not match the tree's policy.
   },
   "mounts": {
     "type": "array"
+  },
+  "inputs": {
+    "type": "object",
+    "additionalProperties": true
   }
 }
 ```

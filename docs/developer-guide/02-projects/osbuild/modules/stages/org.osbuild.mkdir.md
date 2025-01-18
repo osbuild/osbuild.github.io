@@ -8,7 +8,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 [//]: # ( Rather change the source of this: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild.mkdir.meta.json )
 -->
 
-**Create directories within the tree.**
+**Create directories within the tree or mount.**
 
 Can create one or more directories, optionally also the
 intermediate directories. The stage can gracefully handle
@@ -49,8 +49,23 @@ However, using relative paths is strongly discouraged.
           ],
           "properties": {
             "path": {
-              "type": "string",
-              "pattern": "^\\/?(?!\\.\\.)((?!\\/\\.\\.\\/).)+$"
+              "anyOf": [
+                {
+                  "type": "string",
+                  "description": "Target path, if a tree",
+                  "pattern": "^\\/?(?!\\.\\.)((?!\\/\\.\\.\\/).)+$"
+                },
+                {
+                  "type": "string",
+                  "description": "Target path, if a mount",
+                  "pattern": "^mount://.+"
+                },
+                {
+                  "type": "string",
+                  "description": "Target path, if a tree",
+                  "pattern": "^tree://.+"
+                }
+              ]
             },
             "mode": {
               "type": "number",

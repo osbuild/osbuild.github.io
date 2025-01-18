@@ -52,6 +52,10 @@ Buildhost commands used: `mke2fs`.
         "type": "string",
         "maxLength": 16
       },
+      "lazy_init": {
+        "description": "Enable or disable lazy_itable_init and lazy_journal_init support",
+        "type": "boolean"
+      },
       "metadata_csum_seed": {
         "description": "Enable metadata_csum_seed support",
         "type": "boolean"

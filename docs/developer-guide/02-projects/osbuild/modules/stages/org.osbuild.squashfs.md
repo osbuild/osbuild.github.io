@@ -29,7 +29,7 @@ Buildhost commands used: `mksquashfs` and any needed compression program.
     ],
     "properties": {
       "filename": {
-        "description": "Filename for tar archive",
+        "description": "Filename for squashfs image",
         "type": "string"
       },
       "compression": {

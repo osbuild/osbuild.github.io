@@ -4,10 +4,16 @@ custom_edit_url: https://github.com/osbuild/images/blob/main/README.md
 Images
 ======
 
+This repository is, primarily, a Go library for generating osbuild manifests
+([more details here](./docs/developer/code-manifest-generation.md)).
+It also has some libraries for uploading artifacts to cloud platforms and Koji.
+The binaries implemented in `cmd/` are for development and testing purposes and not part of the library.
+
 ## Project
 
  * **Website**: https://www.osbuild.org
  * **Bug Tracker**: https://github.com/osbuild/images/issues
+* **Discussions**: https://github.com/orgs/osbuild/discussions
  * **Matrix (chat)**: [Image Builder channel on Fedora Chat](https://matrix.to/#/#image-builder:fedoraproject.org?web-instance[element.io]=chat.fedoraproject.org)
  * **Changelog**: https://github.com/osbuild/images/releases
 
@@ -24,8 +30,25 @@ Please refer to the [developer guide](https://www.osbuild.org/docs/developer-gui
 
 See also the [local developer documentation](https://github.com/osbuild/images/tree/main/docs/developer) for useful information about working with this specific project.
 
-The build-requirements for Fedora and rpm-based distributions are:
-- `gpgme-devel`, `btrfs-progs-devel`, `device-mapper-devel`
+The build-requirements of the Go library for Fedora and rpm-based distributions are:
+
+- `go`
+- `gpgme-devel`
+
+(see also [`Containerfile`](https://github.com/osbuild/images/tree/main/Containerfile) )
+
+Other dependencies only needed in some cases are:
+
+- `btrfs-progs-devel`, `device-mapper-devel`  
+  build dependencies for the unit tests and projects that import `pkg/container`, which even in that case can be skipped using exclude_graphdriver_btrfs and exclude_graphdriver_devicemapper (see bootc-image-builder).
+- `krb5-devel`  
+  build dependency for the unit tests and projects that import `pkg/upload/koji`
+- `osbuild-depsolve-dnf`  
+  runtime dependency for the unit tests and projects that import `pkg/dnfjson`.
+  or to run `cmd/gen-manifests` and `cmd/build`
+- `osbuild` (and subpackages)  
+  runtime dependencies for `cmd/build`.
+
 
 ### Repository:
 

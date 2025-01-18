@@ -31,7 +31,8 @@ the value from the latest profile is used.
       "description": "TuneD profile to activate. If multiple profiles are provided, TuneD will try to merge them.",
       "minItems": 1,
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     }
   }
