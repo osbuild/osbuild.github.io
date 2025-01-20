@@ -2,6 +2,8 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import { execSync } from 'child_process';
+import path from 'path';
+import generateSubPages from './scripts/generateSubPages.js';
 
 function getGitHash() {
   try {
@@ -171,6 +173,20 @@ const config: Config = {
         ],
       }
     ],
+    function dynamicIndexPagesPlugin() {
+      return {
+        name: 'dynamic-index-pages',
+        async loadContent() {
+          const mainIndexPaths = [
+            { path: path.parse(path.join(__dirname,  'docs/developer-guide/02-projects/index.md')),
+              title: "Project Overview" },
+            { path: path.parse(path.join(__dirname, 'docs/developer-guide/01-general/index.md')),
+              title: "General Topics" },
+          ];
+          generateSubPages(mainIndexPaths);
+        },
+      };
+    },
   ],
 };
 
