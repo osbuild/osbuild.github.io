@@ -7,6 +7,9 @@
 # Generated files
 .docusaurus
 .cache-loader
+# see docusaurus.config.ts -> Config -> plugins -> dynamicIndexPagesPlugin
+/docs/developer-guide/02-projects/index.md
+/docs/developer-guide/01-general/index.md
 
 # Misc
 .DS_Store

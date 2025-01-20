@@ -49,4 +49,3 @@ serve: build ## serve the pre-built docusaurus locally (redirects only work here
 .PHONY: protect-readmes
 protect-readmes: ## verify the READMEs don't get changed in a pull request (to be used in the workflow)
 	python3 scripts/protect_readmes.py readme-list
-
