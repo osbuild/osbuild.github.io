@@ -27,29 +27,31 @@ Image Builder can create images in multiple output formats shown in the followin
 
 **Table 1. Image Builder output formats**
 
-| Description  | CLI name | File extension  | 
-| ------------- |:-------------:| ------------- |
-| QEMU Image    | qcow2     | .qcow2  | 
-| Disk Archive  | tar     | .tar      | 
-| Amazon Web Services | raw     | .raw      | 
-| Microsoft Azure | vhd     | .vhd      | 
-| Google Cloud Platform | gce    | .tar.gz     | 
-| VMware vSphere | vmdk     | .vmdk      | 
-| VMware vSphere | ova     | .ova     | 
-| Openstack | openstack     | .qcow2     | 
-| IoT Commit | iot-commit    | .tar      | 
-| IoT Container | iot-container | .tar      | 
-| IoT Installer | iot-installer | .iso     | 
-| IoT Raw Image| iot-raw-image  | .raw.xz      | 
-| IoT Simplified Installer | iot-simplified-installer | .iso      | 
-| IoT AMI | iot-ami | .ami      | 
-| IoT VMDK | iot-vmdk | .vmdk      | 
-| Installer | image-installer | iso     | 
-| Installer | live-installer | iso     | 
-| Oracle Cloud Infrastructure | oci     | .qcow2      | 
+| Name                              |                        CLI name                        | File extension | Description                                                                                          |  
+|-----------------------------------|:------------------------------------------------------:|----------------|------------------------------------------------------------------------------------------------------|  
+| QEMU Image                        |                         qcow2                          | `.qcow2`       | QCOW2 formatted disk image for use with QEMU/Libvirt.                                                | 
+| Disk Archive                      |                          tar                           | `.tar`         | Archive of the root filesystem without any bootloader or partition table.                            | 
+| Amazon Machine Image              |                          ami                           | `.ami`         | Disk image for use with AWS EC2.                                                                     | 
+| Microsoft Azure                   |                          vhd                           | `.vhd`         | Disk image for use with Microsoft Azure.                                                             | 
+| Google Cloud Platform             |                          gce                           | `.tar.gz`      | Disk image for use with Google Cloud Platform.                                                       | 
+| VMware vSphere                    |                          vmdk                          | `.vmdk`        | VMDK formatted disk image for use with VMware vSphere.                                               | 
+| VMware vSphere                    |                          ova                           | `.ova`         | OVA formatted disk image for use with VMware vSphere.                                                | 
+| Openstack                         |                       openstack                        | `.qcow2`       | QCOW2 formatted disk image for use with OpenStack.                                                   | 
+| Edge/IoT[^1] Commit               |               edge-commit<br/>iot-commit               | `.tar`         | OSTree commit archive.                                                                               | 
+| Edge/IoT[^1] Container            |            edge-container<br/>iot-container            |  `.tar`        | Web server container that embeds and serves an ostree repository with the given single commit.       | 
+| Edge/IoT[^1] Installer            |            edge-installer<br/>iot-installer            | `.iso`         | OSTree-based Anaconda installer ISO for deploying IoT images.                                        | 
+| Edge/IoT[^1] Raw Image            |            edge-raw-image<br/>iot-raw-image            | `.raw.xz`      | Compressed raw disk image for OSTree-based IoT devices.                                              | 
+| Edge/IoT[^1] Simplified Installer | edge-simplified-installer<br/>iot-simplified-installer | `.iso`         | OSTree-based installer ISO using coreos-installer for direct disk deployment using FIDO or ignition. | 
+| Edge/IoT[^1] AMI                  |                  edge-ami<br/>iot-ami                  | `.ami`         | OSTree-based Amazon Machine Image tailored for IoT deployments on AWS EC2.                           | 
+| Edge vSphere                      |                      edge-vsphere                      | `.vmdk`        | OSTree-based VMDK formatted disk image for IoT deployments on VMware vSphere.                        |
+| Image installer                   |                    image-installer                     | `.iso`         | Anaconda ISO with an embedded pre-built OS archive.                                                  | 
+| Live installer                    |                     live-installer                     | `.iso`         | Anaconda ISO with a live operating system.                                                           | 
+| Oracle Cloud Infrastructure Image |                          oci                           | `.qcow2`       | QCOW2 formatted disk image for use with Oracle Cloud. This is identical to the qcow2 image.          | 
 
 To check the supported types, run the command:
 
 ```
 $ composer-cli compose types
 ```
+
+[^1]: Edge is the variant for CentOS and RHEL, while it's called IoT on Fedora. Technically the output format is the same for both.
