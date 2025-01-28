@@ -2,7 +2,7 @@
 
 With the Image Builder tool, you can create customized system images. Image builder automatically handles the setup details for each output type and is therefore easier to use and faster to work with than manual methods of image creation. You can access the Image Builder functionalities by using the [command-line interface](https://osbuild.org/docs/on-premises/commandline/), or the [Web UI](https://osbuild.org/docs/on-premises/installation/#web-ui) interface. With Image Builder, you can create system images that are prepared for deployment, including system images prepared for [clouds](https://osbuild.org/docs/user-guide/uploading-cloud-images/), and also images optimized for deployment on [edge](https://osbuild.org/docs/on-premises/commandline/building-ostree-images) servers.
 
-This user guide refers primarily to the on [premises version of Image Builder](../on-premises/00-overview/index.md). While many of the concepts are transferable to the service, at this point please refer to Red Hat's official documentation.
+This user guide refers primarily to the on [premises version of Image Builder](../on-premises/00-overview/index.md). While many of the concepts are transferable to the [service](../hosted/architecture/index.md).
 
 ### Image Builder terminology
 
