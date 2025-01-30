@@ -881,7 +881,10 @@ path = "/etc/foobar"
 mode = "0644"
 user = "root"
 group = "root"
-data = "Hello world!"
+data = """
+Hello world!
+This is how you make a multiline string.
+"""
 ```
 </TabItem>
 <TabItem value="hosted" >
@@ -893,7 +896,7 @@ data = "Hello world!"
         "mode": "0644",
         "user": "root",
         "group": "root",
-        "data": "Hello world!"
+        "data": "Hello world!\nThis is how you make a multiline string.\n"
       }
     ]
   }
