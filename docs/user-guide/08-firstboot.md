@@ -108,7 +108,7 @@ data = """
 """
 
 [[customizations.files]]
-path = "/etc/systemd/system/custom-first-boot.service
+path = "/etc/systemd/system/custom-first-boot.service"
 data = """
 [Unit]
 ConditionPathExists=/usr/local/sbin/custom-first-boot
