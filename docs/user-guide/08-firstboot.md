@@ -83,7 +83,7 @@ name = "linux-system-roles"
 
 [[customizations.files]]
 path = "/usr/local/sbin/custom-first-boot"
-mode = 0774
+mode = "0774"
 data = """
 #!/usr/bin/ansible-playbook -i localhost,
 
