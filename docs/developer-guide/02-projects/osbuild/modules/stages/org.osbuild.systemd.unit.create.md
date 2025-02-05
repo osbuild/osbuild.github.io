@@ -277,7 +277,8 @@ of options:
           "type": "object",
           "description": "'Mount' configuration section of a unit file.",
           "required": [
-            "What"
+            "What",
+            "Where"
           ],
           "properties": {
             "What": {
