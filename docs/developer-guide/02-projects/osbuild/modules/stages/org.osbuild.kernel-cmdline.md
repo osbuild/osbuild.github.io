@@ -42,6 +42,12 @@ https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
       "description": "Additional kernel boot options",
       "type": "string",
       "default": ""
+    },
+    "kernel_cmdline_size": {
+      "description": "Sets a custom maximum kernel cmdline size",
+      "type": "integer",
+      "minimum": 256,
+      "maximum": 4096
     }
   }
 }
