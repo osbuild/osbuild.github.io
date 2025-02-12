@@ -16,9 +16,9 @@ test: ## test pulling the readmes from the other projects
 pull-readmes: ## pull the readmes from other projects given in `readme-list`
 	python3 scripts/pull_readmes.py readme-list
 
-.PHONY: pull-otk
-pull-otk: ## pull the otk documentation
-	python3 scripts/pull_otk.py
+.PHONY: pull-image-builder
+pull-image-builder: ## pull the image-builder documentation
+	python3 scripts/pull_image_builder.py
 
 .PHONY: pull-osbuild-modules
 pull-osbuild-modules: ## pull the documentation of the osbuild modules 
