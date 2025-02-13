@@ -421,7 +421,7 @@
   </a>
   <a
      id="a303"
-     xlink:href="https://github.com/osbuild/image-builder/commits/043c1772c5cf28f23d34bd135e31ad65fdde58be">
+     xlink:href="https://github.com/osbuild/image-builder-crc/commits/043c1772c5cf28f23d34bd135e31ad65fdde58be">
     <g
        id="g174">
       <g
@@ -445,9 +445,9 @@
            x="0"
            y="0"
            id="tspan168">image-builder-</tspan><tspan
-           x="18.4"
+           x="34"
            y="13"
-           id="tspan170">backend</tspan></text>
+           id="tspan170">crc</tspan></text>
     </g>
   </a>
 </svg>

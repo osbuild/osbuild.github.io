@@ -15,8 +15,8 @@ osbuild-composer/main/CONTRIBUTING.md:docs/developer-guide/02-projects/osbuild-c
 osbuild-composer/main/DEPLOYING.md:docs/developer-guide/02-projects/osbuild-composer/DEPLOYING.md
 osbuild-composer/main/test/README.md:docs/developer-guide/02-projects/osbuild-composer/test/README.md
 # Image Builder
-image-builder/main/README.md:docs/developer-guide/02-projects/image-builder/index.md
-image-builder/main/HACKING.md:docs/developer-guide/02-projects/image-builder/HACKING.md
+image-builder-crc/main/README.md:docs/developer-guide/02-projects/image-builder-crc/index.md
+image-builder-crc/main/HACKING.md:docs/developer-guide/02-projects/image-builder-crc/HACKING.md
 # Image Builder Frontend
 image-builder-frontend/main/README.md:docs/developer-guide/02-projects/image-builder-frontend/index.md
 # Cockpit composer
