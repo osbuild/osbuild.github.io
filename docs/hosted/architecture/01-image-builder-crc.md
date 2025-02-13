@@ -11,7 +11,7 @@ The actual image build requests are passed on to `composer`, which is outside th
 
 ## Technology Stack
 The service is written in Golang, and the list of dependencies can be found in
-[go.mod](https://github.com/osbuild/image-builder/blob/main/go.mod).
+[go.mod](https://github.com/osbuild/image-builder-crc/blob/main/go.mod).
 
 The `ubi8/go-toolset:latest` container is used as a builder, and `ubi8/ubi-minimal:latest` to run the
 binary. The container images are located here: https://quay.io/repository/cloudservices/image-builder.
@@ -82,7 +82,7 @@ Image Builder is currently being load tested on a weekly basis with failure thre
 SLIs. The load tests happen against stage CRC. An example can be found
 [here](https://gitlab.com/osbuild/ci/image-builder/-/jobs/1541382293).
 
-More information can be found [upstream](https://github.com/osbuild/image-builder/blob/main/test/README.md).
+More information can be found [upstream](https://github.com/osbuild/image-builder-crc/blob/main/test/README.md).
 
 ## Capacity
 The needed capacity might grow a little bit in all directions (DB and number of pods), but any growth should

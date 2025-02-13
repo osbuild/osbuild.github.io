@@ -23,9 +23,9 @@ The architecture documents in this section comply with the AppSRE contract.
 
 Our [developer guide](../../developer-guide/00-index.md) is a great starting point to learn about our workflow, code style and more!
 
-If you want to contribute to our frontend or backend, here are guides on how to get the respective stack set up for development:
+If you want to contribute to our frontend or middleware (aka `image-builder-crc`), here are guides on how to get the respective stack set up for development:
  * [image-builder-frontend](https://github.com/RedHatInsights/image-builder-frontend#frontend-development)
- * [image-builder-backend](https://github.com/RedHatInsights/image-builder-frontend/blob/main/devel/README.md)
+ * [image-builder-crc](https://github.com/RedHatInsights/image-builder-frontend/blob/main/devel/README.md)
 
 ### How to reach out to us
 
@@ -42,7 +42,7 @@ If you want to contribute to our frontend or backend, here are guides on how to 
 * 🟢 Performance tests are open.
 * 🟢 Functional tests are open.
 * 🟢 The dependencies are open source.
-* 🟢 Deployment metadata is open. [[1]](https://github.com/osbuild/osbuild-composer/blob/main/templates/composer.yml) [[2]](https://github.com/osbuild/image-builder/blob/main/templates/image-builder.yml)
+* 🟢 Deployment metadata is open. [[1]](https://github.com/osbuild/osbuild-composer/blob/main/templates/composer.yml) [[2]](https://github.com/osbuild/image-builder-crc/blob/main/templates/image-builder.yml)
 #### 🟢 Contribution workflow
 * 🟢 External contributors can follow the same workflow as team members.
 * 🟢 [The workflow is publicly documented.](../../developer-guide/01-general/workflow.md)
