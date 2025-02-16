@@ -105,6 +105,8 @@ Currently supported subset of cloud-init configuration:
             "enum": [
               "Azure",
               "Ec2",
+              "NoCloud",
+              "WSL",
               "None"
             ]
           }
@@ -146,6 +148,18 @@ Currently supported subset of cloud-init configuration:
             "all": {
               "description": "Redirect the output of all stages",
               "type": "string"
+            }
+          }
+        },
+        "network": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "config": {
+              "type": "string",
+              "enum": [
+                "disabled"
+              ]
             }
           }
         }
