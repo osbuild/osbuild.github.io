@@ -86,6 +86,21 @@ Buildhost commands used: `qemu-img`.
             "vmdk"
           ]
         },
+        "adapter_type": {
+          "description": "Virtual adapter type",
+          "type": "string",
+          "enum": [
+            "ide",
+            "lsilogic",
+            "buslogic",
+            "legacyESX"
+          ]
+        },
+        "compat6": {
+          "description": "VMDK version 6 image",
+          "type": "boolean",
+          "default": false
+        },
         "compression": {
           "description": "Enable/disable compression of the vmdk image",
           "type": "boolean",
