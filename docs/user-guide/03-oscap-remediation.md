@@ -1,6 +1,6 @@
 # OpenSCAP Remediation
 
-`osbuild-composer` provides the ability to build security hardened images using the [OpenSCAP] tool. 
+`osbuild-composer` provides the ability to build security hardened images using the [OpenSCAP] tool.
 This feature is available for `RHEL 8.7` (& above) and `RHEL 9.1` (& above).
 
 [OpenSCAP]: https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/manual/manual.adoc
@@ -13,7 +13,7 @@ boot of the image.
 
 ## Build-time Remediation
 
-To solve that limitation, `osbuild-composer` uses the build-time remediation: an [osbuild stage] runs the `OpenSCAP` tool to search for vulnerabilities on the filesystem tree while the image is being built. The `OpenSCAP` tool runs 
+To solve that limitation, `osbuild-composer` uses the build-time remediation: an [osbuild stage] runs the `OpenSCAP` tool to search for vulnerabilities on the filesystem tree while the image is being built. The `OpenSCAP` tool runs
 the standard evaluation for the given profile and applies the remediations to the image. This process enables the user to build a more completely
 hardened image compared to running the remediation on a live system.
 
@@ -26,7 +26,7 @@ profile_id = "xccdf_org.ssgproject.content_profile_standard"
 datastream = "/usr/share/xml/scap/ssg/content/ssg-fedora-ds.xml"
 ```
 
-`osbuild-composer` exposes to fields for the user to customize in the image blueprints: 
+`osbuild-composer` exposes to fields for the user to customize in the image blueprints:
 
   1) The path to the `datastream` instructions. Usually in the `/usr/share/xml/scap/ssg/content/` directory
   2) The `profile_id` for the desired security standard
