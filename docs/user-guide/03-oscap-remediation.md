@@ -49,6 +49,9 @@ customizations. Additionally, two packages will be added to the image, `openscap
 The remediation stage assumes that the
 `scap-security-guide` will be used for the datastream. This package is installed on the image by default. If another datastream is desired, add the necessary package to the blueprint and specify the path to the datastream in the oscap config.
 
+> :warning: **Note**
+Building OpenSCAP hardened images for `ostree` based images not supported.
+
 ## Supported profiles
 
 The supported profiles are distro specific, see below:

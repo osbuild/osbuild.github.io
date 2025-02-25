@@ -1362,6 +1362,9 @@ If the datastream parameter is not provided, `osbuild-composer` will now provide
 
 Please see [the OpenSCAP page](./03-oscap-remediation.md) for the list of available security profiles.
 
+> :warning: **Note**
+Building OpenSCAP hardened images for `ostree` based images not supported.
+
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
 ```toml
