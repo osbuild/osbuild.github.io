@@ -472,7 +472,7 @@ key = "PUBLIC SSH KEY"
 
 The key will be added to the user's `authorized_keys` file in their home directory.
 
-### Additional Users 🔵 🟤 🟣 {#additional-users}
+### Users 🔵 🟤 🟣 {#additional-users}
 
 An *optional* list of objects that contain the following attributes:
 
@@ -501,7 +501,7 @@ or `mkpasswd`
 mkpasswd -m sha-512
 ```
 
-Add a user to the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
+Adds a user to or modifies a user in the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
 
 <Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
