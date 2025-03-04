@@ -436,9 +436,9 @@ An *optional* list of objects containing:
 - The `user` attribute is a **required** string and must match the name of a user in the image exactly.
 - The `key` attribute is a **required** string that contains the public key to be set for that user.
 
-*Warning: `key` expects the entire content of the public key file, traditionally `~/.ssh/id_rsa.pub` but any algorithm supported by the operating system in the image is valid*
+*Deprecated: you should prefer the [users](#additional-users) customization which allows you to add SSH keys to users. Not all frontends support this customization.*
 
-*Note: If you are adding a user you can add their SSH key in the [additional users](#additional-users) customization instead.*
+*Warning: `key` expects the entire content of the public key file, traditionally `~/.ssh/id_rsa.pub` but any algorithm supported by the operating system in the image is valid*
 
 Set an existing user's SSH key in the final image:
 
@@ -472,7 +472,7 @@ key = "PUBLIC SSH KEY"
 
 The key will be added to the user's `authorized_keys` file in their home directory.
 
-### Additional Users 🔵 🟤 🟣 {#additional-users}
+### Users 🔵 🟤 🟣 {#additional-users}
 
 An *optional* list of objects that contain the following attributes:
 
@@ -501,7 +501,7 @@ or `mkpasswd`
 mkpasswd -m sha-512
 ```
 
-Add a user to the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
+Adds a user to or modifies a user in the image, and/or set their ssh key. All fields for this section are optional except for the name. The following is a complete example:
 
 <Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
