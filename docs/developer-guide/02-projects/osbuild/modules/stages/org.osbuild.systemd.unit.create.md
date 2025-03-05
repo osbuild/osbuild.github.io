@@ -55,6 +55,11 @@ of options:
     - 'Service' - string
     - 'RuntimeDirectory' - string
     - 'RemoveOnStop' - bool
+  - 'Swap' section
+    - 'What' - string
+    - 'Priority' - integer
+    - 'Options' - string
+    - 'TimeoutSec' - string
   - 'Install' section
     - 'WantedBy' - \[string\]
     - 'RequiredBy' - \[string\]
@@ -71,7 +76,7 @@ of options:
   "properties": {
     "filename": {
       "type": "string",
-      "pattern": "^[\\w:.\\\\-]+[@]{0,1}[\\w:.\\\\-]*\\.(service|mount|socket)$"
+      "pattern": "^[\\w:.\\\\-]+[@]{0,1}[\\w:.\\\\-]*\\.(service|mount|socket|swap)$"
     },
     "unit-type": {
       "type": "string",
@@ -112,6 +117,11 @@ of options:
                 "required": [
                   "Socket"
                 ]
+              },
+              {
+                "required": [
+                  "Swap"
+                ]
               }
             ]
           }
@@ -131,6 +141,11 @@ of options:
                 "required": [
                   "Service"
                 ]
+              },
+              {
+                "required": [
+                  "Swap"
+                ]
               }
             ]
           }
@@ -149,6 +164,35 @@ of options:
               {
                 "required": [
                   "Socket"
+                ]
+              },
+              {
+                "required": [
+                  "Swap"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "Swap"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "Service"
+                ]
+              },
+              {
+                "required": [
+                  "Socket"
+                ]
+              },
+              {
+                "required": [
+                  "Mount"
                 ]
               }
             ]
@@ -351,6 +395,32 @@ of options:
             "RemoveOnStop": {
               "description": "",
               "type": "boolean"
+            }
+          }
+        },
+        "Swap": {
+          "additionalProperties": false,
+          "type": "object",
+          "description": "'Swap' configuration section of a unit file",
+          "required": [
+            "What"
+          ],
+          "properties": {
+            "What": {
+              "description": "Absolute path to device node",
+              "type": "string"
+            },
+            "Priority": {
+              "descriptions": "Swap priority to use when activating the swap device or file",
+              "type": "integer"
+            },
+            "Options": {
+              "descriptions": "May contain an option string for the swap device",
+              "type": "string"
+            },
+            "TimeoutSec": {
+              "descriptions": "Configures the time to wait for the swapon command to finish",
+              "type": "string"
             }
           }
         },
