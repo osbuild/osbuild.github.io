@@ -85,7 +85,7 @@ name = "linux-system-roles"
 path = "/usr/local/sbin/custom-first-boot"
 mode = "0774"
 data = """
-#!/usr/bin/ansible-playbook -i localhost,
+#!/usr/bin/ansible-playbook -i localhost
 
 - name: Deploy cockpit
   hosts: localhost
