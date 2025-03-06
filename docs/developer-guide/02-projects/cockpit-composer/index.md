@@ -1,6 +1,9 @@
 ---
 custom_edit_url: https://github.com/osbuild/cockpit-composer/blob/main/README.md
 ---
+> [!WARNING]
+> This project has been abandoned in favor of [cockpit-image-builder](https://github.com/osbuild/image-builder-frontend/tree/main/cockpit) starting from Fedora 42.
+
 # Cockpit Composer
 
 <!--
