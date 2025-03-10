@@ -32,6 +32,11 @@ jobs:
         run: |
           make pull-osbuild-modules
 
+      - name: Pull image-builder
+        working-directory: ./osbuild.github.io
+        run: |
+          make pull-image-builder
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:

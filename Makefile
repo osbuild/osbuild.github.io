@@ -20,6 +20,10 @@ pull-readmes: ## pull the readmes from other projects given in `readme-list`
 pull-otk: ## pull the otk documentation
 	python3 scripts/pull_otk.py
 
+.PHONY: pull-image-builder
+pull-image-builder: ## pull the otk documentation
+	python3 scripts/pull_image-builder.py
+
 .PHONY: pull-osbuild-modules
 pull-osbuild-modules: ## pull the documentation of the osbuild modules 
 	python3 scripts/pull_osbuild_modules.py
