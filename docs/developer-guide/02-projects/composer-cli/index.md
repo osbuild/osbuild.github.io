@@ -11,7 +11,9 @@ custom_edit_url: https://github.com/osbuild/weldr-client/blob/main/README.md
 
 `composer-cli` is a command line utility used with
 [osbuild-composer](https://www.osbuild.org) to manage blueprints, build and
-upload images, and manage source repositories.
+upload images, and manage source repositories.  
+A (newer) alternative to `composer-cli` is [image-builder](https://github.com/osbuild/image-builder-cli),
+which works without a local systemd service setup.
 
 ## Project
 
