@@ -5,11 +5,14 @@ import subprocess
 import sys
 import shutil
 import tempfile
+import os
 
+from utils import patch_md
 
 def main():
     root = pathlib.Path(__file__).parent.parent
 
+    base_url = "https://github.com/osbuild/image-builder-cli"
     with tempfile.TemporaryDirectory() as tmp:
         path = pathlib.Path(tmp)
 
@@ -22,7 +25,7 @@ def main():
                 "clone",
                 "--depth",
                 "1",
-                "https://github.com/osbuild/image-builder-cli",
+                base_url,
                 str(repo),
             ]
         )
@@ -36,6 +39,13 @@ def main():
             repo / "doc",
             dest,
         )
+
+        for root, _, files in os.walk(dest):
+            for file in files:
+                if file.endswith(".md"):
+                    md_file = pathlib.Path(root) / file
+                    originating_url = f"{base_url}/main/doc/{file}"
+                    patch_md(md_file, originating_url, relative_link_replacement=False)
 
     return 0
 
