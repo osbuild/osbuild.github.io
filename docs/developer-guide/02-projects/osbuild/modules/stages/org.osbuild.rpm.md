@@ -163,6 +163,18 @@ This stage will return the following metadata via the osbuild API:
       "ostree_booted": {
         "type": "boolean",
         "description": "Create the '/run/ostree-booted' marker"
+      },
+      "kernel_install_env": {
+        "description": "Set environment variables understood by kernel-install and plugins (kernel-install(8))",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "boot_root": {
+            "type": "string",
+            "pattern": "^\\/?(?!\\.\\.)((?!\\/\\.\\.\\/).)+$",
+            "description": "Sets $BOOT_ROOT for kernel-install to override $KERNEL_INSTALL_BOOT_ROOT, the installation location for boot entries"
+          }
+        }
       }
     }
   },
