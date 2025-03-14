@@ -1,6 +1,6 @@
 import re
 import unittest
-from pull_readmes import resolve_dirs, replace_relative_links, RELATIVE_LINK_PATTERN
+from utils import resolve_dirs, replace_relative_links, RELATIVE_LINK_PATTERN
 
 
 class TestResolveDirs(unittest.TestCase):
