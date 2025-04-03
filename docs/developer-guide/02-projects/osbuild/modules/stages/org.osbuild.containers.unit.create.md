@@ -11,7 +11,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 **Create a podman systemd unit file**
 
 This stage allows to create Podman systemd (quadlet) unit files. The `filename` property
-specifies the, '.service' or '.mount' file to be added. These names are
+specifies the, '.container', '.volume' or '.network' file to be added. These names are
 validated using the, same rules as specified by podman-systemd.unit(5) and they
 must contain the, '.container', '.volume' or '.network' suffix (other types of unit files
 are not supported). 'unit-path' determines determine the unit load path.
