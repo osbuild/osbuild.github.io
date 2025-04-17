@@ -382,6 +382,7 @@ enabled = true
 
 [customizations.rhsm.config.subscription_manager.rhsm]
 manage_repos = true
+auto_enable_yum_plugins = false
 
 [customizations.rhsm.config.subscription_manager.rhsmcertd]
 auto_registration = true
