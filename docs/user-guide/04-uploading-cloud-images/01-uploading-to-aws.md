@@ -31,3 +31,13 @@ Once everything is configured, you can trigger a compose as usual with additiona
 $ sudo composer-cli compose start <image_name> ami IMAGE_KEY aws-config.toml
 ```
 where IMAGE_KEY will be the name of your new AMI, once it is uploaded to EC2.
+
+### Specifying credentials in the osbuild-composer worker configuration
+
+You can configure the credentials to be used for AWS globally for all image builds in the worker configuration `/etc/osbuild-worker/osbuild-worker.toml`:
+
+```toml
+[aws]
+bucket = "NAME_OF_AWS_BUCKET"
+credentials = "PATH_TO_AWS_ACCOUNT_CREDENTIALS"
+```
