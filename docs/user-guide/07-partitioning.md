@@ -105,33 +105,33 @@ Multiple partitions can be defined. The following combination of partition types
 1. The following blueprint defines two partitions. The first is a 50 GiB partition with an ext4 filesystem that will be mounted at `/data`. The second is an LVM volume group with three logical volumes, one for root `/`, one for home directories `/home`, and a swap space in that order. The LVM volume group will have 15 GiB of unallocated space.
 
 ```toml
-[[customization.disk.partitions]]
+[[customizations.disk.partitions]]
 type = "plain"
 label = "data"
 mountpoint = "/data"
 fs_type = "ext4"
 minsize = "50 GiB"
 
-[[customization.disk.partitions]]
+[[customizations.disk.partitions]]
 type = "lvm"
 name = "mainvg"
 minsize = "20 GiB"
 
-[[customization.disk.partitions.logical_volumes]]
+[[customizations.disk.partitions.logical_volumes]]
 name = "rootlv"
 mountpoint = "/"
 label = "root"
 fs_type = "ext4"
 minsize = "2 GiB"
 
-[[customization.disk.partitions.logical_volumes]]
+[[customizations.disk.partitions.logical_volumes]]
 name = "homelv"
 mountpoint = "/home"
 label = "home"
 fs_type = "ext4"
 minsize = "2 GiB"
 
-[[customization.disk.partitions.logical_volumes]]
+[[customizations.disk.partitions.logical_volumes]]
 name = "swaplv"
 fs_type = "swap"
 minsize = "1 GiB"
