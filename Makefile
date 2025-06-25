@@ -24,8 +24,28 @@ pull-image-builder: ## pull the image-builder-cli documentation
 pull-osbuild-modules: ## pull the documentation of the osbuild modules 
 	python3 scripts/pull_osbuild_modules.py
 
+# Pull image descriptions for subset of supported distributions
+# Documentation is generated in docs/user-guide/09-image-definitions/
+# This generates documentation for:
+# - Fedora 41+
+# - Latest RHEL-10 GA version - 10.0
+# - Latest RHEL-9 GA version - 9.6
+# - Latest RHEL-8 GA version - 8.10
+# - All CentOS Stream versions
+# - All AlmaLinux versions
+.PHONY: pull-image-descriptions
+pull-image-descriptions:
+	python3 scripts/pull_image_descriptions.py \
+		--distro-filter "fedora-4[1-9]" \
+		--distro-filter "rhel-10.0" \
+		--distro-filter "rhel-9.6" \
+		--distro-filter "rhel-8.10" \
+		--distro-filter "centos-*" \
+		--distro-filter "almalinux-*" \
+		--distro-filter "almalinux_kitten-*"
+
 .PHONY: generate
-generate: pull-readmes pull-osbuild-modules ## generate all external content
+generate: pull-readmes pull-osbuild-modules pull-image-descriptions ## generate all external content
 
 .PHONY: install-dependencies
 install-dependencies: ## install all dependencies
