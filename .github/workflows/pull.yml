@@ -1,4 +1,6 @@
-name: Update developer guide
+name: Pull project-specific documentation
+# This workflow pulls the latest project-specific documentation from various repositories
+# and updates the upstream documentation in the osbuild.github.io repository.
 
 on:
   workflow_dispatch:
