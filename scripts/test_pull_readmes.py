@@ -12,6 +12,16 @@ class TestResolveDirs(unittest.TestCase):
         absolute_link = resolve_dirs(self.baseurl, relative_link)
         self.assertEqual( "https://github.com/osbuild/tree/main/docs/file.md", absolute_link)
 
+    def test_resolve_dirs_starting_with_slash_md(self):
+        relative_link = "/test/README.md"
+        absolute_link = resolve_dirs(self.baseurl, relative_link)
+        self.assertEqual("../test/README.md", absolute_link)
+
+    def test_resolve_dirs_starting_with_slash(self):
+        relative_link = "/test/file.txt"
+        absolute_link = resolve_dirs(self.baseurl, relative_link)
+        self.assertEqual("https://github.com/osbuild/tree/main/test/file.txt", absolute_link)
+
     def test_resolve_dirs_starting_with_dot_slash(self):
         relative_link = "./path/to/file.md"
         absolute_link = resolve_dirs(self.baseurl, relative_link)
