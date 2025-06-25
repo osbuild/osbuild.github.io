@@ -19,9 +19,6 @@ image-builder-crc/main/README.md:docs/developer-guide/02-projects/image-builder-
 image-builder-crc/main/HACKING.md:docs/developer-guide/02-projects/image-builder-crc/HACKING.md
 # Image Builder Frontend
 image-builder-frontend/main/README.md:docs/developer-guide/02-projects/image-builder-frontend/index.md
-# Cockpit composer
-cockpit-composer/main/README.md:docs/developer-guide/02-projects/cockpit-composer/index.md
-cockpit-composer/main/test/README.md:docs/developer-guide/02-projects/cockpit-composer/testing.md
 # RPM Repo
 rpmrepo/main/README.md:docs/developer-guide/02-projects/rpmrepo/index.md
 # Weldr-client
