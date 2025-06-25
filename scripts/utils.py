@@ -18,40 +18,40 @@ POST_TITLE_TEMPLATE = """
 RELATIVE_LINK_PATTERN = r'\[(.*?)\]\((.*?)\)'
 
 
-def resolve_dirs(baseurl, relative_link):
+def resolve_dirs(baseurl, link):
     """
-    Resolve relative links to absolute links.
+    Resolve relative or absolute links.
     """
     baseurl = baseurl.replace("/main/", "/tree/main/")
 
-    if relative_link.startswith("./"):
-        relative_link = relative_link[2:]
-    elif relative_link.startswith("../"):
-        relative_link = relative_link[3:]
+    if link.startswith("./"):
+        link = link[2:]
+    elif link.startswith("../"):
+        link = link[3:]
         baseurl = "/".join(baseurl.split("/")[0:-1])
-    elif relative_link.startswith("/"):
+    elif link.startswith("/"):
         # Links starting with "/" are relative to the repository root
-        relative_link = relative_link[1:]
+        link = link[1:]
 
         # For .md files, convert to relative path
-        if relative_link.endswith('.md'):
+        if link.endswith('.md'):
             # Extract the file path from baseurl
             match = re.search(r'.*/tree/main/(.+)', baseurl)
             if match:
                 current_file_path = match.group(1)
                 current_dir = os.path.dirname(current_file_path)
-                relative_path = os.path.relpath(relative_link, current_dir)
+                relative_path = os.path.relpath(link, current_dir)
                 return relative_path
 
         # For non-.md files, convert to absolute URL
-        return re.sub(r'/tree/main/.*$', f'/tree/main/{relative_link}', baseurl)
+        return re.sub(r'/tree/main/.*$', f'/tree/main/{link}', baseurl)
 
-    if relative_link.startswith("#"):
+    if link.startswith("#"):
         # Don't modify anchors
-        return relative_link
+        return link
 
     baseurl = re.sub(r'/[^/]+$', '', baseurl) + "/"
-    absolute_link = f'{baseurl}{relative_link}'
+    absolute_link = f'{baseurl}{link}'
     return absolute_link
 
 def replace_relative_links(match, baseurl):
