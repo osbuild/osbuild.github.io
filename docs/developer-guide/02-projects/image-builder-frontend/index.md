@@ -247,24 +247,24 @@ The symbolic link allows Cockpit to serve the frontend assets from your local de
 making it easier to test changes in real-time without deploying to a remote server.
 
 ```bash
-make devel-install
+make cockpit/devel-install
 ```
 
 ```bash
-make build
+make cockpit/build
 ```
 
 To uninstall and remove the symbolic link, run the following command:
 
 ```bash
-make devel-uninstall
+make cockpit/devel-uninstall
 ```
 
 For convenience, you can run the following to combine all three steps:
 
 
 ```bash
-make cockpit/all
+make cockpit/devel
 ```
 
 ### Quick Reference
@@ -391,3 +391,4 @@ Follow these steps to find and paste the certification file into the 'Keychain A
 5. Now you have two options of how to run the tests:
    * (Preferred) Use VS Code and the [Playwright Test module for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright). But other editors do have similar plugins for ease of use, if so desired
    * Using terminal - `npx playwright test` will run the playwright test suite. `npx playwright test --headed` will run the suite in a vnc-like browser so you can watch it's interactions.
+

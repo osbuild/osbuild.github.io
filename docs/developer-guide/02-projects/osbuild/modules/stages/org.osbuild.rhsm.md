@@ -83,6 +83,10 @@ subscription-manager to modify its configuration file.
             "manage_repos": {
               "type": "boolean",
               "description": "Whether subscription-manager should manage DNF repos file"
+            },
+            "auto_enable_yum_plugins": {
+              "type": "boolean",
+              "description": "Whether yum/dnf plugins subscription-manager and product-id should be enabled every-time subscription-manager or subscription-manager-gui is executed"
             }
           }
         },

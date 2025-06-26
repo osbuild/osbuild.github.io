@@ -28,6 +28,14 @@ though comments are completely ignored.
       "description": "WALinuxAgent config options",
       "type": "object",
       "properties": {
+        "Provisioning.UseCloudInit": {
+          "description": "Enable or disable cloud-init provisioning.",
+          "type": "boolean"
+        },
+        "Provisioning.Enabled": {
+          "description": "Enable or disable provisioning.",
+          "type": "boolean"
+        },
         "ResourceDisk.Format": {
           "description": "Enable or disable disk formatting.",
           "type": "boolean"

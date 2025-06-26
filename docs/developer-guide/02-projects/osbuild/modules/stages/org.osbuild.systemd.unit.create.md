@@ -37,6 +37,7 @@ of options:
     - 'ExecStart' - \[string\]
     - 'Environment' - \[object\]
     - 'EnvironmentFile' - \[string\]
+    - 'StandardOutput' - \[string\]
   - 'Mount' section
     - 'What' - string
     - 'Where' - string
@@ -313,6 +314,10 @@ of options:
               "items": {
                 "type": "string"
               }
+            },
+            "StandardOutput": {
+              "type": "string",
+              "pattern": "^(inherit|null|tty|journal|kmsg|journal\\+console|kmsg\\+console|file:\\/(?!\\.\\.)((?!\\/\\.\\.\\/).)+|append:\\/(?!\\.\\.)((?!\\/\\.\\.\\/).)+|truncate:\\/(?!\\.\\.)((?!\\/\\.\\.\\/).)+|socket|fd:.+)$"
             }
           }
         },

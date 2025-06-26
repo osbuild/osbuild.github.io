@@ -14,7 +14,7 @@ After [installation](./00-installation.md) you probably want to use `image-build
 Let's take a look at the available `x86_64` image types for Fedora 41 and build one of them.
 
 ```console
-$ image-builder list-images --filter arch:x86_64 --filter distro:fedora-41
+$ image-builder list --filter arch:x86_64 --filter distro:fedora-41
 fedora-41 type:ami arch:x86_64
 fedora-41 type:container arch:x86_64
 fedora-41 type:image-installer arch:x86_64
@@ -38,21 +38,21 @@ $ sudo image-builder build --distro fedora-41 qcow2
 # ...
 ```
 
-## `image-builder list-images`
+## `image-builder list`
 
-The `list-images` command for `image-builder` lists the available built-in image types that can be built for the [built-in distributions](./10-faq.md#built-in-distributions).
+The `list` command for `image-builder` lists the available built-in image types that can be built for the [built-in distributions](./10-faq.md#built-in-distributions).
 
 ```console
-$ image-builder list-images
+$ image-builder list
 # ... long list ...
 ```
 
 ### Format
 
-The output format used by `list-images` can be swapped with the `--format` flag. Available types are `text` (for display in a terminal) and `json` which can be useful to consume programmatically:
+The output format used by `list` can be swapped with the `--format` flag. Available types are `text` (for display in a terminal) and `json` which can be useful to consume programmatically:
 
 ```console
-$ image-builder list-images --format=json | jq '.[0]'
+$ image-builder list --format=json | jq '.[0]'
 {
   "distro": {
     "name": "centos-9"
@@ -68,14 +68,14 @@ $ image-builder list-images --format=json | jq '.[0]'
 
 ### Filtering
 
-`list-images` output can be filtered with the `--filter` argument.
+`list` output can be filtered with the `--filter` argument.
 
 ### Distribution
 
 To filter on a given distribution, one can use `--filter` with the `distro:` prefix:
 
 ```console
-$ image-builder list-images --filter distro:fedora-41
+$ image-builder list --filter distro:fedora-41
 # ... long list ...
 ```
 
@@ -84,7 +84,7 @@ $ image-builder list-images --filter distro:fedora-41
 To filter on a given [image type](./10-faq.md#image-types) the `type:` prefix:
 
 ```console
-$ image-builder list-images --filter type:qcow2
+$ image-builder list --filter type:qcow2
 # ... long list ...
 ```
 ### Architecture
@@ -92,7 +92,7 @@ $ image-builder list-images --filter type:qcow2
 To filter on a given architecture use the `arch:` prefix:
 
 ```console
-$ image-builder list-images --filter arch:aarch64
+$ image-builder list --filter arch:aarch64
 # ... long list ...
 ```
 
@@ -101,7 +101,7 @@ $ image-builder list-images --filter arch:aarch64
 Filters can be combined to narrow the list further.
 
 ```console
-$ image-builder list-images --filter type:qcow2 --filter distro:fedora-41
+$ image-builder list --filter type:qcow2 --filter distro:fedora-41
 # ... list ...
 ```
 
@@ -114,11 +114,117 @@ $ sudo image-builder build minimal-raw
 # ... progress ...
 ```
 
+The `build` command requires root privileges in many cases as `image-builder` needs access to loopback devices and `mount`.
+
 By default the `build` command uses the same distribution and version as the host system, you can pass another distribution and version with the `--distro` argument:
 
 ```console
 $ sudo image-builder build --distro fedora-43 minimal-raw
 # ... progress ...
+```
+
+When passed `--arch` `image-builder` will try to do an experimental cross-architecture build. Note that not all image types are available for all architectures.
+
+Cross-architecture builds are much slower than being able to build on native hardware. However, if no native hardware is available they might be an acceptable compromise.
+
+```console
+$ sudo image-builder build --arch s390x qcow2
+WARNING: using experimental cross-architecture building to build "s390x"
+# ... progress ...
+```
+
+## `image-builder describe`
+
+The `describe` command outputs structured information about an image without building it. It lists the packages that would be used to build the images and the partition tables.
+
+```console
+$ image-builder describe minimal-raw
+@WARNING - the output format is not stable yet and may change
+distro: fedora-43
+type: minimal-raw-zst
+arch: x86_64
+os_version: "43"
+bootmode: uefi
+partition_type: gpt
+default_filename: disk.raw.zst
+build_pipelines:
+  - build
+payload_pipelines:
+  - os
+  - image
+  - zstd
+packages:
+  build:
+    include:
+      - coreutils
+      - dosfstools
+      - e2fsprogs
+      - glibc
+      - policycoreutils
+      - python3
+      - rpm
+      - selinux-policy-targeted
+      - systemd
+      - xz
+      - zstd
+    exclude: []
+  os:
+    include:
+      - '@core'
+      - NetworkManager-wifi
+      - brcmfmac-firmware
+      - dosfstools
+      - dracut-config-generic
+      - e2fsprogs
+      - efibootmgr
+      - grub2-efi-x64
+      - initial-setup
+      - iwlwifi-mvm-firmware
+      - kernel
+      - libxkbcommon
+      - realtek-firmware
+      - selinux-policy-targeted
+      - shim-x64
+    exclude:
+      - dracut-config-rescue
+      - firewalld
+```
+
+By default the `describe` command uses the same distribution and version as the host system, you can pass another distribution and version with the `--distro` argument:
+
+```console
+$ image-builder describe --distro fedora-43 minimal-raw
+# ... output ...
+```
+
+When passed `--arch` `image-builder` will show the description for that architecture:
+
+```console
+$ image-builder describe --arch aarch64 minimal-raw
+# ... output ...
+```
+
+## `image-builder manifest`
+
+The `manifest` command outputs an [osbuild](https://github.com/osbuild/osbuild) manifest for an image. This manifest contains all the steps performed to assemble the eventual image but the image itself is not created.
+
+```console
+$ image-builder manifest minimal-raw
+# ... json ...
+```
+
+By default the `manifest` command uses the same distribution and version as the host system, you can pass another distribution and version with the `--distro` argument:
+
+```console
+$ image-builder manifest --distro fedora-43 minimal-raw
+# ... json ...
+```
+
+When passed `--arch` `image-builder` will show the manifest for that architecture:
+
+```console
+$ image-builder manifest --arch aarch64 minimal-raw
+# ... output ...
 ```
 
 # Blueprints

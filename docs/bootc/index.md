@@ -54,6 +54,7 @@ The following command will create a QCOW2 disk image. First, create `./config.to
 ```bash
 # Ensure the image is fetched
 sudo podman pull quay.io/centos-bootc/centos-bootc:stream9
+mkdir output
 sudo podman run \
     --rm \
     -it \
@@ -131,6 +132,7 @@ Usage:
     --pull=newer \
     --security-opt label=type:unconfined_t \
     -v ./output:/output \
+    -v /var/lib/containers/storage:/var/lib/containers/storage \
     quay.io/centos-bootc/bootc-image-builder:latest \
     <imgref>
 
@@ -257,13 +259,14 @@ directory to the container
 For example:
 
 ```bash
- $ sudo podman run \
+$ sudo podman run \
   --rm \
   -it \
   --privileged \
   --pull=newer \
   --security-opt label=type:unconfined_t \
   -v $HOME/.aws:/root/.aws:ro \
+  -v /var/lib/containers/storage:/var/lib/containers/storage \
   --env AWS_PROFILE=default \
   quay.io/centos-bootc/bootc-image-builder:latest \
   --type ami \
@@ -303,6 +306,7 @@ $ sudo podman run \
   --privileged \
   --pull=newer \
   --security-opt label=type:unconfined_t \
+  -v /var/lib/containers/storage:/var/lib/containers/storage \
   --env-file=aws.secrets \
   quay.io/centos-bootc/bootc-image-builder:latest \
   --type ami \
@@ -349,6 +353,7 @@ sudo podman run \
     --security-opt label=type:unconfined_t \
     -v ./config.toml:/config.toml:ro \
     -v ./output:/output \
+    -v /var/lib/containers/storage:/var/lib/containers/storage \
     quay.io/centos-bootc/bootc-image-builder:latest \
     --type qcow2 \
     quay.io/centos-bootc/centos-bootc:stream9
@@ -356,6 +361,12 @@ sudo podman run \
 
 The configuration can also be passed in via stdin when `--config -`
 is used. Only JSON configuration is supported in this mode.
+
+Additionally, images can embed a build config file, either as
+`config.json` or `config.toml` in the `/usr/lib/bootc-image-builder`
+directory. If this exist, and contains filesystem or disk
+customizations, then these are used by default if no such
+customization are specified in the regular build config.
 
 ### Users (`user`, array)
 
@@ -541,7 +552,6 @@ By default, the following modules are enabled for all Anaconda ISOs:
 
 The `disable` list is processed after the `enable` list and therefore takes priority. In other words, adding the same module in both `enable` and `disable` will result in the module being **disabled**.
 Furthermore, adding a module that is enabled by default to `disable` will result in the module being **disabled**.
-
 
 ## Building
 

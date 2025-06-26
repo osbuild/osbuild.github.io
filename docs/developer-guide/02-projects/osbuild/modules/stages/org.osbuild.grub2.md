@@ -140,6 +140,15 @@ information on that file.
     }
   },
   "properties": {
+    "compat_version": {
+      "type": "number",
+      "enum": [
+        1,
+        2
+      ],
+      "description": "The compatibility behavior to use. Old versions are just there for bug compatibility. You should always use the highest version available.",
+      "default": 1
+    },
     "rootfs": {
       "$ref": "#/definitions/filesystem"
     },

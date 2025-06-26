@@ -32,6 +32,13 @@ Buildhost commands used: `mksquashfs` and any needed compression program.
         "description": "Filename for squashfs image",
         "type": "string"
       },
+      "exclude_paths": {
+        "type": "array",
+        "description": "Regex of paths to exclude, can be files or directories",
+        "items": {
+          "type": "string"
+        }
+      },
       "compression": {
         "type": "object",
         "additionalProperties": false,

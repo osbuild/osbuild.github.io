@@ -34,6 +34,13 @@ Buildhost commands used: `mkfs.erofs`
         "description": "Filename for the output",
         "type": "string"
       },
+      "exclude_paths": {
+        "type": "array",
+        "description": "Regex of paths to exclude, can be files or directories",
+        "items": {
+          "type": "string"
+        }
+      },
       "compression": {
         "type": "object",
         "additionalProperties": false,
