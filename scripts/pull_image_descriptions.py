@@ -13,6 +13,7 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 
 CONTAINER_IMAGE = "ghcr.io/osbuild/image-builder-cli:latest"
+CONTAINER_NAME = "image-builder-describer"
 GENERATION_DATE = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
 TARGET_DIR = pathlib.Path(__file__).parent.parent / "docs" / "user-guide" / "09-image-descriptions"
 
@@ -99,16 +100,58 @@ def list_images() -> Dict:
         return {}
 
 
+def start_container() -> bool:
+    """
+    Start the image-builder-cli container in the background if not already running.
+    """
+    # Check if container is already running
+    check_cmd = ["sudo", "podman", "ps", "-q", "-f", f"name={CONTAINER_NAME}"]
+    success, stdout, _ = run_command(check_cmd)
+    if success and stdout.strip():
+        return True
+    # Remove any stopped container with the same name
+    rm_cmd = ["sudo", "podman", "rm", "-f", CONTAINER_NAME]
+    run_command(rm_cmd)
+    # Start the container
+    # running a dummy bash to stay there
+    run_cmd = [
+        "sudo", "podman", "run", "-d", "--privileged", "--rm",
+        "--name", CONTAINER_NAME, "--entrypoint", "/usr/bin/bash",
+         CONTAINER_IMAGE, "-c", "trap 'exit' TERM; while true; do sleep 1; done"
+    ]
+    success, _, stderr = run_command(run_cmd)
+    if not success:
+        print(f"Error: Failed to start container: {stderr}")
+        return False
+    return True
+
+
+def stop_container():
+    """
+    Stop and remove the running container.
+    """
+    stop_cmd = ["sudo", "podman", "rm", "-f", CONTAINER_NAME]
+    run_command(stop_cmd)
+
+
+def exec_in_container(args: List[str]) -> Tuple[bool, str, str]:
+    """
+    Execute a command inside the running container.
+    """
+    cmd = ["sudo", "podman", "exec", CONTAINER_NAME] + args
+    return run_command(cmd)
+
+
 def describe_image(distro: str, arch: str, image_type: str) -> str:
     """
-    Get image description using describe command.
+    Get image description using describe command inside the running container.
     """
-    cmd = [
-        "sudo", "podman", "run", "--rm", "--privileged", CONTAINER_IMAGE,
+    args = [
+        "/usr/bin/image-builder",
         "describe", image_type, "--distro", distro, "--arch", arch
     ]
 
-    success, stdout, stderr = run_command(cmd)
+    success, stdout, stderr = exec_in_container(args)
     if not success:
         print(f"Error running describe command for {distro}/{arch}/{image_type}: {stderr}")
         return ""
@@ -469,74 +512,81 @@ def main():
     distro_families = images_list_to_distro_families(filtered_images)
     page_footer = generate_page_footer(container_version, GENERATION_DATE)
 
-    # Create temporary directory for generation
-    image_types_processed = 0
-    with tempfile.TemporaryDirectory() as temp_dir:
-        temp_path = pathlib.Path(temp_dir)
+    # Start the container once for all describe calls
+    if not start_container():
+        print("Failed to start container for describe commands")
+        return 1
+    try:
+        # Create temporary directory for generation
+        image_types_processed = 0
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = pathlib.Path(temp_dir)
 
-        # Dictionary to store distro page info: distro_name -> [("version", "filepath"), ("version", "filepath"), ...]
-        distro_pages_info = {}
+            # Dictionary to store distro page info: distro_name -> [("version", "filepath"), ("version", "filepath"), ...]
+            distro_pages_info = {}
 
-        # Generate individual image type pages
-        distro_id_idx = 0
-        for distro_name, family_distros in distro_families.items():
-            for distro_id, version in family_distros:
-                distro_id_dir = temp_path / f"{distro_id_idx:02d}-{distro_id}"
-                distro_id_idx += 1
-                distro_id_dir.mkdir(parents=True, exist_ok=True)
-                distro_data = filtered_images[distro_id]
+            # Generate individual image type pages
+            distro_id_idx = 0
+            for distro_name, family_distros in distro_families.items():
+                for distro_id, version in family_distros:
+                    distro_id_dir = temp_path / f"{distro_id_idx:02d}-{distro_id}"
+                    distro_id_idx += 1
+                    distro_id_dir.mkdir(parents=True, exist_ok=True)
+                    distro_data = filtered_images[distro_id]
 
-                # Group descriptions by image type across architectures
-                image_types = set()
-                for arch_data in distro_data.values():
-                    image_types.update(arch_data)
+                    # Group descriptions by image type across architectures
+                    image_types = set()
+                    for arch_data in distro_data.values():
+                        image_types.update(arch_data)
 
-                # Dictionary to store image page info: image_type -> (filepath, arch_anchors)
-                image_type_pages_info = {}
+                    # Dictionary to store image page info: image_type -> (filepath, arch_anchors)
+                    image_type_pages_info = {}
 
-                for image_type in image_types:
-                    print(f"[{image_types_processed}/{image_types_count}] Processing {distro_id}/{image_type}...")
+                    for image_type in image_types:
+                        print(f"[{image_types_processed}/{image_types_count}] Processing {distro_id}/{image_type}...")
 
-                    # Get image type descriptions for all architectures that it supports
-                    arch_descriptions = {}
-                    for arch, types in distro_data.items():
-                        if image_type in types:
-                            description = describe_image(distro_id, arch, image_type)
-                            image_types_processed += 1
-                            if not description:
-                                print(f"WARNING: Failed to describe {distro_id}/{arch}/{image_type}")
-                                continue
-                            arch_descriptions[arch] = description
+                        # Get image type descriptions for all architectures that it supports
+                        arch_descriptions = {}
+                        for arch, types in distro_data.items():
+                            if image_type in types:
+                                description = describe_image(distro_id, arch, image_type)
+                                image_types_processed += 1
+                                if not description:
+                                    print(f"WARNING: Failed to describe {distro_id}/{arch}/{image_type}")
+                                    continue
+                                arch_descriptions[arch] = description
 
-                    if arch_descriptions:
-                        image_page = generate_image_type_page(
-                            distro_name, version, image_type, arch_descriptions, distro_id_dir, page_footer
-                        )
-                        image_page_relative = image_page.relative_to(distro_id_dir)
-                        print(f"Generated: {image_page_relative}")
+                        if arch_descriptions:
+                            image_page = generate_image_type_page(
+                                distro_name, version, image_type, arch_descriptions, distro_id_dir, page_footer
+                            )
+                            image_page_relative = image_page.relative_to(distro_id_dir)
+                            print(f"Generated: {image_page_relative}")
 
-                        arch_anchors = {arch: create_anchor(arch) for arch in arch_descriptions.keys()}
-                        image_type_pages_info[image_type] = (image_page_relative, arch_anchors)
+                            arch_anchors = {arch: create_anchor(arch) for arch in arch_descriptions.keys()}
+                            image_type_pages_info[image_type] = (image_page_relative, arch_anchors)
 
-                print(f"Generating {distro_name} {version} index page...")
-                distro_page = generate_distro_index_page(
-                    distro_name, version, image_type_pages_info, distro_id_dir, page_footer
-                )
-                distro_page_relative = distro_page.relative_to(temp_dir)
-                print(f"Generated: {distro_page_relative}")
+                    print(f"Generating {distro_name} {version} index page...")
+                    distro_page = generate_distro_index_page(
+                        distro_name, version, image_type_pages_info, distro_id_dir, page_footer
+                    )
+                    distro_page_relative = distro_page.relative_to(temp_dir)
+                    print(f"Generated: {distro_page_relative}")
 
-                distro_pages_info.setdefault(distro_name, []).append((version, distro_page_relative))
+                    distro_pages_info.setdefault(distro_name, []).append((version, distro_page_relative))
 
-        print("Generating main index page...")
-        generate_main_index_page(distro_pages_info, temp_path, page_footer)
+            print("Generating main index page...")
+            generate_main_index_page(distro_pages_info, temp_path, page_footer)
 
-        print(f"Replacing content in {TARGET_DIR}...")
-        if TARGET_DIR.exists():
-            shutil.rmtree(TARGET_DIR)
-        shutil.move(str(temp_path), str(TARGET_DIR))
+            print(f"Replacing content in {TARGET_DIR}...")
+            if TARGET_DIR.exists():
+                shutil.rmtree(TARGET_DIR)
+            shutil.move(str(temp_path), str(TARGET_DIR))
 
-        print("Successfully generated image descriptions documentation!")
-        return 0
+            print("Successfully generated image descriptions documentation!")
+            return 0
+    finally:
+        stop_container()
 
 
 if __name__ == "__main__":
