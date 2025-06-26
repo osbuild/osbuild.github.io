@@ -347,7 +347,8 @@ This page describes the image types and architectures available for **{distro_na
 ## Image Types
 
 """
-    for image_type, (image_page_relative, arch_anchors) in image_type_page_info.items():
+    for image_type in sorted(image_type_page_info.keys()):
+        image_page_relative, arch_anchors = image_type_page_info[image_type]
         arch_links = [f"[{arch}](./{image_page_relative}#{arch_anchor})" for arch, arch_anchor in arch_anchors.items()]
         content += f"- [{image_type}](./{image_page_relative}) ({', '.join(arch_links)})\n"
     content += "\n"
