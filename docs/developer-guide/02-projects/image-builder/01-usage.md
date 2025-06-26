@@ -227,7 +227,7 @@ $ image-builder manifest --arch aarch64 minimal-raw
 # ... output ...
 ```
 
-# Blueprints
+## Blueprints
 
 Images can be customized with [blueprints](https://osbuild.org/docs/user-guide/blueprint-reference). For example we could build the `qcow2` we built above with some customizations applied.
 
