@@ -61,7 +61,12 @@ def replace_relative_links(match, baseurl):
     link_text = match.group(1)
     relative_link = match.group(2)
 
-    if relative_link.endswith('.md') or relative_link.startswith('http'):
+    # Don't modify HTTP links
+    if relative_link.startswith('http'):
+        return match.group(0)
+
+    # Don't modify .md links unless they start with / (repository root relative)
+    if relative_link.endswith('.md') and not relative_link.startswith('/'):
         return match.group(0)
 
     absolute_link = resolve_dirs(baseurl, relative_link)

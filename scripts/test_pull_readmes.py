@@ -46,7 +46,7 @@ class TestResolveDirs(unittest.TestCase):
 
         test_cases = [
             {
-                'description': "Test Markdown relative link replacement",
+                'description': "Test Markdown relative link remains unchanged",
                 'content': "[my link](../path/to/file.md)",
                 'expected': "[my link](../path/to/file.md)"
             },
@@ -59,6 +59,16 @@ class TestResolveDirs(unittest.TestCase):
                 'description': "Test folder relative link replacement",
                 'content': "[my link](./some/path/to/)",
                 'expected': "[my link](https://github.com/osbuild/tree/main/docs/some/path/to/)"
+            },
+            {
+                'description': "Test repository root relative .md link gets converted to relative path",
+                'content': "[test README](/test/README.md)",
+                'expected': "[test README](../test/README.md)"
+            },
+            {
+                'description': "Test repository root relative non-.md link gets converted to absolute URL",
+                'content': "[test file](/test/file.txt)",
+                'expected': "[test file](https://github.com/osbuild/tree/main/test/file.txt)"
             }
         ]
 
