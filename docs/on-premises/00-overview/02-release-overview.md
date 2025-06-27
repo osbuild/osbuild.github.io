@@ -1,25 +1,25 @@
 # Releases
 This table contains the currently released versions including a link to the change-log
 
-|       | cockpit-composer | osbuild | osbuild-composer | cockpit-image-builder |
-|-------|------------------|---------|------------------|-----------------------|
-| *8.8* | [45-1](https://github.com/osbuild/cockpit-composer/releases/tag/45) | [81-1](https://github.com/osbuild/osbuild/releases/tag/v81) | [75-1](https://github.com/osbuild/osbuild-composer/releases/tag/v75) | n/a |
-| *8.10* | [50-1](https://github.com/osbuild/cockpit-composer/releases/tag/50) | [110-1](https://github.com/osbuild/osbuild/releases/tag/v110) | [101-1](https://github.com/osbuild/osbuild-composer/releases/tag/v101) | n/a |
-| *9.0* | [36-1](https://github.com/osbuild/cockpit-composer/releases/tag/36) | [53-1](https://github.com/osbuild/osbuild/releases/tag/v53) | [46.2-1](https://github.com/osbuild/osbuild-composer/releases/tag/v46.2) | n/a |
-| *9.2* | [45-1](https://github.com/osbuild/cockpit-composer/releases/tag/45) | [81-1](https://github.com/osbuild/osbuild/releases/tag/v81) | [76-2](https://github.com/osbuild/osbuild-composer/releases/tag/v76) | n/a |
-| *9.3* | [47-1](https://github.com/osbuild/cockpit-composer/releases/tag/47) | [93-1](https://github.com/osbuild/osbuild/releases/tag/v93) | [88-1](https://github.com/osbuild/osbuild-composer/releases/tag/v88) | n/a |
-| *9.4* | [50-1](https://github.com/osbuild/cockpit-composer/releases/tag/50) | [110-1](https://github.com/osbuild/osbuild/releases/tag/v110) | [101-1](https://github.com/osbuild/osbuild-composer/releases/tag/v101) | n/a |
-| *9.5* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52) | [126-1](https://github.com/osbuild/osbuild/releases/tag/v126) | [118-1](https://github.com/osbuild/osbuild-composer/releases/tag/v118) | n/a |
-| *9.6* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52) | [141-1](https://github.com/osbuild/osbuild/releases/tag/v141) | [132-1](https://github.com/osbuild/osbuild-composer/releases/tag/v132) | n/a |
-| *10* | n/a | [141-1](https://github.com/osbuild/osbuild/releases/tag/v141) | [132-1](https://github.com/osbuild/osbuild-composer/releases/tag/v132) | [60-1](https://github.com/osbuild/image-builder-frontend/releases/tag/v60) |
-| *CentOS Stream 10* | n/a | [153-1](https://github.com/osbuild/osbuild/releases/tag/v153) | [143-1](https://github.com/osbuild/osbuild-composer/releases/tag/v143) | [69-1](https://github.com/osbuild/image-builder-frontend/releases/tag/v69) |
-| *CentOS Stream 9* | [53-1](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [151-1](https://github.com/osbuild/osbuild/releases/tag/v151) | [142-1](https://github.com/osbuild/osbuild-composer/releases/tag/v142) | n/a |
-| *Fedora 41* | [53-1](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [153-1](https://github.com/osbuild/osbuild/releases/tag/v153) | [143-1](https://github.com/osbuild/osbuild-composer/releases/tag/v143) | n/a |
-| *Fedora 42* | [53-2](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [153-1](https://github.com/osbuild/osbuild/releases/tag/v153) | [143-1](https://github.com/osbuild/osbuild-composer/releases/tag/v143) | [v55-1](https://github.com/osbuild/image-builder-frontend/releases/tag/v55) |
-| *Git* | [53](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [v153](https://github.com/osbuild/osbuild/releases/tag/v153) | [v144](https://github.com/osbuild/osbuild-composer/releases/tag/v144) | n/a |
-| *Service* | n/a | n/a | [v143-24-gf6c1709d](https://github.com/osbuild/osbuild-composer/compare/v143-24-gf6c1709d...main) | n/a |
-| *Workers* | n/a | [v151-8-g4228123](https://github.com/osbuild/osbuild/compare/v151-8-g4228123...main) | [v143-24-gf6c1709d](https://github.com/osbuild/osbuild-composer/compare/v143-24-gf6c1709d...main) | n/a |
+|       | cockpit-composer | osbuild | osbuild-composer | cockpit-image-builder | image-builder |
+|-------|:------------------:|:---------:|:------------------:|:-----------------------:|:---------------:|
+| *RHEL 8.8* | [45-1](https://github.com/osbuild/cockpit-composer/releases/tag/45) | [81-1](https://github.com/osbuild/osbuild/releases/tag/v81) | [75-1](https://github.com/osbuild/osbuild-composer/releases/tag/v75) | n/a | n/a |
+| *RHEL 8.10* | [50-1](https://github.com/osbuild/cockpit-composer/releases/tag/50) | [110-1](https://github.com/osbuild/osbuild/releases/tag/v110) | [101-1](https://github.com/osbuild/osbuild-composer/releases/tag/v101) | n/a | n/a |
+| *RHEL 9.0* | [36-1](https://github.com/osbuild/cockpit-composer/releases/tag/36) | [53-1](https://github.com/osbuild/osbuild/releases/tag/v53) | [46.2-1](https://github.com/osbuild/osbuild-composer/releases/tag/v46.2) | n/a | n/a |
+| *RHEL 9.2* | [45-1](https://github.com/osbuild/cockpit-composer/releases/tag/45) | [81-1](https://github.com/osbuild/osbuild/releases/tag/v81) | [76-2](https://github.com/osbuild/osbuild-composer/releases/tag/v76) | n/a | n/a |
+| *RHEL 9.3* | [47-1](https://github.com/osbuild/cockpit-composer/releases/tag/47) | [93-1](https://github.com/osbuild/osbuild/releases/tag/v93) | [88-1](https://github.com/osbuild/osbuild-composer/releases/tag/v88) | n/a | n/a |
+| *RHEL 9.4* | [50-1](https://github.com/osbuild/cockpit-composer/releases/tag/50) | [110-1](https://github.com/osbuild/osbuild/releases/tag/v110) | [101-1](https://github.com/osbuild/osbuild-composer/releases/tag/v101) | n/a | n/a |
+| *RHEL 9.5* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52) | [126-1](https://github.com/osbuild/osbuild/releases/tag/v126) | [118-1](https://github.com/osbuild/osbuild-composer/releases/tag/v118) | n/a | n/a |
+| *RHEL 9.6* | [52-1](https://github.com/osbuild/cockpit-composer/releases/tag/52) | [141-1](https://github.com/osbuild/osbuild/releases/tag/v141) | [132-1](https://github.com/osbuild/osbuild-composer/releases/tag/v132) | n/a | n/a |
+| *RHEL 10.0* | n/a | [141-1](https://github.com/osbuild/osbuild/releases/tag/v141) | [132-1](https://github.com/osbuild/osbuild-composer/releases/tag/v132) | [60-1](https://github.com/osbuild/image-builder-frontend/releases/tag/v60) | n/a |
+| *CentOS Stream 10* | n/a | [153-1](https://github.com/osbuild/osbuild/releases/tag/v153) | [143-1](https://github.com/osbuild/osbuild-composer/releases/tag/v143) | [69-1](https://github.com/osbuild/image-builder-frontend/releases/tag/v69) | n/a |
+| *CentOS Stream 9* | [53-1](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [151-1](https://github.com/osbuild/osbuild/releases/tag/v151) | [142-1](https://github.com/osbuild/osbuild-composer/releases/tag/v142) | n/a | n/a |
+| *Fedora 41* | [53-1](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [153-1](https://github.com/osbuild/osbuild/releases/tag/v153) | [143-1](https://github.com/osbuild/osbuild-composer/releases/tag/v143) | n/a | [21-1](https://github.com/osbuild/image-builder-cli/releases/tag/v21) |
+| *Fedora 42* | [53-2](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [153-1](https://github.com/osbuild/osbuild/releases/tag/v153) | [143-1](https://github.com/osbuild/osbuild-composer/releases/tag/v143) | [v55-1](https://github.com/osbuild/image-builder-frontend/releases/tag/v55) | [22-1](https://github.com/osbuild/image-builder-cli/releases/tag/v22) |
+| *Git* | [53](https://github.com/osbuild/cockpit-composer/releases/tag/53) | [v153](https://github.com/osbuild/osbuild/releases/tag/v153) | [v144](https://github.com/osbuild/osbuild-composer/releases/tag/v144) | n/a | n/a |
+| *Service* | n/a | n/a | [v143-24-gf6c1709d](https://github.com/osbuild/osbuild-composer/compare/v143-24-gf6c1709d...main) | n/a | n/a |
+| *Workers* | n/a | [v151-8-g4228123](https://github.com/osbuild/osbuild/compare/v151-8-g4228123...main) | [v143-24-gf6c1709d](https://github.com/osbuild/osbuild-composer/compare/v143-24-gf6c1709d...main) | n/a | n/a |
 
 ---
 
-[This page is autogenerated by a bot](https://gitlab.cee.redhat.com/osbuild/guides-bot/-/blob/main/release_overview.py) - Last update 2025-06-26
+[This page is autogenerated by a bot](https://gitlab.cee.redhat.com/osbuild/guides-bot/-/blob/main/release_overview.py) - Last update 2025-06-27
