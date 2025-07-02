@@ -36,6 +36,32 @@ Buildhost commands used: `qemu-img`.
         "description": "The vmdk image filename present in the root of the tree",
         "type": "string",
         "pattern": "[a-zA-Z0-9+_.-]+.vmdk"
+      },
+      "vmware": {
+        "description": "Settings for VMWare specific parts of the OVF file.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "os_type": {
+            "type": "string",
+            "default": "other26xLinux64Guest"
+          }
+        }
+      },
+      "virtualbox": {
+        "description": "Settings for VirtualBox specific parts of the OVF file.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "os_type": {
+            "type": "string",
+            "default": "OtherLinux_64"
+          },
+          "mac_address": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{12}$"
+          }
+        }
       }
     }
   }
