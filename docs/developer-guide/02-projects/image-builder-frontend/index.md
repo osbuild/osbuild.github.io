@@ -48,7 +48,7 @@ worrying if a feature from stage has been released yet.
 
 #### Nodejs and npm version
 
-Make sure you have npm@10 and node 18+ installed. If you need multiple versions of nodejs check out [nvm](https://github.com/nvm-sh/nvm).
+Make sure you have npm@10 and node 22+ installed. If you need multiple versions of nodejs check out [nvm](https://github.com/nvm-sh/nvm).
 
 #### Webpack proxy
 
@@ -272,7 +272,6 @@ make cockpit/devel
 | ---------                                                                                                            | -----------                                |
 | [`/api`](https://github.com/RedHatInsights/image-builder-frontend/tree/main/api)                                     | API schema and config files                |
 | [`/config`](https://github.com/RedHatInsights/image-builder-frontend/tree/main/config)                               | webpack configuration                      |
-| [`/devel`](https://github.com/RedHatInsights/image-builder-frontend/tree/main/devel)                                 | tools for local development                |
 | [`/src`](https://github.com/RedHatInsights/image-builder-frontend/tree/main/src)                                     | source code                                |
 | [`/src/Components`](https://github.com/RedHatInsights/image-builder-frontend/tree/main/src/Components)               | source code split by individual components |
 | [`/src/test`](https://github.com/RedHatInsights/image-builder-frontend/tree/main/src/test)                           | test utilities                             |
