@@ -52,6 +52,10 @@ Currently supported subset of cloud-init configuration:
       "description": "cloud-init configuration",
       "minProperties": 1,
       "properties": {
+        "ssh_pwauth": {
+          "type": "boolean",
+          "description": "enable/disable ssh password authentication"
+        },
         "system_info": {
           "additionalProperties": false,
           "type": "object",
