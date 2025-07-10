@@ -2,7 +2,7 @@
 custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/pull_image_descriptions.py
 ---
 
-# oci
+# azure-sapapps-rhui
 
 <!--
 [//]: # ( DO NOT MODIFY THIS FILE! )
@@ -10,7 +10,7 @@ custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/
 [//]: # ( Generated on: 2025-07-10 07:26:22 UTC )
 -->
 
-Image description for **oci** on **AlmaLinux OS 8.8**.
+Image description for **azure-sapapps-rhui** on **Red Hat Enterprise Linux 9.6**.
 
 The descriptions below describe the base image version, that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
 
@@ -29,19 +29,20 @@ The format of the image description is not guaranteed to be stable. It is publis
 ## x86_64 {#x86-64}
 
 ```yaml
-distro: almalinux-8.8
-type: oci
+distro: rhel-9.6
+type: azure-sapapps-rhui
 arch: x86_64
-os_version: "8.8"
+os_version: "9.6"
 bootmode: hybrid
 partition_type: gpt
-default_filename: disk.qcow2
+default_filename: disk.vhd.xz
 build_pipelines:
   - build
 payload_pipelines:
   - os
   - image
-  - qcow2
+  - vpc
+  - xz
 packages:
   build:
     include:
@@ -49,9 +50,12 @@ packages:
       - dosfstools
       - glibc
       - grub2-pc
+      - lvm2
       - platform-python
       - policycoreutils
-      - python36
+      - python3
+      - python3-iniparse
+      - python3-pyyaml
       - qemu-img
       - rpm
       - selinux-policy-targeted
@@ -61,52 +65,71 @@ packages:
     exclude: []
   os:
     include:
-      - '@core'
+      - '@Server'
       - NetworkManager
-      - authselect-compat
+      - NetworkManager-cloud-setup
+      - PackageKit-gtk3-module
+      - WALinuxAgent
+      - bind-utils
+      - bzip2
+      - cairo
       - chrony
       - cloud-init
       - cloud-utils-growpart
-      - cockpit-system
-      - cockpit-ws
-      - dhcp-client
-      - dnf
-      - dnf-utils
       - dosfstools
       - dracut-config-generic
-      - dracut-norescue
       - efibootmgr
+      - expect
+      - gdisk
+      - graphviz
       - grub2-efi-x64
       - grub2-pc
+      - gtk2
+      - hyperv-daemons
+      - insights-client
+      - iptraf-ng
       - kernel
+      - kernel-core
+      - kernel-modules
+      - krb5-workstation
+      - langpacks-en
+      - libaio
+      - libatomic
+      - libicu
+      - libnsl
+      - libtool-ltdl
+      - lm_sensors
+      - lvm2
       - net-tools
       - nfs-utils
-      - oddjob
-      - oddjob-mkhomedir
-      - psmisc
-      - python3-jsonschema
-      - qemu-guest-agent
-      - redhat-release
-      - redhat-release-eula
-      - rsync
+      - numactl
+      - nvme-cli
+      - patch
+      - rng-tools
       - selinux-policy-targeted
       - shim-x64
-      - tar
-      - tcpdump
+      - system-reinstall-bootc
+      - tcsh
+      - uuid
+      - uuidd
       - xfsprogs
-      - yum
+      - xorg-x11-xauth
+      - yum-utils
     exclude:
+      - NetworkManager-config-server
       - aic94xx-firmware
       - alsa-firmware
       - alsa-lib
+      - alsa-sof-firmware
       - alsa-tools-firmware
       - biosdevname
+      - bolt
+      - buildah
+      - cockpit-podman
+      - containernetworking-plugins
       - dnf-plugin-spacewalk
       - dracut-config-rescue
-      - fedora-release
-      - fedora-repos
-      - firewalld
-      - fwupd
+      - glibc-all-langpacks
       - iprutils
       - ivtv-firmware
       - iwl100-firmware
@@ -125,41 +148,88 @@ packages:
       - iwl6000g2b-firmware
       - iwl6050-firmware
       - iwl7260-firmware
-      - langpacks-*
-      - langpacks-en
       - libertas-sd8686-firmware
       - libertas-sd8787-firmware
       - libertas-usb8388-firmware
-      - nss
+      - microcode_ctl
       - plymouth
-      - rng-tools
-      - udisks2
+      - podman
+      - python3-dnf-plugin-spacewalk
+      - python3-hwdata
+      - python3-rhnlib
+      - rhn-check
+      - rhn-client-tools
+      - rhn-setup
+      - rhnlib
+      - rhnsd
+      - usb_modeswitch
 partition_table:
+  size: 68719476736
   uuid: D209C89E-EA5E-4FBD-B161-B461CCE297E0
   type: gpt
   partitions:
-    - size: 1048576
-      type: 21686148-6449-6E6F-744E-656564454649
-      bootable: true
-      uuid: FAC7F1FB-3E8D-4137-A512-961DE09A5549
-    - size: 104857600
+    - size: 524288000
       type: C12A7328-F81F-11D2-BA4B-00A0C93EC93B
       uuid: 68B2905B-DF3E-4FB3-80FA-49D1E773AA33
       payload:
         type: vfat
         uuid: 7B77-95E7
-        label: ESP
         mountpoint: /boot/efi
         fstab_options: defaults,uid=0,gid=0,umask=077,shortname=winnt
         fstab_passno: 2
-    - size: 2147483648
+    - size: 1073741824
       type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
-      uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
+      uuid: CB07C243-BC44-4717-853E-28852021225B
       payload:
         type: xfs
-        label: root
-        mountpoint: /
+        mountpoint: /boot
         fstab_options: defaults
+    - size: 2097152
+      type: 21686148-6449-6E6F-744E-656564454649
+      bootable: true
+      uuid: FAC7F1FB-3E8D-4137-A512-961DE09A5549
+    - size: 0
+      type: E6D6D379-F507-44C2-A23C-238F2A3DF928
+      uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
+      payload:
+        name: rootvg
+        description: built with lvm2 and osbuild
+        logical_volumes:
+          - name: homelv
+            size: 1073741824
+            payload:
+              type: xfs
+              label: home
+              mountpoint: /home
+              fstab_options: defaults
+          - name: rootlv
+            size: 2147483648
+            payload:
+              type: xfs
+              label: root
+              mountpoint: /
+              fstab_options: defaults
+          - name: tmplv
+            size: 2147483648
+            payload:
+              type: xfs
+              label: tmp
+              mountpoint: /tmp
+              fstab_options: defaults
+          - name: usrlv
+            size: 10737418240
+            payload:
+              type: xfs
+              label: usr
+              mountpoint: /usr
+              fstab_options: defaults
+          - name: varlv
+            size: 10737418240
+            payload:
+              type: xfs
+              label: var
+              mountpoint: /var
+              fstab_options: defaults
 ```
 
 
