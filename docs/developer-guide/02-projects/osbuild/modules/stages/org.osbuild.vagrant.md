@@ -59,6 +59,25 @@ vagrant up
               "virtualbox"
             ]
           },
+          "synced_folders": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "/vagrant": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "vboxfs",
+                      "rsync"
+                    ]
+                  }
+                }
+              }
+            }
+          },
           "virtualbox": {
             "type": "object",
             "description": "VirtualBox specific settings",
