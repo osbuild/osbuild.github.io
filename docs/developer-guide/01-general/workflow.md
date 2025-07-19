@@ -5,11 +5,12 @@
 1. Commits should be easy to read and ideally do only a single thing.
 2. The commit message should explain clearly what it's trying to do and why. Refer to the format we prefer below.
 3. A Jira issue or - where applicable - a GitHub issue reference should be added to automatically link and potentially close a related issue if it exists.
+4. Avoid single-line commits.
 
 ### Preferred commit message format
 
 ```
-<module>: Topic of the commit
+<module>: topic of the commit
 
 Body of the commit, describing the changes in more detail including the
 why/what/how.
