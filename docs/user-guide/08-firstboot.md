@@ -23,7 +23,7 @@ To execute a single command, create a oneshot systemd service unit:
 
 <TabItem value="on-premises" >
 ```toml
-name = "firsboot-single"
+name = "firstboot-single"
 
 [[customizations.files]]
 path = "/etc/systemd/system/firstboot-single.service"
