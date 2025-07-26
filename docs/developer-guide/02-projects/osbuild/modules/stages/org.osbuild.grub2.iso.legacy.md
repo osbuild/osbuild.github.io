@@ -67,6 +67,9 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
       "isolabel": {
         "type": "string"
       },
+      "fips": {
+        "type": "boolean"
+      },
       "config": {
         "description": "Configuration options for grub itself",
         "type": "object",

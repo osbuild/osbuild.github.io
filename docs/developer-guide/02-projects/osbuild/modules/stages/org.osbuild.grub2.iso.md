@@ -77,6 +77,9 @@ an efiboot.img.**
       "vendor": {
         "type": "string"
       },
+      "fips": {
+        "type": "boolean"
+      },
       "config": {
         "description": "Configuration options for grub itself",
         "type": "object",
