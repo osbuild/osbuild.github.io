@@ -34,6 +34,11 @@ configuration, in case that ignition is run.
       "items": {
         "type": "string"
       }
+    },
+    "target": {
+      "type": "string",
+      "description": "Location to write the 'ignition.firstboot' file.",
+      "default": "tree:///boot"
     }
   }
 }
