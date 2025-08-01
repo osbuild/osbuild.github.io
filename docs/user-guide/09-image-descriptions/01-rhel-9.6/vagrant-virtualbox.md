@@ -2,7 +2,7 @@
 custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/pull_image_descriptions.py
 ---
 
-# gce
+# vagrant-virtualbox
 
 <!--
 [//]: # ( DO NOT MODIFY THIS FILE! )
@@ -10,7 +10,7 @@ custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/
 [//]: # ( Generated on: 2025-08-01 07:32:31 UTC )
 -->
 
-Image description for **gce** on **CentOS Stream 10**.
+Image description for **vagrant-virtualbox** on **Red Hat Enterprise Linux 9.6**.
 
 The descriptions below describe the base image version, that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
 
@@ -29,18 +29,19 @@ The format of the image description is not guaranteed to be stable. It is publis
 ## x86_64 {#x86-64}
 
 ```yaml
-distro: centos-10
-type: gce
+distro: rhel-9.6
+type: vagrant-virtualbox
 arch: x86_64
-os_version: 10-stream
-bootmode: uefi
+os_version: "9.6"
+bootmode: hybrid
 partition_type: gpt
-default_filename: image.tar.gz
+default_filename: vagrant-virtualbox.box
 build_pipelines:
   - build
 payload_pipelines:
   - os
   - image
+  - vagrant
   - archive
 packages:
   build:
@@ -48,12 +49,15 @@ packages:
       - coreutils
       - dosfstools
       - glibc
+      - grub2-pc
       - platform-python
       - policycoreutils
       - python3
       - python3-iniparse
+      - qemu-img
       - rpm
       - selinux-policy-targeted
+      - shadow-utils
       - systemd
       - tar
       - xfsprogs
@@ -62,45 +66,51 @@ packages:
   os:
     include:
       - '@core'
-      - acpid
+      - authselect-compat
       - chrony
       - cloud-init
       - cloud-utils-growpart
-      - dnf-automatic
+      - cockpit-system
+      - cockpit-ws
+      - dnf-utils
       - dosfstools
       - dracut-config-generic
       - efibootmgr
-      - firewalld
-      - google-osconfig-agent
       - grub2-efi-x64
-      - grub2-tools
-      - grub2-tools-minimal
+      - grub2-pc
+      - insights-client
       - kernel
-      - langpacks-en
-      - net-tools
-      - python3
-      - rng-tools
+      - nfs-utils
+      - oddjob
+      - oddjob-mkhomedir
+      - pam
+      - passwd
+      - psmisc
+      - python3-jsonschema
+      - qemu-guest-agent
+      - redhat-release
+      - redhat-release-eula
+      - rsync
       - selinux-policy-targeted
+      - shadow-utils
       - shim-x64
+      - subscription-manager-cockpit
       - tar
-      - timedatex
+      - tcpdump
       - tuned
-      - vim
       - xfsprogs
     exclude:
       - aic94xx-firmware
-      - alsa-utils
-      - atmel-firmware
-      - b43-fwcutter
-      - b43-openfwwf
-      - bfa-firmware
-      - dmraid
+      - alsa-firmware
+      - alsa-lib
+      - alsa-tools-firmware
+      - biosdevname
+      - dnf-plugin-spacewalk
       - dracut-config-rescue
-      - eject
-      - gpm
-      - ipw2100-firmware
-      - ipw2200-firmware
-      - irqbalance
+      - fedora-release
+      - fedora-repos
+      - firewalld
+      - iprutils
       - ivtv-firmware
       - iwl100-firmware
       - iwl1000-firmware
@@ -115,22 +125,16 @@ packages:
       - iwl5150-firmware
       - iwl6000-firmware
       - iwl6000g2a-firmware
+      - iwl6000g2b-firmware
       - iwl6050-firmware
       - iwl7260-firmware
-      - kernel-firmware
-      - libertas-usb8388-firmware
-      - microcode_ctl
-      - qemu-guest-agent
-      - ql2100-firmware
-      - ql2200-firmware
-      - ql23xx-firmware
-      - ql2400-firmware
-      - ql2500-firmware
-      - rt61pci-firmware
-      - rt73usb-firmware
-      - smartmontools
-      - xorg-x11-drv-ati-firmware
-      - zd1211-firmware
+      - langpacks-*
+      - langpacks-en
+      - libertas-sd8787-firmware
+      - nss
+      - plymouth
+      - rng-tools
+      - udisks2
 partition_table:
   uuid: D209C89E-EA5E-4FBD-B161-B461CCE297E0
   type: gpt
@@ -149,6 +153,14 @@ partition_table:
         mountpoint: /boot/efi
         fstab_options: defaults,uid=0,gid=0,umask=077,shortname=winnt
         fstab_passno: 2
+    - size: 1073741824
+      type: BC13C2FF-59E6-4262-A352-B275FD6F7172
+      uuid: CB07C243-BC44-4717-853E-28852021225B
+      payload:
+        type: xfs
+        label: boot
+        mountpoint: /boot
+        fstab_options: defaults
     - size: 2147483648
       type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
       uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562

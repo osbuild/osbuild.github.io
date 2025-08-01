@@ -2,7 +2,7 @@
 custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/pull_image_descriptions.py
 ---
 
-# server-vagrant-libvirt
+# vagrant-libvirt
 
 <!--
 [//]: # ( DO NOT MODIFY THIS FILE! )
@@ -10,7 +10,7 @@ custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/
 [//]: # ( Generated on: 2025-08-01 07:32:31 UTC )
 -->
 
-Image description for **server-vagrant-libvirt** on **Fedora 43**.
+Image description for **vagrant-libvirt** on **Red Hat Enterprise Linux 9.6**.
 
 The descriptions below describe the base image version, that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
 
@@ -34,10 +34,10 @@ The format of the image description is not guaranteed to be stable. It is publis
 ## aarch64 {#aarch64}
 
 ```yaml
-distro: fedora-43
-type: server-vagrant-libvirt
+distro: rhel-9.6
+type: vagrant-libvirt
 arch: aarch64
-os_version: "43"
+os_version: "9.6"
 bootmode: uefi
 partition_type: gpt
 default_filename: vagrant-libvirt.box
@@ -53,43 +53,92 @@ packages:
     include:
       - coreutils
       - dosfstools
-      - e2fsprogs
       - glibc
+      - platform-python
       - policycoreutils
       - python3
+      - python3-iniparse
       - qemu-img
       - rpm
       - selinux-policy-targeted
       - shadow-utils
       - systemd
       - tar
+      - xfsprogs
       - xz
     exclude: []
   os:
     include:
-      - '@Fedora Cloud Server'
+      - '@core'
+      - authselect-compat
       - chrony
       - cloud-init
+      - cloud-utils-growpart
+      - cockpit-system
+      - cockpit-ws
+      - dnf-utils
       - dosfstools
       - dracut-config-generic
-      - e2fsprogs
       - efibootmgr
       - grub2-efi-aa64
       - grub2-tools
+      - insights-client
       - kernel
-      - langpacks-en
+      - nfs-utils
+      - oddjob
+      - oddjob-mkhomedir
       - pam
       - passwd
+      - psmisc
+      - python3-jsonschema
       - qemu-guest-agent
+      - redhat-release
+      - redhat-release-eula
+      - rsync
       - selinux-policy-targeted
       - shadow-utils
       - shim-aa64
+      - subscription-manager-cockpit
+      - tar
+      - tcpdump
+      - tuned
+      - xfsprogs
     exclude:
+      - aic94xx-firmware
+      - alsa-firmware
+      - alsa-lib
+      - alsa-tools-firmware
+      - biosdevname
+      - dnf-plugin-spacewalk
       - dracut-config-rescue
+      - fedora-release
+      - fedora-repos
       - firewalld
-      - geolite2-city
-      - geolite2-country
+      - iprutils
+      - ivtv-firmware
+      - iwl100-firmware
+      - iwl1000-firmware
+      - iwl105-firmware
+      - iwl135-firmware
+      - iwl2000-firmware
+      - iwl2030-firmware
+      - iwl3160-firmware
+      - iwl3945-firmware
+      - iwl4965-firmware
+      - iwl5000-firmware
+      - iwl5150-firmware
+      - iwl6000-firmware
+      - iwl6000g2a-firmware
+      - iwl6000g2b-firmware
+      - iwl6050-firmware
+      - iwl7260-firmware
+      - langpacks-*
+      - langpacks-en
+      - libertas-sd8787-firmware
+      - nss
       - plymouth
+      - rng-tools
+      - udisks2
 partition_table:
   uuid: D209C89E-EA5E-4FBD-B161-B461CCE297E0
   type: gpt
@@ -105,10 +154,10 @@ partition_table:
         fstab_options: defaults,uid=0,gid=0,umask=077,shortname=winnt
         fstab_passno: 2
     - size: 1073741824
-      type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
+      type: BC13C2FF-59E6-4262-A352-B275FD6F7172
       uuid: CB07C243-BC44-4717-853E-28852021225B
       payload:
-        type: ext4
+        type: xfs
         label: boot
         mountpoint: /boot
         fstab_options: defaults
@@ -116,7 +165,7 @@ partition_table:
       type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
       uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
       payload:
-        type: ext4
+        type: xfs
         label: root
         mountpoint: /
         fstab_options: defaults
@@ -125,10 +174,10 @@ partition_table:
 ## x86_64 {#x86-64}
 
 ```yaml
-distro: fedora-43
-type: server-vagrant-libvirt
+distro: rhel-9.6
+type: vagrant-libvirt
 arch: x86_64
-os_version: "43"
+os_version: "9.6"
 bootmode: hybrid
 partition_type: gpt
 default_filename: vagrant-libvirt.box
@@ -144,44 +193,93 @@ packages:
     include:
       - coreutils
       - dosfstools
-      - e2fsprogs
       - glibc
       - grub2-pc
+      - platform-python
       - policycoreutils
       - python3
+      - python3-iniparse
       - qemu-img
       - rpm
       - selinux-policy-targeted
       - shadow-utils
       - systemd
       - tar
+      - xfsprogs
       - xz
     exclude: []
   os:
     include:
-      - '@Fedora Cloud Server'
+      - '@core'
+      - authselect-compat
       - chrony
       - cloud-init
+      - cloud-utils-growpart
+      - cockpit-system
+      - cockpit-ws
+      - dnf-utils
       - dosfstools
       - dracut-config-generic
-      - e2fsprogs
       - efibootmgr
       - grub2-efi-x64
       - grub2-pc
+      - insights-client
       - kernel
-      - langpacks-en
+      - nfs-utils
+      - oddjob
+      - oddjob-mkhomedir
       - pam
       - passwd
+      - psmisc
+      - python3-jsonschema
       - qemu-guest-agent
+      - redhat-release
+      - redhat-release-eula
+      - rsync
       - selinux-policy-targeted
       - shadow-utils
       - shim-x64
+      - subscription-manager-cockpit
+      - tar
+      - tcpdump
+      - tuned
+      - xfsprogs
     exclude:
+      - aic94xx-firmware
+      - alsa-firmware
+      - alsa-lib
+      - alsa-tools-firmware
+      - biosdevname
+      - dnf-plugin-spacewalk
       - dracut-config-rescue
+      - fedora-release
+      - fedora-repos
       - firewalld
-      - geolite2-city
-      - geolite2-country
+      - iprutils
+      - ivtv-firmware
+      - iwl100-firmware
+      - iwl1000-firmware
+      - iwl105-firmware
+      - iwl135-firmware
+      - iwl2000-firmware
+      - iwl2030-firmware
+      - iwl3160-firmware
+      - iwl3945-firmware
+      - iwl4965-firmware
+      - iwl5000-firmware
+      - iwl5150-firmware
+      - iwl6000-firmware
+      - iwl6000g2a-firmware
+      - iwl6000g2b-firmware
+      - iwl6050-firmware
+      - iwl7260-firmware
+      - langpacks-*
+      - langpacks-en
+      - libertas-sd8787-firmware
+      - nss
       - plymouth
+      - rng-tools
+      - udisks2
 partition_table:
   uuid: D209C89E-EA5E-4FBD-B161-B461CCE297E0
   type: gpt
@@ -201,10 +299,10 @@ partition_table:
         fstab_options: defaults,uid=0,gid=0,umask=077,shortname=winnt
         fstab_passno: 2
     - size: 1073741824
-      type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
+      type: BC13C2FF-59E6-4262-A352-B275FD6F7172
       uuid: CB07C243-BC44-4717-853E-28852021225B
       payload:
-        type: ext4
+        type: xfs
         label: boot
         mountpoint: /boot
         fstab_options: defaults
@@ -212,7 +310,7 @@ partition_table:
       type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
       uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
       payload:
-        type: ext4
+        type: xfs
         label: root
         mountpoint: /
         fstab_options: defaults
