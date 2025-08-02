@@ -2,7 +2,7 @@
 custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/pull_image_descriptions.py
 ---
 
-# vagrant-libvirt
+# azure
 
 <!--
 [//]: # ( DO NOT MODIFY THIS FILE! )
@@ -10,7 +10,7 @@ custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/
 [//]: # ( Generated on: 2025-08-02 07:24:50 UTC )
 -->
 
-Image description for **vagrant-libvirt** on **CentOS Stream 10**.
+Image description for **azure** on **CentOS Stream 10**.
 
 The descriptions below describe the base image version, that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
 
@@ -35,81 +35,81 @@ The format of the image description is not guaranteed to be stable. It is publis
 
 ```yaml
 distro: centos-10
-type: vagrant-libvirt
+type: azure
 arch: aarch64
 os_version: 10-stream
 bootmode: uefi
 partition_type: gpt
-default_filename: vagrant-libvirt.box
+default_filename: disk.vhd.xz
 build_pipelines:
   - build
 payload_pipelines:
   - os
   - image
-  - vagrant
-  - archive
+  - vpc
+  - xz
 packages:
   build:
     include:
       - coreutils
       - dosfstools
       - glibc
+      - lvm2
       - platform-python
       - policycoreutils
       - python3
+      - python3-pyyaml
       - qemu-img
       - rpm
       - selinux-policy-targeted
-      - shadow-utils
       - systemd
-      - tar
       - xfsprogs
       - xz
     exclude: []
   os:
     include:
-      - '@core'
+      - '@Server'
+      - NetworkManager
+      - NetworkManager-cloud-setup
+      - WALinuxAgent
+      - bzip2
       - chrony
       - cloud-init
       - cloud-utils-growpart
-      - cockpit-system
-      - cockpit-ws
-      - dnf-utils
       - dosfstools
       - dracut-config-generic
       - efibootmgr
       - grub2-efi-aa64
       - grub2-tools
+      - hyperv-daemons
       - kernel
-      - nfs-utils
-      - oddjob
-      - oddjob-mkhomedir
-      - pam
-      - passwd
-      - psmisc
-      - python3-jsonschema
-      - qemu-guest-agent
-      - redhat-release
-      - redhat-release-eula
-      - rsync
+      - kernel-core
+      - kernel-modules
+      - langpacks-en
+      - lvm2
+      - nvme-cli
+      - patch
+      - rng-tools
       - selinux-policy-targeted
-      - shadow-utils
       - shim-aa64
-      - tar
-      - tcpdump
-      - tuned
+      - uuid
       - xfsprogs
+      - yum-utils
     exclude:
+      - NetworkManager-config-server
       - aic94xx-firmware
       - alsa-firmware
       - alsa-lib
+      - alsa-sof-firmware
       - alsa-tools-firmware
       - biosdevname
+      - bolt
+      - buildah
+      - cockpit-podman
+      - containernetworking-plugins
       - dnf-plugin-spacewalk
       - dracut-config-rescue
-      - fedora-release
-      - fedora-repos
-      - firewalld
+      - glibc-all-langpacks
       - iprutils
       - ivtv-firmware
       - iwl100-firmware
@@ -128,53 +128,103 @@ packages:
       - iwl6000g2b-firmware
       - iwl6050-firmware
       - iwl7260-firmware
-      - langpacks-*
-      - langpacks-en
+      - libertas-sd8686-firmware
       - libertas-sd8787-firmware
+      - libertas-usb8388-firmware
+      - microcode_ctl
       - plymouth
-      - rng-tools
-      - udisks2
+      - podman
+      - python3-dnf-plugin-spacewalk
+      - python3-hwdata
+      - python3-rhnlib
+      - rhn-check
+      - rhn-client-tools
+      - rhn-setup
+      - rhnlib
+      - rhnsd
+      - usb_modeswitch
 partition_table:
+  size: 68719476736
   uuid: D209C89E-EA5E-4FBD-B161-B461CCE297E0
   type: gpt
   partitions:
-    - size: 209715200
+    - size: 524288000
       type: C12A7328-F81F-11D2-BA4B-00A0C93EC93B
       uuid: 68B2905B-DF3E-4FB3-80FA-49D1E773AA33
       payload:
         type: vfat
         uuid: 7B77-95E7
-        label: ESP
         mountpoint: /boot/efi
         fstab_options: defaults,uid=0,gid=0,umask=077,shortname=winnt
         fstab_passno: 2
-    - size: 2147483648
+    - size: 1073741824
       type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
-      uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
+      uuid: CB07C243-BC44-4717-853E-28852021225B
       payload:
         type: xfs
-        label: root
-        mountpoint: /
+        mountpoint: /boot
         fstab_options: defaults
+    - size: 0
+      type: E6D6D379-F507-44C2-A23C-238F2A3DF928
+      uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
+      payload:
+        name: rootvg
+        description: built with lvm2 and osbuild
+        logical_volumes:
+          - name: homelv
+            size: 1073741824
+            payload:
+              type: xfs
+              label: home
+              mountpoint: /home
+              fstab_options: defaults
+          - name: rootlv
+            size: 2147483648
+            payload:
+              type: xfs
+              label: root
+              mountpoint: /
+              fstab_options: defaults
+          - name: tmplv
+            size: 2147483648
+            payload:
+              type: xfs
+              label: tmp
+              mountpoint: /tmp
+              fstab_options: defaults
+          - name: usrlv
+            size: 10737418240
+            payload:
+              type: xfs
+              label: usr
+              mountpoint: /usr
+              fstab_options: defaults
+          - name: varlv
+            size: 10737418240
+            payload:
+              type: xfs
+              label: var
+              mountpoint: /var
+              fstab_options: defaults
 ```
 
 ## x86_64 {#x86-64}
 
 ```yaml
 distro: centos-10
-type: vagrant-libvirt
+type: azure
 arch: x86_64
 os_version: 10-stream
 bootmode: hybrid
 partition_type: gpt
-default_filename: vagrant-libvirt.box
+default_filename: disk.vhd.xz
 build_pipelines:
   - build
 payload_pipelines:
   - os
   - image
-  - vagrant
-  - archive
+  - vpc
+  - xz
 packages:
   build:
     include:
@@ -182,62 +232,62 @@ packages:
       - dosfstools
       - glibc
       - grub2-pc
+      - lvm2
       - platform-python
       - policycoreutils
       - python3
+      - python3-pyyaml
       - qemu-img
       - rpm
       - selinux-policy-targeted
-      - shadow-utils
       - systemd
-      - tar
       - xfsprogs
       - xz
     exclude: []
   os:
     include:
-      - '@core'
+      - '@Server'
+      - NetworkManager
+      - NetworkManager-cloud-setup
+      - WALinuxAgent
+      - bzip2
       - chrony
       - cloud-init
       - cloud-utils-growpart
-      - cockpit-system
-      - cockpit-ws
-      - dnf-utils
       - dosfstools
       - dracut-config-generic
       - efibootmgr
       - grub2-efi-x64
       - grub2-pc
+      - hyperv-daemons
       - kernel
-      - nfs-utils
-      - oddjob
-      - oddjob-mkhomedir
-      - pam
-      - passwd
-      - psmisc
-      - python3-jsonschema
-      - qemu-guest-agent
-      - redhat-release
-      - redhat-release-eula
-      - rsync
+      - kernel-core
+      - kernel-modules
+      - langpacks-en
+      - lvm2
+      - nvme-cli
+      - patch
+      - rng-tools
       - selinux-policy-targeted
-      - shadow-utils
       - shim-x64
-      - tar
-      - tcpdump
-      - tuned
+      - uuid
       - xfsprogs
+      - yum-utils
     exclude:
+      - NetworkManager-config-server
       - aic94xx-firmware
       - alsa-firmware
       - alsa-lib
+      - alsa-sof-firmware
       - alsa-tools-firmware
       - biosdevname
+      - bolt
+      - buildah
+      - cockpit-podman
+      - containernetworking-plugins
       - dnf-plugin-spacewalk
       - dracut-config-rescue
-      - fedora-release
-      - fedora-repos
-      - firewalld
+      - glibc-all-langpacks
       - iprutils
       - ivtv-firmware
       - iwl100-firmware
@@ -256,38 +306,88 @@ packages:
       - iwl6000g2b-firmware
       - iwl6050-firmware
       - iwl7260-firmware
-      - langpacks-*
-      - langpacks-en
+      - libertas-sd8686-firmware
       - libertas-sd8787-firmware
+      - libertas-usb8388-firmware
+      - microcode_ctl
       - plymouth
-      - rng-tools
-      - udisks2
+      - podman
+      - python3-dnf-plugin-spacewalk
+      - python3-hwdata
+      - python3-rhnlib
+      - rhn-check
+      - rhn-client-tools
+      - rhn-setup
+      - rhnlib
+      - rhnsd
+      - usb_modeswitch
 partition_table:
+  size: 68719476736
   uuid: D209C89E-EA5E-4FBD-B161-B461CCE297E0
   type: gpt
   partitions:
-    - size: 1048576
-      type: 21686148-6449-6E6F-744E-656564454649
-      bootable: true
-      uuid: FAC7F1FB-3E8D-4137-A512-961DE09A5549
-    - size: 209715200
+    - size: 524288000
       type: C12A7328-F81F-11D2-BA4B-00A0C93EC93B
       uuid: 68B2905B-DF3E-4FB3-80FA-49D1E773AA33
       payload:
         type: vfat
         uuid: 7B77-95E7
-        label: ESP
         mountpoint: /boot/efi
         fstab_options: defaults,uid=0,gid=0,umask=077,shortname=winnt
         fstab_passno: 2
-    - size: 2147483648
+    - size: 1073741824
       type: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
-      uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
+      uuid: CB07C243-BC44-4717-853E-28852021225B
       payload:
         type: xfs
-        label: root
-        mountpoint: /
+        mountpoint: /boot
         fstab_options: defaults
+    - size: 2097152
+      type: 21686148-6449-6E6F-744E-656564454649
+      bootable: true
+      uuid: FAC7F1FB-3E8D-4137-A512-961DE09A5549
+    - size: 0
+      type: E6D6D379-F507-44C2-A23C-238F2A3DF928
+      uuid: 6264D520-3FB9-423F-8AB8-7A0A8E3D3562
+      payload:
+        name: rootvg
+        description: built with lvm2 and osbuild
+        logical_volumes:
+          - name: homelv
+            size: 1073741824
+            payload:
+              type: xfs
+              label: home
+              mountpoint: /home
+              fstab_options: defaults
+          - name: rootlv
+            size: 2147483648
+            payload:
+              type: xfs
+              label: root
+              mountpoint: /
+              fstab_options: defaults
+          - name: tmplv
+            size: 2147483648
+            payload:
+              type: xfs
+              label: tmp
+              mountpoint: /tmp
+              fstab_options: defaults
+          - name: usrlv
+            size: 10737418240
+            payload:
+              type: xfs
+              label: usr
+              mountpoint: /usr
+              fstab_options: defaults
+          - name: varlv
+            size: 10737418240
+            payload:
+              type: xfs
+              label: var
+              mountpoint: /var
+              fstab_options: defaults
 ```
 
 
