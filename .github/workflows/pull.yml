@@ -39,6 +39,11 @@ jobs:
         run: |
           make pull-image-builder
 
+      - name: Pull koji-image-builder
+        working-directory: ./osbuild.github.io
+        run: |
+          make pull-koji-image-builder
+
       - name: Install podman
         run: |
           sudo apt-get update
