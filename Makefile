@@ -20,8 +20,12 @@ pull-readmes: ## pull the readmes from other projects given in `readme-list`
 pull-image-builder: ## pull the image-builder-cli documentation
 	python3 scripts/pull_image-builder.py
 
+.PHONY: pull-koji-image-builder
+pull-koji-image-builder: ## pull the image-builder-cli documentation
+	python3 scripts/pull_koji-image-builder.py
+
 .PHONY: pull-osbuild-modules
-pull-osbuild-modules: ## pull the documentation of the osbuild modules 
+pull-osbuild-modules: ## pull the documentation of the osbuild modules
 	python3 scripts/pull_osbuild_modules.py
 
 # Pull image descriptions for subset of supported distributions
