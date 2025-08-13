@@ -128,6 +128,10 @@ Buildhost commands used: `tar` and any needed compression program.
       "transform": {
         "type": "string",
         "description": "Used to transform filenames and directly passed to --transform"
+      },
+      "numeric-owner": {
+        "type": "boolean",
+        "description": "Always use numbers for user/group names"
       }
     }
   },
