@@ -2,7 +2,7 @@
 custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/pull_image_descriptions.py
 ---
 
-# edge-installer
+# everything-netinst
 
 <!--
 [//]: # ( DO NOT MODIFY THIS FILE! )
@@ -10,7 +10,7 @@ custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/
 [//]: # ( Generated on: 2025-08-20 07:24:59 UTC )
 -->
 
-Image description for **edge-installer** on **Red Hat Enterprise Linux 9.6**.
+Image description for **everything-netinst** on **Fedora 43**.
 
 The descriptions below describe the base image version, that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
 
@@ -34,129 +34,106 @@ The format of the image description is not guaranteed to be stable. It is publis
 ## aarch64 {#aarch64}
 
 ```yaml
-distro: rhel-9.6
-type: edge-installer
+distro: fedora-43
+type: everything-netinst
 arch: aarch64
-os_version: "9.6"
+os_version: "43"
 bootmode: uefi
 partition_type: ""
-default_filename: installer.iso
+default_filename: netinst.iso
 build_pipelines:
   - build
 payload_pipelines:
   - anaconda-tree
-  - rootfs-image
   - efiboot-tree
   - bootiso-tree
   - bootiso
 packages:
   anaconda-tree:
     include:
-      - aajohan-comfortaa-fonts
-      - abattis-cantarell-fonts
-      - alsa-firmware
-      - alsa-tools-firmware
+      - amd-gpu-firmware
       - anaconda
       - anaconda-dracut
-      - anaconda-install-env-deps
+      - anaconda-install-img-deps
       - anaconda-widgets
+      - arm-image-installer
+      - atheros-firmware
+      - atmel-firmware
       - audit
+      - b43-openfwwf
+      - bcm2711-firmware
+      - bcm2835-firmware
+      - bcm283x-firmware
       - bind-utils
-      - bitmap-fangsongti-fonts
+      - brcmfmac-firmware
+      - bridge-utils
       - bzip2
       - cryptsetup
       - curl
-      - dbus-x11
-      - dejavu-sans-fonts
-      - dejavu-sans-mono-fonts
+      - default-fonts-core-sans
+      - default-fonts-other-sans
       - device-mapper-persistent-data
       - dmidecode
-      - dnf
       - dracut-config-generic
       - dracut-network
+      - dump
       - efibootmgr
       - ethtool
-      - fcoe-utils
+      - fpaste
       - ftp
       - gdb-gdbserver
       - gdisk
       - glibc-all-langpacks
-      - gnome-kiosk
-      - google-noto-sans-cjk-ttc-fonts
+      - google-noto-sans-cjk-fonts
       - grub2-efi-aa64
       - grub2-efi-aa64-cdboot
       - grub2-tools
       - grub2-tools-extra
       - grub2-tools-minimal
       - grubby
-      - gsettings-desktop-schemas
       - hdparm
       - hexedit
-      - hostname
       - initscripts
+      - intel-gpu-firmware
       - ipmitool
-      - iwl100-firmware
-      - iwl1000-firmware
-      - iwl105-firmware
-      - iwl135-firmware
-      - iwl2000-firmware
-      - iwl2030-firmware
-      - iwl3160-firmware
-      - iwl5000-firmware
-      - iwl5150-firmware
-      - iwl6000g2a-firmware
-      - iwl6000g2b-firmware
-      - iwl6050-firmware
-      - iwl7260-firmware
-      - jomolhari-fonts
-      - kacst-farsi-fonts
-      - kacst-qurn-fonts
+      - iwlegacy-firmware
+      - iwlwifi-dvm-firmware
+      - iwlwifi-mvm-firmware
       - kbd
       - kbd-misc
-      - kdump-anaconda-addon
       - kernel
-      - khmeros-base-fonts
+      - kernel-modules
+      - kernel-modules-extra
       - less
-      - libblockdev-lvm-dbus
-      - libibverbs
+      - libertas-firmware
       - libreport-plugin-bugzilla
       - libreport-plugin-reportuploader
-      - librsvg2
       - linux-firmware
-      - lklug-fonts
-      - lldpad
-      - lohit-assamese-fonts
-      - lohit-bengali-fonts
-      - lohit-devanagari-fonts
-      - lohit-gujarati-fonts
-      - lohit-gurmukhi-fonts
-      - lohit-kannada-fonts
-      - lohit-odia-fonts
-      - lohit-tamil-fonts
-      - lohit-telugu-fonts
       - lsof
-      - madan-fonts
-      - mdadm
       - mt-st
+      - mt7xxx-firmware
       - mtr
+      - nano
+      - nano-default-editor
       - net-tools
       - nfs-utils
-      - nm-connection-editor
       - nmap-ncat
-      - nss-softokn
       - nss-tools
+      - nvidia-gpu-firmware
+      - nvme-cli
+      - nxpwireless-firmware
       - openssh-clients
       - openssh-server
-      - oscap-anaconda-addon
       - ostree
       - pciutils
-      - perl-interpreter
       - pigz
       - plymouth
       - prefixdevname
       - python3-pyatspi
+      - qcom-firmware
+      - qed-firmware
       - rdma-core
-      - redhat-release-eula
+      - realtek-firmware
       - rng-tools
       - rpcbind
       - rpm-ostree
@@ -165,32 +142,23 @@ packages:
       - selinux-policy-targeted
       - sg3_utils
       - shim-aa64
-      - sil-abyssinica-fonts
-      - sil-padauk-fonts
-      - sil-scheherazade-fonts
       - smartmontools
-      - smc-meera-fonts
       - spice-vdagent
       - strace
-      - systemd
       - tar
-      - thai-scalable-waree-fonts
       - tigervnc-server-minimal
       - tigervnc-server-module
-      - udisks2
-      - udisks2-iscsi
+      - tiwilink-firmware
+      - uboot-images-armv8
+      - uboot-tools
       - usbutils
+      - vconfig
       - vim-minimal
       - volume_key
-      - wget
+      - wget2-wget
       - xfsdump
-      - xfsprogs
-      - xorg-x11-drivers
-      - xorg-x11-fonts-misc
-      - xorg-x11-server-Xorg
-      - xorg-x11-server-utils
-      - xorg-x11-xauth
       - xz
+      - zd1211-firmware
     exclude: []
   build:
     include:
@@ -204,10 +172,8 @@ packages:
       - grub2-tools-minimal
       - isomd5sum
       - lorax-templates-generic
-      - platform-python
       - python3
       - rpm
-      - rpm-ostree
       - selinux-policy-targeted
       - shadow-utils
       - shim-aa64
@@ -221,56 +187,56 @@ packages:
 ## x86_64 {#x86-64}
 
 ```yaml
-distro: rhel-9.6
-type: edge-installer
+distro: fedora-43
+type: everything-netinst
 arch: x86_64
-os_version: "9.6"
-bootmode: uefi
+os_version: "43"
+bootmode: hybrid
 partition_type: ""
-default_filename: installer.iso
+default_filename: netinst.iso
 build_pipelines:
   - build
 payload_pipelines:
   - anaconda-tree
-  - rootfs-image
   - efiboot-tree
   - bootiso-tree
   - bootiso
 packages:
   anaconda-tree:
     include:
-      - aajohan-comfortaa-fonts
-      - abattis-cantarell-fonts
-      - alsa-firmware
-      - alsa-tools-firmware
+      - amd-gpu-firmware
+      - amd-ucode-firmware
       - anaconda
       - anaconda-dracut
-      - anaconda-install-env-deps
+      - anaconda-install-img-deps
       - anaconda-widgets
+      - atheros-firmware
+      - atmel-firmware
       - audit
+      - b43-openfwwf
       - bind-utils
       - biosdevname
-      - bitmap-fangsongti-fonts
+      - brcmfmac-firmware
+      - bridge-utils
       - bzip2
       - cryptsetup
       - curl
-      - dbus-x11
-      - dejavu-sans-fonts
-      - dejavu-sans-mono-fonts
+      - default-fonts-core-sans
+      - default-fonts-other-sans
       - device-mapper-persistent-data
       - dmidecode
-      - dnf
       - dracut-config-generic
       - dracut-network
+      - dump
       - efibootmgr
       - ethtool
-      - fcoe-utils
+      - fpaste
       - ftp
       - gdb-gdbserver
       - gdisk
       - glibc-all-langpacks
-      - gnome-kiosk
-      - google-noto-sans-cjk-ttc-fonts
+      - google-noto-sans-cjk-fonts
+      - grub2-efi-ia32-cdboot
       - grub2-efi-x64
       - grub2-efi-x64-cdboot
       - grub2-pc
@@ -280,75 +246,49 @@ packages:
       - grub2-tools-extra
       - grub2-tools-minimal
       - grubby
-      - gsettings-desktop-schemas
       - hdparm
       - hexedit
-      - hostname
       - initscripts
+      - intel-gpu-firmware
       - ipmitool
-      - iwl100-firmware
-      - iwl1000-firmware
-      - iwl105-firmware
-      - iwl135-firmware
-      - iwl2000-firmware
-      - iwl2030-firmware
-      - iwl3160-firmware
-      - iwl5000-firmware
-      - iwl5150-firmware
-      - iwl6000g2a-firmware
-      - iwl6000g2b-firmware
-      - iwl6050-firmware
-      - iwl7260-firmware
-      - jomolhari-fonts
-      - kacst-farsi-fonts
-      - kacst-qurn-fonts
+      - iwlegacy-firmware
+      - iwlwifi-dvm-firmware
+      - iwlwifi-mvm-firmware
       - kbd
       - kbd-misc
-      - kdump-anaconda-addon
       - kernel
-      - khmeros-base-fonts
+      - kernel-modules
+      - kernel-modules-extra
       - less
-      - libblockdev-lvm-dbus
-      - libibverbs
+      - libertas-firmware
       - libreport-plugin-bugzilla
       - libreport-plugin-reportuploader
-      - librsvg2
       - linux-firmware
-      - lklug-fonts
-      - lldpad
-      - lohit-assamese-fonts
-      - lohit-bengali-fonts
-      - lohit-devanagari-fonts
-      - lohit-gujarati-fonts
-      - lohit-gurmukhi-fonts
-      - lohit-kannada-fonts
-      - lohit-odia-fonts
-      - lohit-tamil-fonts
-      - lohit-telugu-fonts
       - lsof
-      - madan-fonts
-      - mdadm
-      - memtest86+
+      - microcode_ctl
       - mt-st
+      - mt7xxx-firmware
       - mtr
+      - nano
+      - nano-default-editor
       - net-tools
       - nfs-utils
-      - nm-connection-editor
       - nmap-ncat
-      - nss-softokn
       - nss-tools
+      - nvidia-gpu-firmware
+      - nvme-cli
+      - nxpwireless-firmware
       - openssh-clients
       - openssh-server
-      - oscap-anaconda-addon
       - ostree
       - pciutils
-      - perl-interpreter
       - pigz
       - plymouth
       - prefixdevname
       - python3-pyatspi
+      - qed-firmware
       - rdma-core
-      - redhat-release-eula
+      - realtek-firmware
       - rng-tools
       - rpcbind
       - rpm-ostree
@@ -356,35 +296,25 @@ packages:
       - rsyslog
       - selinux-policy-targeted
       - sg3_utils
+      - shim-ia32
       - shim-x64
-      - sil-abyssinica-fonts
-      - sil-padauk-fonts
-      - sil-scheherazade-fonts
       - smartmontools
-      - smc-meera-fonts
       - spice-vdagent
       - strace
       - syslinux
       - syslinux-nonlinux
-      - systemd
       - tar
-      - thai-scalable-waree-fonts
       - tigervnc-server-minimal
       - tigervnc-server-module
-      - udisks2
-      - udisks2-iscsi
+      - tiwilink-firmware
       - usbutils
+      - vconfig
       - vim-minimal
       - volume_key
-      - wget
+      - wget2-wget
       - xfsdump
-      - xfsprogs
-      - xorg-x11-drivers
-      - xorg-x11-fonts-misc
-      - xorg-x11-server-Xorg
-      - xorg-x11-server-utils
-      - xorg-x11-xauth
       - xz
+      - zd1211-firmware
     exclude: []
   build:
     include:
@@ -400,10 +330,8 @@ packages:
       - grub2-tools-minimal
       - isomd5sum
       - lorax-templates-generic
-      - platform-python
       - python3
       - rpm
-      - rpm-ostree
       - selinux-policy-targeted
       - shadow-utils
       - shim-x64
