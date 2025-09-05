@@ -38,6 +38,10 @@ commands to create disks and images.
       "default": "x86_64",
       "description": "The basic architecture param to supply to the template"
     },
+    "libdir": {
+      "type": "string",
+      "default": "lib64"
+    },
     "product": {
       "type": "object",
       "additionalProperties": false,
@@ -48,10 +52,20 @@ commands to create disks and images.
         "version": {
           "type": "string"
         }
-      },
-      "libdir": {
-        "type": "string",
-        "default": "lib64"
+      }
+    },
+    "branding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "release": {
+          "type": "string",
+          "description": "Release package name, like fedora-release"
+        },
+        "logos": {
+          "type": "string",
+          "description": "Logo package name, like fedora-logos"
+        }
       }
     }
   }
