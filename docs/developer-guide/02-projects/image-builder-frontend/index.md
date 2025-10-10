@@ -30,17 +30,27 @@ Frontend code for Image Builder.
    1. [Frontend Development](#frontend-development)
    2. [Image builder as Cockpit plugin](#image-builder-as-cockpit-plugin)
    3. [Backend Development](#backend-development)
-2. [API](#api-endpoints)
+2. [API endpoints](#api-endpoints)
+   1. [Add a new API schema](#add-a-new-api-schema)
+   2. [Add a new endpoint](#add-a-new-endpoint)
 3. [Unleash feature flags](#unleash-feature-flags)
-4. [File structure](#file-structure)
+   1. [Mocking flags for tests](#mocking-flags-for-tests)
+   2. [Cleaning the flags](#cleaning-the-flags)
+4. [File Structure](#file-structure)
 5. [Style Guidelines](#style-guidelines)
 6. [Test Guidelines](#test-guidelines)
 7. [Running hosted service Playwright tests](#running-hosted-service-playwright-tests)
+8. [Playwright Boot tests](#playwright-boot-tests)
+   1. [Local development setup](#local-development-setup)
+   2. [CI setup](#ci-setup)
 
 ## How to build and run image-builder-frontend
 
 > [!IMPORTANT]
 > Running image-builder-frontend against [console.redhat.com](https://console.redhat.com/) requires connection to the Red Hat VPN, which is only available to Red Hat employees. External contributors can locally run [image builder as Cockpit plugin](#image-builder-as-cockpit-plugin).
+>
+> As you will see in the following sections we **always** prefer `npm clean-install` (aka `npm ci`) over `npm install` to install dependencies exactly as they are defined in the `package-lock.json` file.<br/>
+> This is crucial to avoid any discrepancies between the dependencies installed locally and the dependencies installed in the CI as well as unintentionally installing compromised dependencies.
 
 ### Frontend Development
 
@@ -56,7 +66,7 @@ Make sure you have npm@10 and node 22+ installed. If you need multiple versions 
 
 #### Webpack proxy
 
-1. run `npm ci`
+1. run `npm clean-install`
 
 2. run `npm run start:prod`
 
@@ -70,7 +80,7 @@ echo "127.0.0.1 prod.foo.redhat.com" >> /etc/hosts
 
 #### Webpack proxy (staging) -- *Runs with image-builder's stage deployment*
 
-1. run `npm ci`
+1. run `npm clean-install`
 
 2. run `npm run start:stage`
 
@@ -307,6 +317,8 @@ If you'd like to see the stack printed out you can either temporarily disable th
 
 ## Running hosted service Playwright tests
 
+### Running tests
+
 1. Copy the [example env file](https://github.com/osbuild/image-builder-frontend/tree/main/playwright_example.env) content and create a file named `.env` in the root directory of the project. Paste the example file content into it.
    For local development fill in the:
     * `BASE_URL` - `https://stage.foo.redhat.com:1337` is required, which is already set in the example config
@@ -315,7 +327,7 @@ If you'd like to see the stack printed out you can either temporarily disable th
 
 2. Make sure Playwright is installed as a dev dependency
    ```bash
-   npm ci
+   npm clean-install
    ```
 
 3. Download the Playwright browsers with
@@ -332,3 +344,38 @@ If you'd like to see the stack printed out you can either temporarily disable th
    * (Preferred) Use VS Code and the [Playwright Test module for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright). But other editors do have similar plugins for ease of use, if so desired
    * Using terminal - `npx playwright test` will run the playwright test suite. `npx playwright test --headed` will run the suite in a vnc-like browser so you can watch it's interactions.
 
+### Dynamic vs static users
+This applies to the **stage** environment only. By default we generate a new user for each CI run for the hosted tests, however there is an option to use static user as well. You can set credentials for said static user like this:
+```.env
+PLAYWRIGHT_STATIC_USER="<your_static_user_username>"
+PLAYWRIGHT_STATIC_PASSWORD="<your_static_user_password>"
+```
+For local development purposes, you can use the same credentials as for `PLAYWRIGHT_USER` and `PLAYWRIGHT_PASSWORD` if you are using your stage account for those.
+## Playwright Boot tests
+This section describes what Playwright Boot tests are, how they work and how to run them locally.
+
+Boot tests provide end to end coverage for Image Builder and they are used to test mainly integrations with other services. Their main advantage is that they build an image, upload it and **launch it on RHOSP** (RedHat OpenStack Platform). This way we can test images and their customizations through remotely executed commands on an actual running VM booted from the image.
+Boot tests are located in the [playwright/BootTests](https://github.com/osbuild/image-builder-frontend/tree/main/playwright/BootTests) directory.
+
+### Local development setup
+In order to run the Boot tests locally, we need to set up few things first on top of what we did in the [Running hosted service Playwright tests](#running-hosted-service-playwright-tests) section.
+
+We need additional fields in the .env file, some of them are already set and don't need to be changed in the [example env file](https://github.com/osbuild/image-builder-frontend/tree/main/playwright_example.env)), but some of them have to be set manually, specifically following:
+
+```.env
+OS_APPLICATION_CREDENTIAL_ID=<your_id>
+OS_APPLICATION_CREDENTIAL_SECRET=<your_secret>
+OS_SSH_KEY_NAME="<name_of_your_ssh_key_entry_in_openstack>"
+```
+
+In order to be able to access RHOSP within the Boot tests, we need to generate credentials and create an entry with our public ssh key on the platform. Log into [RHOSP dashboard](https://api.rhos-01.prod.psi.rdu2.redhat.com/) using **Keystone credentials** and navigate to Identity -> Application Credentials. There you can create the credentials (you will get values for `OS_APPLICATION_CREDENTIAL_ID` and `OS_APPLICATION_CREDENTIAL_SECRET`). In order to create an entry for your SSH key, navigate to Project -> Compute -> Keys and add your public key there.
+
+By filling out these variables you should be able to run the Boot test locally successfully.
+
+### CI setup
+Boot tests run as a scheduled nightly Github Action with a custom runner in AWS Codebuild, but there is an option to run them manually on a PR as well.
+#### Manual run
+In order to run the Boot tests on a PR, you can open the `Boot tests` workflow in Github Actions and type in the number of PR into a `Pull Request number to run tests against` field. The action will then pull the code from a PR of that number and execute as usual.
+
+#### Where can I see results?
+You can find artifacts and link to a Currents report directly in the workflow run detail, but Currents will also link the report back to the PR when the workflow finishes as a *check*.

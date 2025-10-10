@@ -9,7 +9,7 @@ custom_edit_url: https://github.com/osbuild/image-builder-cli/blob/main/doc/00-i
 [//]: # ( Rather change the source of this: https://github.com/osbuild/image-builder-cli/blob/main/doc/00-installation.md )
 -->
 
-`image-builder` packages are available in [Fedora](https://fedoraproject.org) ([package details](https://packages.fedoraproject.org/pkgs/image-builder/image-builder/)). You can also get a copy from other places listed here. After you have `image-builder` installed take a look at its [usage](./01-usage.md).
+`image-builder` packages are available in [Fedora](https://fedoraproject.org) ([package details](https://packages.fedoraproject.org/pkgs/image-builder/image-builder/)) and [CentOS](https://centos.org). You can also get a copy from other places listed here. After you have `image-builder` installed take a look at its [usage](./01-usage.md).
 
 ## Fedora or CentOS
 

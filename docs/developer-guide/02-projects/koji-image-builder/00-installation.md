@@ -54,10 +54,11 @@ On the machines that host your Koji's web interface you want to make sure the ta
 Tasks = ...,imageBuilderBuild,imageBuilderBuildArch
 ```
 
-And make sure that the `ParentTasks` list contains `imageBuilderBuild`:
+And make sure that the `ParentTasks`, and `ToplevelTasks` lists contain `imageBuilderBuild`:
 
 ```
 ParentTasks = ...,imageBuilderBuild
+ToplevelTasks = ...,imageBuilderBuild
 ```
 
 ## Koji Setup
