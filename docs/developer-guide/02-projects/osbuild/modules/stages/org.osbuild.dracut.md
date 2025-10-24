@@ -116,6 +116,13 @@ NB: needs chroot for now as well as `strip` for stripping the initrfams.
         "type": "string"
       }
     },
+    "remove": {
+      "description": "Remove a list of files and/or directories from initramfs (dracut 108).",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "early_microcode": {
       "description": "Combine early microcode with the initramfs.",
       "type": "boolean",

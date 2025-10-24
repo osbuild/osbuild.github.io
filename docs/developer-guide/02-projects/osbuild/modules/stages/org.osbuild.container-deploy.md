@@ -49,7 +49,7 @@ Buildhost commands used: podman skopeo
       "remove-signatures": {
         "type": "boolean",
         "default": false,
-        "description": "Do not copy signatures, if any, from source-image. Necessary when copying a signed image to a destination which does not support signatures."
+        "description": "Obsolete. Does nothing."
       }
     }
   }

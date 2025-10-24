@@ -27,6 +27,7 @@ Supported configuration options:
   - force_drivers
   - filesystems
   - install_items
+  - remove_items
   - early_microcode
   - reproducible
 
@@ -125,6 +126,14 @@ Supported configuration options:
           "items": {
             "type": "string",
             "description": "Specify additional files to include in the initramfs."
+          }
+        },
+        "remove_items": {
+          "description": "Remove the specified files (dracut 108).",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Specify files to remove from the initramfs."
           }
         },
         "early_microcode": {
