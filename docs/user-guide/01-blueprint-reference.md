@@ -135,6 +135,8 @@ version = "*"
 
 The content section determines what goes into the image from other sources such as packages, package groups, or containers. Content is defined at the root of the blueprint.
 
+Note that content can also be adjusted by other customizations. For example, a selected OpenSCAP profile might remove packages even when explicitly selected to be installed under the content section.
+
 ### Packages 🔵&nbsp;🟤 {#packages}
 
 The `packages` and `modules` lists contain objects with a `name` and optional `version` attribute.
