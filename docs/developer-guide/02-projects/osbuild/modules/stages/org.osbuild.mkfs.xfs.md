@@ -51,6 +51,10 @@ Buildhost commands used: `mkfs.xfs`.
         "description": "Label for the file system",
         "type": "string",
         "maxLength": 12
+      },
+      "agcount": {
+        "description": "The number of allocation groups for the file system",
+        "type": "integer"
       }
     }
   }
