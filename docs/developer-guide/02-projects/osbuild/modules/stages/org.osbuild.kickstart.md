@@ -113,39 +113,48 @@ commands are supported here.
     }
   },
   "additionalProperties": false,
-  "anyOf": [
-    {
-      "required": [
-        "path",
-        "ostree"
-      ],
-      "not": {
-        "required": [
-          "ostreecontainer"
-        ]
-      }
-    },
-    {
-      "required": [
-        "path",
-        "ostreecontainer"
-      ],
-      "not": {
-        "required": [
-          "ostree"
-        ]
-      }
-    },
+  "oneOf": [
     {
       "required": [
         "path"
       ],
       "not": {
-        "required": [
-          "ostree",
-          "ostreecontainer"
+        "anyOf": [
+          {
+            "required": [
+              "ostree"
+            ]
+          },
+          {
+            "required": [
+              "ostreecontainer"
+            ]
+          },
+          {
+            "required": [
+              "bootc"
+            ]
+          }
         ]
       }
+    },
+    {
+      "required": [
+        "ostree",
+        "path"
+      ]
+    },
+    {
+      "required": [
+        "ostreecontainer",
+        "path"
+      ]
+    },
+    {
+      "required": [
+        "bootc",
+        "path"
+      ]
     }
   ],
   "properties": {
@@ -211,6 +220,23 @@ commands are supported here.
           "type": "boolean",
           "default": true,
           "description": "This field is deprecated and does nothing."
+        }
+      }
+    },
+    "bootc": {
+      "type": "object",
+      "required": [
+        "source-imgref"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source-imgref": {
+          "type": "string",
+          "description": "Install the system from an explicitly given source. See containers-transport(5) for the list of supported transports."
+        },
+        "target-imgref": {
+          "type": "string",
+          "description": "Specify the image to fetch for subsequent updates. If not presented defaults to 'source-imgref' value. See containers-transport(5) for the list of supported transports."
         }
       }
     },

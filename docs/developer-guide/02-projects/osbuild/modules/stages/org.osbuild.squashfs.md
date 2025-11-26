@@ -32,6 +32,21 @@ Buildhost commands used: `mksquashfs` and any needed compression program.
         "description": "Filename for squashfs image",
         "type": "string"
       },
+      "source": {
+        "description": "Optional source (defaults to the input tree)",
+        "oneOf": [
+          {
+            "type": "string",
+            "description": "The source, if a mount",
+            "pattern": "^mount://"
+          },
+          {
+            "type": "string",
+            "description": "The source, if an input, eg. input://tree/",
+            "pattern": "^input://[^/]+/"
+          }
+        ]
+      },
       "exclude_paths": {
         "type": "array",
         "description": "Regex of paths to exclude, can be files or directories",
@@ -86,6 +101,13 @@ Buildhost commands used: `mksquashfs` and any needed compression program.
         "additionalProperties": true
       }
     }
+  },
+  "devices": {
+    "type": "object",
+    "additionalProperties": true
+  },
+  "mounts": {
+    "type": "array"
   }
 }
 ```
