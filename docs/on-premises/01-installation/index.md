@@ -33,7 +33,22 @@ $ newgrp weldr
 
 ## Web UI
 
-If you prefer the Web UI interface, known as an Image Builder, install the following package:
+If you prefer the Web UI interface, known as Cockpit image builder, install the following package:
+
+```
+$ sudo dnf install cockpit-image-builder
+```
+
+and enable `cockpit` and `osbuild-composer` services:
+
+```
+$ sudo systemctl enable --now osbuild-composer.socket
+$ sudo systemctl enable --now cockpit.socket
+```
+
+### Web UI before RHEL 10, CentOS 10 and fedora 42
+
+Cockpit composer is the old web UI, still available on RHEL 9 and CentOS 9:
 
 ```
 $ sudo dnf install cockpit-composer
