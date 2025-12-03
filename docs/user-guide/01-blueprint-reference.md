@@ -1232,22 +1232,20 @@ Arbitrary custom mountpoints are allowed, except for specific paths that are res
 
 The following mountpoints are **not** allowed (including their sub-directories):
 
-- `/bin`
-- `/boot/efi`
-- `/dev`
-- `/etc`
-- `/lib`
-- `/lib64`
-- `/lost+found`
-- `/proc`
-- `/run`
-- `/sbin`
-- `/sys`
-- `/sysroot`
-- `/var/lock`
-- `/var/run`
+- `/bin`: not allowed due to merged-usr
+- `/dev`: api filesystem
+- `/lib`: not allowed due to merged-usr
+- `/lib64`: not allowed due to merged-usr
+- `/lost+found`: used by ext filesystems
+- `/proc`: api filesystem
+- `/run`: api filesystem
+- `/sbin`: not allowed due to merged-usr
+- `/sys`: api filesystem
+- `/sysroot`: used by ostree
+- `/var/lock`: symlink to /run which is on tmpfs
+- `/var/run`: symlink to /run which is on tmpfs
 
-The following mountpoints are allowed, but their sub-directories are **not** allowed:
+The following mountpoints are allowed, but their sub-directories are **not** allowed as they are not supported by `systemd-fstab-generator` in initram before switch-root and thus don't get mounted in time:
 
 - `/usr`
 
