@@ -51,6 +51,21 @@ required.
         "description": "System id to set",
         "pattern": "[A-Z0-9_-]{1,32}"
       },
+      "pub": {
+        "type": "string",
+        "description": "Publisher to set",
+        "pattern": "^.{1,128}$"
+      },
+      "appid": {
+        "type": "string",
+        "description": "Application id to set",
+        "pattern": "^.{1,128}$"
+      },
+      "prep": {
+        "type": "string",
+        "description": "Preparer to set",
+        "pattern": "^.{1,128}$"
+      },
       "boot": {
         "type": "object",
         "additionalProperties": false,
