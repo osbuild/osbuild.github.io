@@ -33,7 +33,7 @@ See also the [local developer documentation](https://github.com/osbuild/images/t
 #### YAML based image definitions
 
 More and more parts of the library are converted to use yaml to define core
-parts of an image. See this [example](https://github.com/osbuild/images/tree/main/pkg/distro/packagesets/fedora/)
+parts of an image. See this [example](https://github.com/osbuild/images/tree/main/data/distrodefs/)
 directory. For local development that just changes the YAML based
 definitions the library can be forced to use alternative yaml dirs.
 
