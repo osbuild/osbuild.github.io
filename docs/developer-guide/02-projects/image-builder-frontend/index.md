@@ -9,7 +9,7 @@ custom_edit_url: https://github.com/osbuild/image-builder-frontend/blob/main/REA
 [//]: # ( Rather change the source of this: https://github.com/osbuild/image-builder-frontend/blob/main/README.md )
 -->
 
-Frontend code for Image Builder.
+The frontend code for Image Builder.
 
 ## Project
 
