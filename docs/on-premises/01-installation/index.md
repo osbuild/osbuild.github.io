@@ -1,35 +1,59 @@
 # Installation and configuration
 
-To get started with `osbuild-composer` on your local machine, you can install the CLI interface or the Web UI, which is part of Cockpit project. 
+To get started with `image-builder` CLI on your local machine, you can install the CLI interface or the Web UI, which is part of Cockpit project. 
 
 ## CLI interface
 
-For CLI only, run the following command to install necessary packages:
+For CLI only, enter the following command to install required packages:
 
 ```
-$ sudo dnf install osbuild-composer composer-cli
+$ sudo dnf install image-builder osbuild osbuild-depsolve-dnf
 ```
 
-Note that `composer-cli` is a virtual provides for the actual package name, which is `weldr-client` for historical reasons.
-
-To enable the service, run this command:
-
-```
-$ sudo systemctl enable --now osbuild-composer.socket
-```
-
-Verify that the installation works by running `composer-cli`:
-
-```
-$ sudo composer-cli status show
-```
-
-If you prefer to run this command without sudo privileges, add your user to the `weldr` group:
+To use image-builder CLI without sudo privileges, add your user to the `weldr` group:
 
 ```
 $ sudo usermod -a -G weldr <user>
 $ newgrp weldr
 ```
+
+To list all available options, enter the following command:
+
+```
+$ image-builder list
+```
+
+### Standard build
+
+To build a basic QCOW2 image for CentOS Stream 9:
+
+```
+$ sudo image-builder build qcow2 --distro centos-9
+```
+
+### Custom build
+
+To customize the image, create a blueprint:
+
+```
+$ sudo vim centos-9-custom.toml
+```
+
+In the `centos-9-custom.toml` file, specify the customizations you want to add. The following example specifies a username, password, and group to preconfigure:
+
+```
+[[customizations.user]]
+name = "admin"
+password = "$6cnwJk44gH" 
+groups = ["wheel"]
+```
+
+Use the blueprint to build the image: 
+
+```
+$ sudo image-builder build qcow2 --distro centos-9 --blueprint ./centos-9-custom.toml
+```
+
 
 ## Web UI
 
