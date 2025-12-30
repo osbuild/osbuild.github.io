@@ -17,7 +17,7 @@ Note that there are some small differences in this procedure between RHEL 8.4 an
 
 The `edge-container` image type creates an OSTree commit and embeds it into an OCI container with a web server. When the container is started, the web server serves the commit as an OSTree repository.
 
-The `edge-intaller` image type pulls the commit from the running container and creates an installable boot ISO with a kickstart file configured to use the embedded OSTree commit.
+The `edge-installer` image type pulls the commit from the running container and creates an installable boot ISO with a kickstart file configured to use the embedded OSTree commit.
 
 ## Detailed workflow
 

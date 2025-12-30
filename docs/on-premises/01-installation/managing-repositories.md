@@ -7,6 +7,34 @@ There are two kinds of repositories used in osbuild-composer:
 
 ## Custom 3rd party repositories
 
+### Using the `image-builder` CLI
+
+With the `image-builder` CLI, you simply pass the repository URL using the --extra-repo flag when running the build command. You can use this flag multiple times.
+
+```
+$ image-builder build qcow2 \
+  --distro centos-9 \
+  --extra-repo https://my.custom.repo/path \
+  --extra-repo https://another.repo/path
+
+```
+
+If you need to replace the official repositories (for example, to use a local mirror for everything), you use the `--force-data-dir` flag.
+
+1. Create a local directory (e.g., ./my-repos).
+
+2. Create a `.json` file inside it matching the distro name (e.g., centos-9.json). For examples of how to format the JSON, see [defining overrides](#defining-official-repository-overrides). 
+
+3. Run the build pointing to that directory:
+
+```
+image-builder build qcow2 \
+  --distro centos-9 \
+  --force-data-dir ./my-repos
+```
+
+### Using the `composer-cli`
+
 These are managed using `composer-cli` (see the manpage for complete reference). To add a new repository, create a `TOML` file like this:
 
 ```toml
@@ -32,20 +60,20 @@ Sources with no `distros` will be used with all composes. If you want to use a
 source for a specific distro you set the `distros` list to the distro name(s)
 to use it with.
 
-eg. A source that is only used when depsolving or building fedora 32:
+eg. A source that is only used when depsolving or building fedora 42:
 
 ```toml
 check_gpg = true
 check_ssl = true
-distros = ["fedora-32"]
-id = "f32-local"
-name = "local packages for fedora32"
+distros = ["fedora-42"]
+id = "f42-local"
+name = "local packages for fedora42"
 type = "yum-baseurl"
-url = "http://local/repos/fedora32/projectrepo/"
+url = "http://local/repos/fedora42/projectrepo/"
 ```
 
-This source will be used for any requests that specify fedora-32, eg. listing
-packages and specifying fedora-32 will include this source, but listing
+This source will be used for any requests that specify fedora-42, eg. listing
+packages and specifying fedora-42 will include this source, but listing
 packages for the host distro will not.
 
 ### Verifying Repository Metadata with GPG
