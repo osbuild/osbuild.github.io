@@ -1,6 +1,6 @@
 # Building OSTree image
 
-This section contains a guide for building OSTree commits. As opposed to the "traditional" image types, these commits are not directly bootable so although they basically contain a full operating system, in order to boot them, they need to be deployed. This can, for example, be done via the  Fedora installer (Anaconda).
+This section contains a guide for building OSTree commits. As opposed to the "traditional" image types, these commits are not directly bootable so although they basically contain a full operating system, in order to boot them, they need to be deployed. This can, for example, be done via the Fedora installer (Anaconda).
 
 OSTree is a technology for creating immutable operating system images and it is a base for Fedora CoreOS, Fedora IoT, Fedora Silverblue, and RHEL for Edge. For more information on OSTree, see [their website](https://ostreedev.github.io/ostree/).
 
@@ -49,7 +49,17 @@ name = "fish"
 version = "*"
 ```
 
-Now push the blueprint to osbuild-composer using `composer-cli`:
+### Using the image-builder CLI: 
+
+```
+$ image-builder build iot-commit   --distro fedora-43   --blueprint fishy.toml 
+```
+
+This command produces a `.tar` file. 
+
+## Using `composer-cli`:
+
+Push the blueprint to osbuild-composer using `composer-cli`:
 
 ```
 $ composer-cli blueprints push fishy.toml
