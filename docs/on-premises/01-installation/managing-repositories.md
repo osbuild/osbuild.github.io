@@ -12,14 +12,14 @@ There are two kinds of repositories used in osbuild-composer:
 With the `image-builder` CLI, you simply pass the repository URL using the --extra-repo flag when running the build command. You can use this flag multiple times.
 
 ```
-$ image-builder build qcow2 \
+$ sudo mage-builder build qcow2 \
   --distro centos-9 \
   --extra-repo https://my.custom.repo/path \
   --extra-repo https://another.repo/path
 
 ```
 
-If you need to replace the official repositories (for example, to use a local mirror for everything), you use the `--force-data-dir` flag.
+If you need to replace the official repositories (for example, to use a local mirror for everything), use the `--force-data-dir` flag.
 
 1. Create a local directory (e.g., ./my-repos).
 
@@ -28,7 +28,7 @@ If you need to replace the official repositories (for example, to use a local mi
 3. Run the build pointing to that directory:
 
 ```
-image-builder build qcow2 \
+$ sudo image-builder build qcow2 \
   --distro centos-9 \
   --force-data-dir ./my-repos
 ```

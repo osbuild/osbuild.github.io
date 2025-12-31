@@ -50,6 +50,14 @@ Image Builder can create images in multiple output formats shown in the followin
 
 To check the supported types, run the command:
 
+Using the `image-builder` CLI: 
+
+```
+$ image-builder list
+```
+
+Using the `composer-cli` CLI: 
+
 ```
 $ composer-cli compose types
 ```
