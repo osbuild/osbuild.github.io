@@ -52,7 +52,7 @@ version = "*"
 ### Using the image-builder CLI: 
 
 ```
-$ image-builder build iot-commit   --distro fedora-43   --blueprint fishy.toml 
+$ sudo image-builder build iot-commit   --distro fedora-43   --blueprint fishy.toml 
 ```
 
 This command produces a `.tar` file. 
@@ -62,26 +62,26 @@ This command produces a `.tar` file.
 Push the blueprint to osbuild-composer using `composer-cli`:
 
 ```
-$ composer-cli blueprints push fishy.toml
+$ sudo composer-cli blueprints push fishy.toml
 ```
 
 And start a build:
 
 ```
-$ composer-cli compose start fishy-commit fedora-iot-commit
+$ sudo composer-cli compose start fishy-commit fedora-iot-commit
 Compose 8e8014f8-4d15-441a-a26d-9ed7fc89e23a added to the queue
 ```
 
 Monitor the build status using:
 
 ```
-$ composer-cli compose status
+$ sudo composer-cli compose status
 ```
 
 And finally when the compose is complete, download the result:
 
 ```
-$ composer-cli compose image 8e8014f8-4d15-441a-a26d-9ed7fc89e23a
+$ sudo composer-cli compose image 8e8014f8-4d15-441a-a26d-9ed7fc89e23a
 8e8014f8-4d15-441a-a26d-9ed7fc89e23a-commit.tar: 670.45 MB
 ```
 
