@@ -52,7 +52,7 @@ version = "*"
 ### Using the image-builder CLI: 
 
 ```
-$ sudo image-builder build iot-commit   --distro fedora-43   --blueprint fishy.toml 
+$ sudo image-builder build iot-commit --distro fedora-43 --blueprint fishy.toml 
 ```
 
 This command produces a `.tar` file. 
