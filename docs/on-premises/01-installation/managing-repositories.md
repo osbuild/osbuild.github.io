@@ -12,7 +12,7 @@ There are two kinds of repositories used in osbuild-composer:
 With the `image-builder` CLI, you simply pass the repository URL using the --extra-repo flag when running the build command. You can use this flag multiple times.
 
 ```
-$ sudo mage-builder build qcow2 \
+$ sudo image-builder build qcow2 \
   --distro centos-9 \
   --extra-repo https://my.custom.repo/path \
   --extra-repo https://another.repo/path
