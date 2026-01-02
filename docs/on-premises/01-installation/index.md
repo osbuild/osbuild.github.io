@@ -78,7 +78,7 @@ If you prefer to run this command without sudo privileges, add your user to the 
 
 ```
 $ sudo usermod -a -G weldr <user>
-$ sudo newgrp weldr
+$ newgrp weldr
 ```
 
 ## Web UI
