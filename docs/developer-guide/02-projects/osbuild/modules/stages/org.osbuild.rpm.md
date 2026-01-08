@@ -136,6 +136,11 @@ This stage will return the following metadata via the osbuild API:
           "type": "string"
         }
       },
+      "ignore_gpg_import_failures": {
+        "type": "boolean",
+        "description": "Ignore errors when importing gpg keys specified in the `gpgkeys` option",
+        "default": false
+      },
       "disable_dracut": {
         "description": "Prevent dracut from running",
         "type": "boolean"
