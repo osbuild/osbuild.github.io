@@ -43,6 +43,11 @@ If the specified group name or GID is already in use, this stage will fail.
             }
           }
         }
+      },
+      "force": {
+        "type": "boolean",
+        "description": "Exit with success when the group already exists. Also automatically ignores GID conflicts if the one specified for a group already exists",
+        "default": false
       }
     }
   },

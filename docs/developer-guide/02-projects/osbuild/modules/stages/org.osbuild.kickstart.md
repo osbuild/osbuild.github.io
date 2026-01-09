@@ -209,7 +209,8 @@ commands are supported here.
             "registry",
             "oci",
             "oci-archive",
-            "dir"
+            "dir",
+            "containers-storage"
           ],
           "description": "Use the given transport, Anaconda's default is 'registry'"
         },
