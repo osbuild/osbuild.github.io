@@ -136,10 +136,21 @@ This stage will return the following metadata via the osbuild API:
           "type": "string"
         }
       },
-      "ignore_gpg_import_failures": {
-        "type": "boolean",
-        "description": "Ignore errors when importing gpg keys specified in the `gpgkeys` option",
-        "default": false
+      "rpmkeys": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bin_path": {
+            "type": "string",
+            "description": "Path to the rpmkeys binary, used for importing gpg keys and verifying rpm signatures",
+            "default": "rpmkeys"
+          },
+          "ignore_import_failures": {
+            "type": "boolean",
+            "description": "Ignore errors when importing gpg keys specified in the `gpgkeys` option",
+            "default": false
+          }
+        }
       },
       "disable_dracut": {
         "description": "Prevent dracut from running",
