@@ -40,12 +40,11 @@ pull-osbuild-modules: ## pull the documentation of the osbuild modules
 .PHONY: pull-image-descriptions
 pull-image-descriptions:
 	python3 scripts/pull_image_descriptions.py \
-		--distro-filter "fedora-4[1-9]" \
-		--distro-filter "rhel-10.0" \
-		--distro-filter "rhel-9.6" \
-		--distro-filter "rhel-8.10" \
+		--distro-filter "fedora-4[2-4]" \
+		--distro-filter "rhel-(10.1|9.7|8.10)" \
+		--distro-filter "rocky-(10.1|9.7|8.10)" \
 		--distro-filter "centos-*" \
-		--distro-filter "almalinux-*" \
+		--distro-filter "almalinux-(10.1|9.7|8.10)" \
 		--distro-filter "almalinux_kitten-*"
 
 .PHONY: generate

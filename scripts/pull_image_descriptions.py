@@ -117,7 +117,7 @@ def start_container() -> bool:
     run_cmd = [
         "sudo", "podman", "run", "-d", "--privileged", "--rm",
         "--name", CONTAINER_NAME, "--entrypoint", "/usr/bin/bash",
-         CONTAINER_IMAGE, "-c", "trap 'exit' TERM; while true; do sleep 1; done"
+        CONTAINER_IMAGE, "-c", "trap 'exit' TERM; while true; do sleep 1; done"
     ]
     success, _, stderr = run_command(run_cmd)
     if not success:
@@ -195,7 +195,12 @@ def matches_filters(value: str, filters: List[str]) -> bool:
     return False
 
 
-def filter_images(images_data: Dict, distro_filters: List[str], arch_filters: List[str], type_filters: List[str]) -> Dict:
+def filter_images(
+    images_data: Dict,
+    distro_filters: List[str],
+    arch_filters: List[str],
+    type_filters: List[str]
+) -> Dict:
     """
     Filter images based on provided filters.
     """
@@ -230,7 +235,10 @@ def create_anchor(text: str) -> str:
     Converts to lowercase, replaces spaces and underscores with hyphens,
     removes dots, and handles other special characters.
     """
-    return text.lower().replace(' ', '-').replace('_', '-').replace('.', '-').replace('(', '').replace(')', '').strip('-')
+    text = text.lower().replace(' ', '-').replace('_', '-')
+    for ch in '().':
+        text = text.replace(ch, '')
+    return text.strip('-')
 
 
 def nice_distro_name(distro: str) -> Tuple[str, str]:
@@ -240,6 +248,7 @@ def nice_distro_name(distro: str) -> Tuple[str, str]:
     nice_names = {
         "fedora": "Fedora",
         "rhel": "Red Hat Enterprise Linux",
+        "rocky": "Rocky Linux",
         "centos": "CentOS Stream",
         "centos-stream": "CentOS Stream",
         "almalinux": "AlmaLinux OS",
@@ -284,7 +293,13 @@ def images_list_to_distro_families(images_list: Dict) -> Dict:
             # Handle cases where distro name doesn't contain a version
             distro_families[distro] = [(distro, "")]
 
-    distro_families = dict(sorted(distro_families.items(), reverse=True))
+    # keep rhel at the top, then sort alphabetically
+    distro_families = dict(
+        sorted(
+            distro_families.items(),
+            key=lambda x: (x[0] != "Red Hat Enterprise Linux", x[0])
+        )
+    )
 
     for family_name in distro_families.keys():
         distro_families[family_name] = sorted(distro_families[family_name], key=version_key, reverse=True)
@@ -325,11 +340,15 @@ custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/
 
 Image description for **{image_type}** on **{distro_name} {distro_version}**.
 
-The descriptions below describe the base image version, that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
+The descriptions below describe the base image version,
+that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
 
 :::note[Package sets]
 
-Each image description contains a list of base packages that make up the image. This list is dependency-resolved using the distribution's package manager and subsequently installed into the image. This means that the list of actually installed packages depends on the available RPM repositories and the dependencies of the packages listed in the image's base package set.
+Each image description contains a list of base packages that make up the image.
+This list is dependency-resolved using the distribution's package manager and subsequently installed into the image.
+This means that the list of actually installed packages depends on the available RPM repositories
+and the dependencies of the packages listed in the image's base package set.
 
 :::
 
@@ -431,7 +450,9 @@ This section describes the distributions available in the latest upstream versio
 
 :::note
 
-The list of available distributions may vary depending on the method used to build an image (e.g., `image-builder` CLI, `osbuild-composer`, Red Hat Insights service, etc.). It also depends on the host distribution and its version when building images locally.
+The list of available distributions may vary depending on the method used to build an image
+(e.g., `image-builder` CLI, `osbuild-composer`, Red Hat Insights service, etc.).
+It also depends on the host distribution and its version when building images locally.
 
 :::
 
@@ -522,7 +543,8 @@ def main():
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_path = pathlib.Path(temp_dir)
 
-            # Dictionary to store distro page info: distro_name -> [("version", "filepath"), ("version", "filepath"), ...]
+            # Dictionary to store distro page info:
+            # distro_name -> [("version", "filepath"), ("version", "filepath"), ...]
             distro_pages_info = {}
 
             # Generate individual image type pages
