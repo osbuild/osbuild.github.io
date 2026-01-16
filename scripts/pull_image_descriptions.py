@@ -205,9 +205,12 @@ def filter_images(
     Filter images based on provided filters.
     """
     filtered = {}
+    # save unique ignored distro, arch, and type filters
+    ignored_distro_filters = set()
 
     for distro, distro_data in images_data.items():
         if not matches_filters(distro, distro_filters):
+            ignored_distro_filters.add(distro)
             continue
 
         filtered_distro = {}
@@ -225,6 +228,9 @@ def filter_images(
 
         if filtered_distro:
             filtered[distro] = filtered_distro
+
+    # print ignored filters
+    print(f"Ignored distros: {sorted(ignored_distro_filters)}")
 
     return filtered
 
