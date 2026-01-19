@@ -558,6 +558,8 @@ An *optional* list of objects that contain the following attributes:
 - `name` a **required** string that sets the name of the group.
 - `gid` a **required** integer that sets the id of the group.
 
+*Note: Collisions caused by duplicate names or GIDs will be resolved automatically at build time. This includes system groups created by packages. Therefore, adding a group with a name that already exists on the system will have no effect. When specifying a GID that is already used by another group, another unique GID is chosen.*
+
 <Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
