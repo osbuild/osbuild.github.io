@@ -80,6 +80,41 @@ an efiboot.img.**
       "fips": {
         "type": "boolean"
       },
+      "troubleshooting": {
+        "type": "boolean",
+        "default": true
+      },
+      "test": {
+        "type": "boolean",
+        "default": true
+      },
+      "install": {
+        "type": "boolean",
+        "default": true
+      },
+      "custom": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "linux",
+            "initrd"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "linux": {
+              "type": "string"
+            },
+            "initrd": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "config": {
         "description": "Configuration options for grub itself",
         "type": "object",
