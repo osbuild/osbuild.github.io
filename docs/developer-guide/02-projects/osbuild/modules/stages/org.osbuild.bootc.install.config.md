@@ -80,6 +80,17 @@ filesystem type, that can be overridden in a derived container image.
                   "tmp2-luks"
                 ]
               }
+            },
+            "ostree": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Configuration options for the ostree repository.",
+              "properties": {
+                "bls-append-except-default": {
+                  "type": "string",
+                  "description": "Kernel arguments to append to Boot Loader Spec entries, except for the default entry. Useful for configuring arguments that should only apply to non-default deployments."
+                }
+              }
             }
           }
         }
