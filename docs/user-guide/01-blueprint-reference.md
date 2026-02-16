@@ -1261,7 +1261,7 @@ The two customizations are incompatible with each other; you may use one or the 
 
 The examples below are illustrative but not comprehensive. The [Partitioning](./07-partitioning.md) guide should be consulted to understand all the ways in which this customization can be used.
 
-<Tabs values={tabValuesOnPremBootc} >
+<Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
 ```toml
 [[customizations.disk.partitions]]
@@ -1297,8 +1297,45 @@ minsize = "1 GiB"
 ```
 </TabItem>
 <TabItem value="hosted" >
-```
-ℹ️ - Currently not supported
+```json
+{
+  "customizations": {
+    "disk": {
+      "partitions": [
+        {
+          "type": "plain",
+          "fs_type": "ext4",
+          "minsize": "50 GiB",
+          "mountpoint": "/data"
+        },
+        {
+          "name": "mainvg",
+          "type": "lvm",
+          "minsize": "20 GiB",
+          "logical_volumes": [
+            {
+              "name": "rootlv",
+              "fs_type": "ext4",
+              "minsize": "2 GiB",
+              "mountpoint": "/"
+            },
+            {
+              "name": "homelv",
+              "fs_type": "ext4",
+              "minsize": "2 GiB",
+              "mountpoint": "/home"
+            },
+            {
+              "name": "swaplv",
+              "fs_type": "swap",
+              "minsize": "1 GiB"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
 ```
 </TabItem>
 <TabItem value="bootc" >
