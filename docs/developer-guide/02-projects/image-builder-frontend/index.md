@@ -277,7 +277,7 @@ we're planning on using.
 | [`/src/Components`](https://github.com/osbuild/image-builder-frontend/tree/main/src/Components/)             | source code split by individual components |
 | [`/playwright`](https://github.com/osbuild/image-builder-frontend/tree/main/playwright/)                     | Playwright tests                           |
 | [`/playwright/BootTests`](https://github.com/osbuild/image-builder-frontend/tree/main/playwright/BootTests/) | Playwright boot tests                      |
-| [`/src/test`](https://github.com/osbuild/image-builder-frontend/tree/main/src/test/)                         | vitest utilities                           |
+| [`/src/test`](https://github.com/osbuild/image-builder-frontend/tree/main/src/test/)                         | Vitest utilities and integration tests     |
 | [`/src/test/mocks`](https://github.com/osbuild/image-builder-frontend/tree/main/src/test/mocks/)             | mock handlers and server config for MSW    |
 | [`/src/store`](https://github.com/osbuild/image-builder-frontend/tree/main/src/store/)                       | Redux store                                |
 
@@ -311,6 +311,10 @@ npm run lint:js:fix
 
 All the linting rules and configuration of ESLint can be found in [`eslint.config.js`](https://github.com/osbuild/image-builder-frontend/tree/main/eslint.config.js).
 
+### Import Paths
+
+Prefer the `@/` alias for imports outside the current or parent directory. Relative imports should be limited to `./` (current directory) and `../` (parent directory). Avoid deep relative paths like `../../` or deeper.
+
 ## Test Guidelines
 
 This project is tested using the [Vitest](https://vitest.dev/guide/) framework, [React Testing Library](https://testing-library.com/docs/react-testing-library/intro), and the [Mock Service Worker](https://mswjs.io/docs/) library.
@@ -319,13 +323,50 @@ All UI contributions must also include a new test or update an existing test in 
 
 ### Running the tests
 
-To run the unit tests, the linter, and the code coverage check run:
+To run all tests:
 
 ```bash
 npm run test
 ```
 
+To run unit tests only (co-located with components):
+
+```bash
+npm run test:unit
+```
+
+To run integration tests only:
+
+```bash
+npm run test:integration
+```
+
+**Test discoverability:** Run tests for a specific component by name:
+
+```bash
+npm run test:unit -- Packages
+```
+
 These tests will also be run in our CI when a PR is opened.
+
+### Test structure
+
+Unit tests are co-located with their components in a `tests/` subdirectory:
+
+```
+src/Components/Feature/
+├── Feature.tsx
+├── index.tsx
+└── tests/
+    ├── Feature.test.tsx
+    ├── helpers.tsx        # Shared test utilities and render wrappers
+    └── mocks/
+        ├── index.ts       # Re-exports mock data and handlers
+        ├── data.ts        # Mock data fixtures
+        └── api.ts         # Fetch mock handlers for component-specific endpoints
+```
+
+Prefer this co-located structure for new tests. Integration tests in `src/test/` should be migrated to unit tests over time.
 
 Note that `testing-library` DOM printout is currently disabled for all tests by the following configuration in `src/test/setup.ts`:
 
@@ -429,5 +470,4 @@ In order to run the Boot tests on a PR, you can open the `Boot tests` workflow i
 #### Where can I see results?
 
 You can find artifacts and link to a Currents report directly in the workflow run detail, but Currents will also link the report back to the PR when the workflow finishes as a _check_.
-
 
