@@ -100,6 +100,12 @@ required.
         "description": "The ISO 9660 version (limits of data size and filenames)",
         "minimum": 1,
         "maximum": 4
+      },
+      "exclude": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       }
     }
   },
