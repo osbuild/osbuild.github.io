@@ -2,6 +2,7 @@
 bootc-image-builder/main/README.md:docs/bootc/index.md
 # OSBuild
 osbuild/main/README.md:docs/developer-guide/02-projects/osbuild/index.md
+osbuild/main/docs/manifest.md:docs/developer-guide/02-projects/osbuild/manifest.md
 # Image definitions
 images/main/README.md:docs/developer-guide/02-projects/images/index.md
 images/main/docs/developer/README.md:docs/developer-guide/02-projects/images/docs/developer/README.md
