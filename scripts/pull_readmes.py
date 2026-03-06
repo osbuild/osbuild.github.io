@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-
 import argparse
-import re
 import os
-import requests
+import sys
 
+import requests
 from utils import patch_md
 
 
@@ -15,7 +14,7 @@ def download_file(url, output_path):
     # Create directories if they don't exist
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     with open(output_path, 'wb') as output_file:
         output_file.write(response.content)
 
@@ -24,19 +23,21 @@ def main():
     """
     Main function to parse command-line arguments and execute the script.
     """
-    parser = argparse.ArgumentParser(description='Parse a Markdown file and replace relative links with absolute links.')
+    parser = argparse.ArgumentParser(
+        description='Parse a Markdown file and replace relative links with absolute links.'
+    )
     parser.add_argument('input_file', help='Path to the input file containing source and target paths')
 
     args = parser.parse_args()
 
     if not os.path.isfile(args.input_file):
         print(f"Error: File not found: {args.input_file}")
-        exit(1)
+        sys.exit(1)
 
     github_rawurl = "https://raw.githubusercontent.com/osbuild"
     github_baseurl = "https://github.com/osbuild"
 
-    with open(args.input_file, 'r') as input_file:
+    with open(args.input_file, 'r', encoding="utf-8") as input_file:
         for line in input_file:
             # Skip comments
             if line.strip().startswith("#"):
@@ -56,7 +57,6 @@ def main():
 
             else:
                 print(f"Error: Invalid tuple format - skipping: {source}:{targetpath}")
-
 
 
 if __name__ == "__main__":
