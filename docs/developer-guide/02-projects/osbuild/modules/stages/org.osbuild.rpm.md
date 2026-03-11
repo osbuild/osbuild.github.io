@@ -102,6 +102,11 @@ This stage will return the following metadata via the osbuild API:
         ]
       }
     },
+    "nodeps": {
+      "type": "boolean",
+      "description": "Do not verify package dependencies.",
+      "default": false
+    },
     "ostree_booted": {
       "type": "boolean",
       "description": "Create the '/run/ostree-booted' marker"
@@ -175,6 +180,11 @@ This stage will return the following metadata via the osbuild API:
         "items": {
           "type": "string"
         }
+      },
+      "nodeps": {
+        "type": "boolean",
+        "description": "Do not verify package dependencies.",
+        "default": false
       },
       "ostree_booted": {
         "type": "boolean",
