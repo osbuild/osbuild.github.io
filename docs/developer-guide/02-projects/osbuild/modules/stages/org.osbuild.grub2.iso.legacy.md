@@ -30,6 +30,11 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
       "isolabel"
     ],
     "properties": {
+      "grub2dir": {
+        "description": "Directory to install grub.cfg into",
+        "type": "string",
+        "default": "boot/grub2"
+      },
       "product": {
         "type": "object",
         "additionalProperties": false,
@@ -81,6 +86,14 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
       "install": {
         "type": "boolean",
         "default": true
+      },
+      "platform": {
+        "type": "string",
+        "enum": [
+          "i386-pc",
+          "powerpc-ieee1275"
+        ],
+        "default": "i386-pc"
       },
       "custom": {
         "type": "array",
