@@ -381,6 +381,8 @@ dnf install osbuild
 ```
 It solves the problem described in [Depsolve Blueprint packages separately](#depsolve-blueprint-packages-separately). When the second transaction is resolved, it is asking dnf to return the dependencies of `osbuild` under the assumption that `@core`, `selinux-policy-targeted`, and their dependencies are installed. The result of the second transaction will therefore also include `osbuild-selinux` because `selinux-policy-targeted` is part of the existing installed set.
 
+For a thorough and much more technical investigation into different approaches to multi-transaction depsolving and the behaviour of each in different scenarios, Tomáš Hozza's experiments, which lead to the implementation described here, are available to see on GitHub ([thozza/dnf-api-depsolving](https://github.com/thozza/dnf-api-depsolving)).
+
 ### Multi-stage installation
 
 While not directly related to depsolving, it is useful to note that the result of each transaction is installed separately during the build process ([osbuild/images PR#2170](https://github.com/osbuild/images/pull/2170)). This is useful in scenarios where certain packages cannot be installed in an empty root tree because of pre-transaction dependencies. For example, if a package requires `bash` to run its pre-transaction scripts, it will fail to run those scripts unless `bash` is already installed in the root tree before any package in the transaction is installed. By installing each set of packages in sequence, we can prepare a minimal root tree with the first transaction (i.e. install `@core` and its dependencies) and then install user-selected packages on top.
@@ -466,7 +468,7 @@ The [Managing repositories](../on-premises/01-installation/managing-repositories
 
 ---
 
-Relevant commits and pull requests:
+Links and further reading:
 
 1. distro: remove excluded package if explicitly specified in the bp https://github.com/osbuild/osbuild-composer/pull/1349
     - Pull request implementing the process described in [Prune excludes based on Blueprint](#prune-excludes-based-on-blueprint).
@@ -476,6 +478,8 @@ Relevant commits and pull requests:
     - Pull request implementing the process described in [Multi-transaction (chain) depsolving](#multi-transaction-chain-depsolving).
 4. distros: merge blueprint & os package set before depsolving instead of after? https://github.com/osbuild/osbuild-composer/issues/2125
     - Discussion of some of the problems described in this document along with proposed solutions. The discussion lead to the implementation of multi-transaction depsolving.
+5. thozza/dnf-api-depsolving: Experiment with DNF API depsolving https://github.com/thozza/dnf-api-depsolving
+    - Repository with scripts, results, and explanation of various approaches to multi-transaction depsolving.
 
 [^FN1]: Note that prior to Oct 2023, the depsolver was called `dnf-json` and was located in the [osbuild/osbuild-composer](https://github.com/osbuild/osbuild-composer) repository.
 [^FN2]: The osbuild-copr repository contains testing and development versions of osbuild RPMs. It is used here because it contains multiple versions of the same package and is convenient for demonstrating the problem of conflicts.
