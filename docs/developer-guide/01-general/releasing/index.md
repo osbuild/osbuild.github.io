@@ -1,67 +1,49 @@
 # Releasing
 
-This guide describes the process of releasing osbuild and osbuild-composer to [upstream][upstream-git], into [Fedora][fedora-distgit] and [CentOS Stream][centos-distgit].
+This guide describes the release pipeline for our RPM components, from upstream GitHub repositories through to downstream distributions. The pipeline is largely automated and flows through three main stages: **Upstream**, **Fedora**, and **CentOS Stream / RHEL**.
 
-## Clone the release helpers
+## Components
 
-Go to the [maintainer-tools repository][maintainer-tools], clone the repository and run `pip install -r requirements.txt` in order to get all the dependencies to be able to execute the `release.py` and `update-distgit.py` scripts.
+The following components are managed by this pipeline. All are released to Fedora, while some are also released to CentOS Stream, RHEL, or both:
 
-It's also advised to set a GitHub personal access token, otherwise you might run into API usage quotas. Go to [Personal access tokens][github-token] on GitHub and create a new token with scope `public_repo`. Now, create a new packit user configuration at `~/.config/packit.yaml` and paste there the following content:
-
-```
-authentication:
-  github.com:
-    token: [YOUR_GITHUB_PERSONAL_ACCESS_TOKEN]
-```
+- [cockpit-image-builder](https://github.com/osbuild/image-builder-frontend) (Fedora, CentOS Stream / RHEL)
+- [image-builder](https://github.com/osbuild/image-builder-cli) (Fedora, CentOS Stream / RHEL)
+- [koji-image-builder](https://github.com/osbuild/koji-image-builder) (Fedora)
+- [koji-osbuild](https://github.com/osbuild/koji-osbuild) (Fedora)
+- [osbuild-composer](https://github.com/osbuild/osbuild-composer) (Fedora, CentOS Stream / RHEL)
+- [osbuild](https://github.com/osbuild/osbuild) (Fedora, CentOS Stream / RHEL)
 
 ## Upstream release
 
-Note: [Upstream releases are done automatically][upstream-release] on a fortnightly alternating schedule, meaning one week we release osbuild and then the next week we release osbuild-composer.
+Upstream releases are driven by the [release-action][release-action] GitHub Action. Most components (`osbuild`, `osbuild-composer`, `image-builder`) are released on a **regular schedule every Wednesday**, with different components on different weeks. Other components (`cockpit-image-builder`, `koji-osbuild`, `koji-image-builder`) are released **ad-hoc** — manually triggered when needed.
 
-### Manual upstream release
+1. **Push a new release tag** — The release-action creates and pushes a new `vXX` release tag to the upstream repository. If no new commits have been merged since the previous release, the action skips and no release is created.
+2. **Create the release and bump the version** — Once the tag is pushed, the release-action creates the GitHub release and bumps the version in the repository. This includes bumping the version in all relevant files — such as the SPEC file for components shipped as RPMs. The version bump prepares the repository for the next release and ensures that testing and development builds have a higher version than the most recent stable release.
 
-Navigate to your local repository in your terminal and call the `release.py` script. It will interactively take you through the following steps:
-
-1. Gather all pull request titles merged to `main` since the latest release tag
-2. Create a draft of the next release tag
-
-    While writing the commit message, keep in mind that it needs to conform to both Markdown and git commit message formats, have a look at the commit message for one of the [recent releases][recent-releases] to get a clear idea how it should look like.
-3. Push your signed git tag to `main`
-
-From here on a [GitHub composite action][github-action] will take over and
-
-1. Create a GitHub release based on the tag (version and message)
-2. Bump the version in `osbuild.spec` or `osbuild-composer.spec` (and potentially `setup.py`)
-3. Commit and push this change to `main` so the version is already reflecting the next release
+:::tip
+A release can also be triggered manually at any time by running the release-action workflow from the GitHub Actions UI in the respective component repository.
+:::
 
 ## Fedora release
 
-We use packit (see `.packit.yml` in the osbuild or osbuild-composer repository respectively or the [official packit documentation][packit-dev]) to automatically push new releases directly to [Fedora's dist-git][fedora-distgit].
+Once a new upstream release is published, [Packit][packit-dev] takes over to push it into Fedora.
 
-Then our [fedora-bot][fedora-bot] takes over and performs the remaining steps:
-
-1. Get a kerberos ticket by running `kinit $USER@FEDORAPROJECT.ORG`
-2. Call `fedpkg build` to schedule Koji builds for each active Fedora release (or: dist-git branch)
-3. Update [Bodhi][bodhi] with the latest release
+1. **Open a PR for `fedora-all`** — Packit automatically opens a pull request with the new release against all active Fedora dist-git branches for each component.
+2. **Trigger a Koji build** — Once the PR is merged to dist-git, Packit triggers a [Koji][koji] build for all Fedora branches.
+3. **Submit a Bodhi update** — After the Koji build finishes, Packit submits a [Bodhi][bodhi] update targeting `fedora-stable`.
 
 ## CentOS Stream / RHEL releases
 
 If you are a Red Hat employee, please continue reading about this in our internal release guide.
 
-## Spreading the word on osbuild.org
+## Key automation actors
 
-The last of releasing a new version is to create a new post on osbuild.org. Just open a PR in [osbuild/osbuild.github.io]. You can find a lot of inspiration in existing release posts.
+| Actor | Role |
+| :---- | :--- |
+| [GitHub Actions (release-action)][release-action] | Creates upstream release tags and releases (scheduled or manually triggered) |
+| [Packit][packit-dev] | Manages Fedora dist-git PRs, Koji builds, and Bodhi updates |
 
-[upstream-git]: https://github.com/osbuild/osbuild
-[fedora-distgit]: https://src.fedoraproject.org/rpms/osbuild
-[centos-distgit]: https://gitlab.com/redhat/centos-stream/rpms/osbuild
-[maintainer-tools]: https://github.com/osbuild/maintainer-tools
-[github-token]: https://github.com/settings/tokens
-[github-action]: https://github.com/osbuild/release-action
+[release-action]: https://github.com/osbuild/release-action
 [packit-dev]: https://packit.dev/docs/
-[osbuild/osbuild.github.io]: https://github.com/osbuild/osbuild.github.io
 [koji]: https://koji.fedoraproject.org
 [bodhi]: https://bodhi.fedoraproject.org/
-[fedora-bot]: https://github.com/osbuild/fedora-bot
-[recent-releases]: https://github.com/osbuild/osbuild-composer/tags
-[upstream-release]: https://github.com/osbuild/release-action/tree/create-tag
