@@ -6,7 +6,9 @@ Depsolving is how we often refer to the act of resolving package dependencies. I
 
 Throughout this document, when referring to Image Builder, we mean the whole family of projects under the osbuild / Image Builder umbrella (https://github.com/osbuild). When referring to _the depsolver_, we mean the software that interfaces with the package manager in order to resolve the set of packages required for a build.
 
-There is currently only one production-ready depsolver, [osbuild-depsolve-dnf](https://github.com/osbuild/osbuild/blob/main/tools/osbuild-depsolve-dnf). It uses the Python API to DNF (libdnf) to receive depsolve requests and returns lists of packages that satisfy the requested dependencies. A second depsolver for [Pacman](https://wiki.archlinux.org/title/Pacman) (the Arch Linux Package Manager) can be found as part of [osbuild-mpp](https://github.com/osbuild/osbuild/blob/main/tools/osbuild-mpp), however that is not fully featured and is currently only used for development and testing.
+There is currently only one production-ready depsolver, [osbuild-depsolve-dnf](https://github.com/osbuild/osbuild/blob/main/tools/osbuild-depsolve-dnf). It uses the Python API to DNF (libdnf) to receive depsolve requests and returns lists of packages that satisfy the requested dependencies. The depsolver supports two backends, libdnf and the newer libdnf5 (controlled by the config file at `/usr/lib/osbuild/solver.json`). By default, the older libdnf is used, but both should produce the same results. The main difference between the two is that libdnf5 does not support [module streams](https://docs.fedoraproject.org/en-US/modularity/using-modules/).
+
+A second depsolver for [Pacman](https://wiki.archlinux.org/title/Pacman) (the Arch Linux Package Manager) can be found as part of [osbuild-mpp](https://github.com/osbuild/osbuild/blob/main/tools/osbuild-mpp), however that is not fully featured and is currently only used for development and testing.
 
 ## Navigating this document
 
