@@ -374,7 +374,8 @@ Chain dependency solving ([osbuild/osbuild-composer PR#2568](https://github.com/
       {
         "package-specs": [
           "osbuild"
-        ]
+        ],
+        "install_weak_deps": false
       }
     ]
   }
@@ -389,9 +390,11 @@ The sequence above can be repeated for an arbitrary number of transactions.
 This process is equivalent to the **package selection** part of running the following in an empty root tree (e.g. with `--installroot`):
 ```console
 dnf install @core selinux-policy-targeted --exclude=firewalld
-dnf install osbuild
+dnf install --setopt=install_weak_deps=False osbuild
 ```
 It solves the problem described in [Depsolve Blueprint packages separately](#depsolve-blueprint-packages-separately). When the second transaction is resolved, it is asking dnf to return the dependencies of `osbuild` under the assumption that `@core`, `selinux-policy-targeted`, and their dependencies are installed. The result of the second transaction will therefore also include `osbuild-selinux` because `selinux-policy-targeted` is part of the existing installed set.
+
+Note the addition of `"install_weak_deps": false` in the second transaction. The depsolve request adds this option to the request for all user-selected packages. Blueprint package selection does not allow for excluding packages, so by disabling weak dependencies in this transaction, we allow users to select exactly the packages they need, with their dependencies, without needing to exclude any packages that might be selected, not required, and not desired.
 
 For a thorough and much more technical investigation into different approaches to multi-transaction depsolving and the behaviour of each in different scenarios, Tomáš Hozza's experiments, which lead to the implementation described here, are available to see on GitHub ([thozza/dnf-api-depsolving](https://github.com/thozza/dnf-api-depsolving)).
 
