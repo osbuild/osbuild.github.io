@@ -32,6 +32,7 @@ The general format of a depsolve request is as follows:
 ```json
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -61,6 +62,8 @@ The general format of a depsolve request is as follows:
 }
 ```
 We will be using requests like this to demonstrate problems and their solutions.
+
+As of this writing, the latest API version for the depsolver API is `2`. The format of the request and the API version may change.
 
 ## Background
 
@@ -108,6 +111,7 @@ In reality, the request to `osbuild-depsolve-dnf` will look similar to this:
 ```json
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -155,6 +159,7 @@ Continuing from our example above, the following request, which would occur if a
 ```json
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -206,6 +211,7 @@ A straightforward way to avoid excluded packages from creating problems with Blu
 ```json
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -235,6 +241,7 @@ A straightforward way to avoid excluded packages from creating problems with Blu
 }
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -266,6 +273,7 @@ However, separating the requests this way can cause other problems. One major is
 ```json
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -296,6 +304,7 @@ However, separating the requests this way can cause other problems. One major is
 }
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -334,6 +343,7 @@ Chain dependency solving ([osbuild/osbuild-composer PR#2568](https://github.com/
 ```json
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
@@ -397,6 +407,7 @@ When resolving dependencies with a set of packages marked as _installed_, descri
 ```json
 {
   "command": "depsolve",
+  "api_version": 2,
   "arch": "x86_64",
   "module_platform_id": "platform:f43",
   "releasever": "43",
