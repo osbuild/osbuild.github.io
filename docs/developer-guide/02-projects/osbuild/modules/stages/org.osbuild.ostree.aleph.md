@@ -32,6 +32,11 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
         "description": "boolean to allow for CoreOS aleph version backwards compatibility",
         "type": "boolean"
       },
+      "sysroot_path": {
+        "type": "string",
+        "description": "Location of the OSTree sysroot to read the repo and deployments from.",
+        "default": "tree:///"
+      },
       "deployment": {
         "additionalProperties": false,
         "oneOf": [
