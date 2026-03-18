@@ -81,6 +81,11 @@ required.
           "catalog": {
             "type": "string",
             "description": "Path to the boot catalog file (on the iso)"
+          },
+          "nobootinfo": {
+            "type": "boolean",
+            "default": false,
+            "description": "Do not add -boot-info-table and -grub2-boot-info arguments"
           }
         }
       },
