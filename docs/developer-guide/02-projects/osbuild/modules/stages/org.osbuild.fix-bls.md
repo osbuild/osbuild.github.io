@@ -31,6 +31,11 @@ This stage reads and (re)writes all `.conf` files in `/boot/loader/entries`.
       "description": "Prefix to use, normally `/boot`",
       "type": "string",
       "default": "/boot"
+    },
+    "require_boot_prefix": {
+      "description": "Require a prefix to exist before /boot. Can be turned off when there is no prefix but /boot still needs to be stripped. Defaults to on.",
+      "type": "boolean",
+      "default": true
     }
   }
 }

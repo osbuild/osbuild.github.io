@@ -58,6 +58,10 @@ podman\[3\] with `podman pull oci-archive:\<archive\>`.
         "description": "The CPU architecture of the image",
         "type": "string"
       },
+      "variant": {
+        "description": "The CPU architecture variant of the image",
+        "type": "string"
+      },
       "filename": {
         "description": "Resulting image filename",
         "type": "string"

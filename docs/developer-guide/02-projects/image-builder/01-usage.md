@@ -187,49 +187,13 @@ $ sudo image-builder build --bootc-ref localhost/anaconda:latest --bootc-build-r
 
 #### `bootc-installer-payload-ref`
 
-When `image-builder` builds an installer ISO there are two inputs. One is the installer (usually Anaconda) environment (passed as `--bootc-ref`) and the other is the bootable container that will be installed by the installer (passed as `--bootc-installer-payload-ref`). Both arguments are mandatory when building a `bootc-installer`.
+When `image-builder` builds an installer ISO there are two inputs. One is the installer (usually Anaconda) environment (passed as `--bootc-ref`) and the other is the bootable container that will be installed by the installer (passed as `--bootc-installer-payload-ref`). Both arguments are mandatory when building a `bootc-installer`. To do this you'll need to provide your own installer image. For information about building your own installers read the [advanced bootc section on installers](./20-advanced/20-bootc/10-isos.md).
 
 ```console
 $ sudo podman pull quay.io/centos-bootc/centos:stream10
 $ sudo image-builder build --bootc-ref localhost/anaconda:latest --bootc-installer-payload-ref quay.io/centos-bootc/centos:stream10 bootc-installer
 # ...
 ```
-
-Since there are no pre-provided installer container images at this moment, you can use a Containerfile similar to:
-
-```Dockerfile
-FROM your-favorite-bootc-container:latest
-RUN dnf install -y \
-     anaconda \
-     anaconda-install-env-deps \
-     anaconda-dracut \
-     dracut-config-generic \
-     dracut-network \
-     net-tools \
-     squashfs-tools \
-     grub2-efi-x64-cdboot \
-     python3-mako \
-     lorax-templates-* \
-     biosdevname \
-     prefixdevname \
-     && dnf clean all
-
-# On Fedora 42 this is necessary to get files in the right places
-# RUN dnf reinstall -y shim-x64
-
-# On Fedora 43 and up this is necessary to get files in the right
-# places
-RUN mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI /boot/efi
-
-# lorax wants to create a symlink in /mnt which points to /var/mnt
-# on bootc but /var/mnt does not exist on some images.
-#
-# If https://gitlab.com/fedora/bootc/base-images/-/merge_requests/294
-# gets merged this will be no longer needed
-RUN mkdir /var/mnt
-```
-
-To produce your own Anaconda-based installer.
 
 #### `bootc-default-fs`
 
@@ -348,6 +312,36 @@ When passed `--arch` `image-builder` will show the manifest for that architectur
 ```console
 $ image-builder manifest --arch aarch64 minimal-raw-xz
 # ... output ...
+```
+
+## `image-builder version`
+
+The `version` command prints version information about the `image-builder` binary including its dependencies.
+
+```console
+$ image-builder version
+image-builder:
+  version: 0.5
+  commit: abc123
+  dependencies:
+    images: v0.100.0
+    osbuild: "105"
+```
+
+The output format can be changed with `--format`. Available formats are `yaml` (default) and `json`:
+
+```console
+$ image-builder version --format=json
+{
+  "image-builder": {
+    "version": "0.5",
+    "commit": "abc123",
+    "dependencies": {
+      "images": "v0.100.0",
+      "osbuild": "105"
+    }
+  }
+}
 ```
 
 ## Blueprints

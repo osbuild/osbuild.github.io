@@ -75,6 +75,19 @@ Buildhost commands used: bootc
       "bootupd-skip-boot-uuid": {
         "type": "boolean",
         "description": "Don't pass --write-uuid to bootupd during bootloader installation."
+      },
+      "bootloader": {
+        "type": "string",
+        "enum": [
+          "grub",
+          "systemd",
+          "none"
+        ]
+      },
+      "composefs": {
+        "description": "Use the compsefs backend instead of the ostree backend",
+        "type": "boolean",
+        "default": "false"
       }
     }
   },

@@ -33,7 +33,7 @@ If the specified group name or GID is already in use, this stage will fail.
         "additionalProperties": false,
         "description": "Keys are group names, values are objects with group info",
         "patternProperties": {
-          "^[A-Za-z0-9_][A-Za-z0-9_-]{0,31}$": {
+          "^[A-Za-z0-9_.][A-Za-z0-9_.-]{0,31}$": {
             "type": "object",
             "properties": {
               "gid": {

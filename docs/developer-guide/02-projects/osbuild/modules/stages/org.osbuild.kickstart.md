@@ -257,7 +257,7 @@ commands are supported here.
       "additionalProperties": false,
       "description": "Keys are group names, values are objects with group info",
       "patternProperties": {
-        "^[A-Za-z0-9_][A-Za-z0-9_-]{0,31}$": {
+        "^[A-Za-z0-9_.][A-Za-z0-9_.-]{0,31}$": {
           "type": "object",
           "properties": {
             "gid": {
@@ -273,7 +273,7 @@ commands are supported here.
       "type": "object",
       "description": "Keys are usernames, values are objects giving user info.",
       "patternProperties": {
-        "^[A-Za-z0-9_][A-Za-z0-9_-]{0,31}$": {
+        "^[A-Za-z0-9_.][A-Za-z0-9_.-]{0,255}$": {
           "type": "object",
           "properties": {
             "uid": {
