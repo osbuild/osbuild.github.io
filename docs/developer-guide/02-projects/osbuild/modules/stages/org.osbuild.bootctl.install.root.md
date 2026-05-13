@@ -57,6 +57,29 @@ tree.
       "relax-esp-checks": {
         "type": "boolean",
         "default": false
+      },
+      "random-seed": {
+        "type": "string",
+        "enum": [
+          "yes",
+          "no"
+        ]
+      },
+      "make-entry-directory": {
+        "type": "string",
+        "enum": [
+          "yes",
+          "no"
+        ]
+      },
+      "entry-token": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "machine-id",
+          "os-id",
+          "os-image-id"
+        ]
       }
     }
   },
