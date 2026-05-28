@@ -40,6 +40,17 @@ can take care of putting files into partitions.
       "seed": {
         "type": "string",
         "default": "random"
+      },
+      "sector-size": {
+        "type": "integer"
+      },
+      "defer-partitions-factory-reset": {
+        "type": "boolean",
+        "default": false
+      },
+      "split": {
+        "type": "boolean",
+        "default": false
       }
     }
   },
