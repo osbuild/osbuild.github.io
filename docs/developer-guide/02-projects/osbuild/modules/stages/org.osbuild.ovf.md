@@ -45,6 +45,11 @@ Buildhost commands used: `qemu-img`.
           "os_type": {
             "type": "string",
             "default": "other26xLinux64Guest"
+          },
+          "virtual_hardware_version": {
+            "type": "string",
+            "default": "vmx-15",
+            "pattern": "^vmx-[0-9]+$"
           }
         }
       },
