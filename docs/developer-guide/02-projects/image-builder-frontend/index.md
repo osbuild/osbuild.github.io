@@ -306,7 +306,7 @@ npm run lint
 Any errors that can be fixed automatically, can be corrected by running:
 
 ```bash
-npm run lint:js:fix
+npm run lint
 ```
 
 All the linting rules and configuration of ESLint can be found in [`eslint.config.js`](https://github.com/osbuild/image-builder-frontend/tree/main/eslint.config.js).
