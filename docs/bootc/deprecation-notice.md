@@ -34,7 +34,7 @@ We are unifying the tooling so that one CLI can build images from **blueprints**
 
 ## Repository and archive
 
-Development is moving to the unified [image-builder](https://github.com/osbuild/image-builder-cli) repository. The [bootc-image-builder](https://github.com/osbuild/bootc-image-builder) repository will be **archived** after the migration plan is complete; issues and relevant contributions will be handled in the unified project. We will publish this migration plan on osbuild.org and link to it from repository notices so that existing users and contributors have a single place to reference.
+Development is moving to the unified [image-builder](https://github.com/osbuild/image-builder) repository. The [bootc-image-builder](https://github.com/osbuild/bootc-image-builder) repository will be **archived** after the migration plan is complete; issues and relevant contributions will be handled in the unified project. We will publish this migration plan on osbuild.org and link to it from repository notices so that existing users and contributors have a single place to reference.
 
 ## Summary
 
