@@ -12,7 +12,7 @@ from utils import patch_md
 def main():
     root = pathlib.Path(__file__).parent.parent
 
-    base_url = "https://github.com/osbuild/image-builder-cli"
+    base_url = "https://github.com/osbuild/image-builder"
     with tempfile.TemporaryDirectory() as tmp:
         path = pathlib.Path(tmp)
 
