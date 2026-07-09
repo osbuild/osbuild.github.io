@@ -79,6 +79,9 @@ When using the [Disk customizations](01-blueprint-reference.md#disk), the partit
       - `subvolumes`: One or more subvolumes for the btrfs volume. Each subvolume supports the following properties:
         - `name`: The name of the subvolume, which also defines its location on the parent volume.
         - `mountpoint`: The mountpoint for the subvolume.
+  - `part_type`: The partition type to set in the partition table for this partition, regardless of its `type` above (optional). For GPT partition tables this is a type GUID, for example `4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709` to mark a partition as x86-64 root per the [Discoverable Partitions Specification](https://uapi-group.org/specifications/specs/discoverable_partitions_specification/); for DOS partition tables it is a two-digit hex type ID, for example `06`. If not set, the partition type is assigned automatically based on the mountpoint or the payload type.
+  - `part_label`: The partition label in the partition table entry (GPT partition tables only, optional). Note that this is distinct from `label` above, which is the filesystem label.
+  - `part_uuid`: The unique partition UUID in the partition table entry (GPT partition tables only, optional). Not to be confused with `part_type`, the type GUID.
 
 ### Order
 
