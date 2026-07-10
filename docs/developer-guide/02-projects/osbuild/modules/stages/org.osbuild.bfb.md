@@ -13,7 +13,7 @@ custom_edit_url: https://github.com/osbuild/osbuild/tree/main/stages/org.osbuild
 Packages Linux live artifacts into NVIDIA BFB format for BlueField DPUs.
 Takes kernel, initramfs, and optionally rootfs as inputs.
 If rootfs is provided, it is concatenated with initramfs.
-Provides hardware-specific boot arguments for BlueField DPUs.
+Boots via GRUB shims discovered from the buildroot EFI paths.
 Buildhost commands used: `mlx-mkbfb`
 
 ## Schema 1
@@ -58,27 +58,21 @@ Buildhost commands used: `mlx-mkbfb`
         "type": "string",
         "description": "Output BFB filename"
       },
-      "boot_args_v0": {
+      "kernel_args": {
         "type": "array",
         "items": {
           "type": "string"
         },
-        "description": "Boot arguments for older DPU firmware (BF1/BF2). Empty by default as BF1/BF2 support is not planned.",
-        "default": []
-      },
-      "boot_args_v2": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "description": "Boot arguments for newer DPU firmware (BF3). Defaults include essential hardware-specific arguments (console, earlycon, initrd).",
+        "description": "Kernel command-line arguments.",
         "default": [
           "console=hvc0",
           "console=ttyAMA0",
-          "earlycon=pl011,0x13010000",
-          "initrd=initramfs",
-          "modprobe.blacklist=mlxbf_pmc"
+          "earlycon=pl011,0x13010000"
         ]
+      },
+      "capsule": {
+        "type": "string",
+        "description": "Path to UEFI capsule for firmware update, passed to mlx-mkbfb --capsule."
       },
       "boot_path": {
         "type": "string",
