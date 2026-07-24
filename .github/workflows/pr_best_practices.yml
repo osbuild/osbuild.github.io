@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PR best practice check
-        uses: osbuild/pr-best-practices@main
+        uses: osbuild/pr-best-practices@7ddf8ce153d6fc43bc6bf4f4b9a3ab6973c10d79 # main
         with:
           token: ${{ secrets.SCHUTZBOT_GITHUB_ACCESS_TOKEN }}
           jira_token: ${{ secrets.IMAGE_BUILDER_BOT_JIRA_API_TOKEN }}
