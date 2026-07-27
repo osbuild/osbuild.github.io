@@ -277,8 +277,8 @@ we're planning on using.
 | [`/src/Components`](https://github.com/osbuild/image-builder-frontend/tree/main/src/Components/)             | source code split by individual components |
 | [`/playwright`](https://github.com/osbuild/image-builder-frontend/tree/main/playwright/)                     | Playwright tests                           |
 | [`/playwright/BootTests`](https://github.com/osbuild/image-builder-frontend/tree/main/playwright/BootTests/) | Playwright boot tests                      |
-| [`/src/test`](https://github.com/osbuild/image-builder-frontend/tree/main/src/test/)                         | Vitest utilities and integration tests     |
-| [`/src/test/mocks`](https://github.com/osbuild/image-builder-frontend/tree/main/src/test/mocks/)             | mock handlers and server config for MSW    |
+| [`/src/test`](https://github.com/osbuild/image-builder-frontend/tree/main/src/test/)                         | Vitest test utilities and setup            |
+| [`/src/test/mocks`](https://github.com/osbuild/image-builder-frontend/tree/main/src/test/mocks/)             | mock modules for Cockpit and os-release    |
 | [`/src/store`](https://github.com/osbuild/image-builder-frontend/tree/main/src/store/)                       | Redux store                                |
 
 ## Style Guidelines
@@ -317,7 +317,7 @@ Prefer the `@/` alias for imports outside the current or parent directory. Relat
 
 ## Test Guidelines
 
-This project is tested using the [Vitest](https://vitest.dev/guide/) framework, [React Testing Library](https://testing-library.com/docs/react-testing-library/intro), and the [Mock Service Worker](https://mswjs.io/docs/) library.
+This project is tested using the [Vitest](https://vitest.dev/guide/) framework with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro) for unit tests, and [Playwright](https://playwright.dev/) for E2E tests. API responses in unit tests are mocked using vitest mocks.
 
 All UI contributions must also include a new test or update an existing test in order to maintain code coverage.
 
@@ -329,22 +329,10 @@ To run all tests:
 npm run test
 ```
 
-To run unit tests only (co-located with components):
-
-```bash
-npm run test:unit
-```
-
-To run integration tests only:
-
-```bash
-npm run test:integration
-```
-
 **Test discoverability:** Run tests for a specific component by name:
 
 ```bash
-npm run test:unit -- Packages
+npm run test -- Packages
 ```
 
 These tests will also be run in our CI when a PR is opened.
@@ -365,8 +353,6 @@ src/Components/Feature/
         ├── data.ts        # Mock data fixtures
         └── api.ts         # Fetch mock handlers for component-specific endpoints
 ```
-
-Prefer this co-located structure for new tests. Integration tests in `src/test/` should be migrated to unit tests over time.
 
 Note that `testing-library` DOM printout is currently disabled for all tests by the following configuration in `src/test/setup.ts`:
 
