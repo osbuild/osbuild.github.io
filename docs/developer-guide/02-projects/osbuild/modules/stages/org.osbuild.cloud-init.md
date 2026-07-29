@@ -109,6 +109,7 @@ Currently supported subset of cloud-init configuration:
             "enum": [
               "Azure",
               "Ec2",
+              "Oracle",
               "NoCloud",
               "WSL",
               "None"
