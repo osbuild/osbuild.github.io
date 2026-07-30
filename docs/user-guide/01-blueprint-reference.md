@@ -150,7 +150,7 @@ The `packages` and `modules` lists contain objects with a `name` and optional `v
 - The `name` attribute is a **required** string and can be an exact match, or a filesystem-like glob using `*` for wildcards and `?` for character matching.
 - The `version` attribute is an *optional* string can be an exact match or a filesystem-like glob of the version using `*` for wildcards and `?` for character matching. If not provided the latest version in the repositories is used.
 
-*Currently there are no differences between packages and modules in `osbuild-composer`. Both are treated like an rpm package dependency.*
+*`packages` and `modules` are both treated as RPM package dependencies.* For DNF modularity streams, use [`enabled_modules`](#enabled-modules) instead — that field is distinct from the `modules` package list.
 
 > When using virtual `provides` as the package name the version glob should be `*`. And be aware that you will be unable to `freeze` the blueprint. This is because the `provides` will expand into multiple packages with their own names and versions.
 
@@ -192,6 +192,49 @@ packages = [
 ```
 </TabItem>
 </Tabs>
+
+### Enabled modules (modularity) 🔵&nbsp;🟤 {#enabled-modules}
+
+Enable DNF modularity streams so packages from those streams can be installed. This is **not** the same as the `modules` package list under [Packages](#packages).
+
+Each entry has:
+
+- `name` — **required** module name (for example `nodejs`)
+- `stream` — **required** stream to enable (for example `18`)
+
+Also list any packages you need from the stream under [`packages`](#packages).
+
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
+```toml
+[[enabled_modules]]
+name = "nodejs"
+stream = "18"
+
+[[packages]]
+name = "nodejs"
+```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "enabled_modules": [
+      { "name": "nodejs", "stream": "18" }
+    ],
+    "packages": ["nodejs"]
+  }
+}
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
+Support depends on the distribution and image type. Check the [image description](./09-image-descriptions/index.md) `supported_options` list for `enabled_modules`. Modularity availability also depends on the host’s package manager (see [Depsolving](./10-depsolving.md)).
 
 ### Groups 🔵&nbsp;🟤 {#groups}
 
@@ -334,6 +377,7 @@ This is optional and can be left out to use the default hostname.
 
 ### Kernel 🔵 🟤 🟣 {#kernel}
 
+
 #### Kernel Command-Line Arguments
 
 An *optional* object that contains the following attributes:
@@ -368,6 +412,37 @@ append = "nosmt=force"
 ```
 </TabItem>
 </Tabs>
+
+### Bootloader 🟣 {#bootloader}
+
+Configure GRUB2 terminal settings for **bootc** images (for example serial console). Support is image-type specific — see the [image description](./09-image-descriptions/index.md) for `customizations.bootloader`.
+
+<Tabs values={tabValuesBootcOnly} defaultValue="bootc" >
+<TabItem value="on-premises" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```toml
+[customizations.bootloader.grub2]
+terminal_input = ["serial", "console"]
+terminal_output = ["serial", "console"]
+serial = "serial --unit=0 --speed=115200"
+```
+</TabItem>
+</Tabs>
+
+Optional fields under `[customizations.bootloader.grub2]`:
+
+- `terminal_input` — list of GRUB terminal input devices
+- `terminal_output` — list of GRUB terminal output devices
+- `serial` — GRUB `serial` command string
 
 ### Subscription-manager (RHSM) 🔵 {#rhsm}
 
@@ -438,6 +513,67 @@ files = [
 </TabItem>
 </Tabs>
 
+### CA certificates 🔵 🟤 {#cacerts}
+
+Install PEM-encoded CA certificates into the image’s trust store. Provide one or more full PEM certificate strings in `pem_certs`.
+
+<Tabs values={tabValues} >
+<TabItem value="on-premises" >
+```toml
+[customizations.cacerts]
+pem_certs = [
+  """
+-----BEGIN CERTIFICATE-----
+MIIDszCCApugAwIBAgIUJ4lK+JfdJCNgcEVxZDinJfKKbQswDQYJKoZIhvcNAQEL
+...
+-----END CERTIFICATE-----
+"""
+]
+```
+</TabItem>
+<TabItem value="hosted" >
+```json
+{
+  "customizations": {
+    "cacerts": {
+      "pem_certs": [
+        "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----\n"
+      ]
+    }
+  }
+}
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
+### DNF configuration 🔵 {#dnf}
+
+Optional DNF configuration written into the image. Currently the only supported option is `set_releasever`, which sets the DNF `releasever` variable so the system stays pinned to a specific release (for example a RHEL minor version).
+
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
+```toml
+[customizations.dnf.config]
+set_releasever = true
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
+
 ### SSH Keys 🔵 🟤 {#ssh-keys}
 
 An *optional* list of objects containing:
@@ -480,6 +616,39 @@ key = "PUBLIC SSH KEY"
 </Tabs>
 
 The key will be added to the user's `authorized_keys` file in their home directory.
+
+### SSH daemon (sshd) 🔵 {#sshd}
+
+Configure OpenSSH server (`sshd`) settings in the image. This is separate from enabling the `sshd` service via [Systemd Services](#systemd-services) or opening ports via [Firewall](#firewall).
+
+Optional fields under `[customizations.sshd]`:
+
+- `password_authentication` — boolean; maps to `PasswordAuthentication`
+- `kbd_interactive_authentication` — boolean; maps to keyboard-interactive authentication
+- `client_alive_interval` — integer seconds; maps to `ClientAliveInterval`
+- `permit_root_login` — string; one of `yes`, `no`, `prohibit-password`, `forced-commands-only`
+
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
+```toml
+[customizations.sshd]
+password_authentication = false
+kbd_interactive_authentication = false
+client_alive_interval = 300
+permit_root_login = "prohibit-password"
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
 
 ### Users 🔵 🟤 🟣 {#additional-users}
 
@@ -928,6 +1097,48 @@ This is how you make a multiline string.
 - `data` is the plain text contents of the file. If not specified, the default is an empty file.
 
 Note that the `data` property can be specified in any of the ways supported by TOML. Some of them require escaping certain characters and others don't. Please refer to the [TOML specification](https://toml.io/en/v1.0.0#string) for more details.
+
+### Firstboot 🔵 {#firstboot}
+
+_See the [Firstboot](./08-firstboot.md) guide for details, Satellite/AAP examples, and a manual files+services fallback._
+
+Run scripts once on the image’s first boot via `[customizations.firstboot]`. Scripts run in order through systemd; by default a failure stops later scripts unless `ignore_failure` is set.
+
+Each entry in `scripts` requires a `type`:
+
+| `type` | Purpose | Required fields |
+|--------|---------|-----------------|
+| `custom` | Arbitrary script | `contents` |
+| `satellite` | Satellite registration command | `command` |
+| `aap` | Ansible Automation Platform callback | `job_template_url`, `host_config_key` |
+
+Common optional fields: `name`, `ignore_failure`, `after`, `before` (systemd unit ordering). Satellite and AAP entries may also set `cacerts` (PEM strings) enrolled before the script runs.
+
+Do not confuse this with [`customizations.ignition.firstboot`](#ignition), which configures Ignition provisioning.
+
+<Tabs values={tabValuesOnPremiseOnly} >
+<TabItem value="on-premises" >
+```toml
+[[customizations.firstboot.scripts]]
+type = "custom"
+name = "touch-marker"
+contents = """
+#!/bin/bash
+touch /var/lib/firstboot-done
+"""
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Use the dedicated firstboot / registration fields of the hosted API where available, or see the [Firstboot](./08-firstboot.md) guide. The TOML `customizations.firstboot` shape above is for on-premises blueprints.
+```
+</TabItem>
+<TabItem value="bootc" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+</Tabs>
 
 ### Installation device 🔵 🟤 {#installation-device}
 
@@ -1743,6 +1954,34 @@ Other modules are automatically enabled based on the ISO type and blueprint cust
 The `disable` list is processed after the `enable` list and therefore takes priority. In other words, adding the same module in both `enable` and `disable` will result in the module being **disabled**.
 Furthermore, adding a module that is enabled by default to `disable` will result in the module being **disabled**.
 
+### ISO media options 🟣 {#iso}
+
+For **bootc** installer ISOs, customize ISO volume metadata under `[customizations.iso]`. Also documented in the [bootc guide](../bootc/index.md).
+
+<Tabs values={tabValuesBootcOnly} defaultValue="bootc" >
+<TabItem value="on-premises" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="hosted" >
+```
+ℹ️ - Currently not supported
+```
+</TabItem>
+<TabItem value="bootc" >
+```toml
+[customizations.iso]
+volume_id = "TheISOLabel"
+application_id = "MyFancyAPP"
+publisher = "ThePublisher"
+```
+</TabItem>
+</Tabs>
+
+- `volume_id` — ISO label (also used in boot/grub.cfg); letters, numbers, `-`, and `_` only
+- `application_id` — optional application id
+- `publisher` — optional publisher string
 
 ## Example Blueprints
 
