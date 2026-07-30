@@ -1302,12 +1302,14 @@ enabled=true
 {
   "customizations": {
     "custom_repositories": [
-      "id": "example",
-      "name": "Example repo",
-      "baseurl": [ "https://example.com/yum/download" ],
-      "check_gpg": true,
-      "gpgkey" : [ "https://example.com/public-key.asc" ],
-      "enabled": true
+      {
+        "id": "example",
+        "name": "Example repo",
+        "baseurl": [ "https://example.com/yum/download" ],
+        "check_gpg": true,
+        "gpgkey": [ "https://example.com/public-key.asc" ],
+        "enabled": true
+      }
     ]
   }
 }
