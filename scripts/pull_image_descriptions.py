@@ -3,14 +3,17 @@
 import argparse
 import fnmatch
 import json
+import os
 import pathlib
 import re
 import shutil
 import subprocess
 import sys
 import tempfile
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 import yaml
 
@@ -18,6 +21,8 @@ CONTAINER_IMAGE = "ghcr.io/osbuild/image-builder-cli:latest"
 CONTAINER_NAME = "image-builder-describer"
 GENERATION_DATE = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
 TARGET_DIR = pathlib.Path(__file__).parent.parent / "docs" / "user-guide" / "09-image-descriptions"
+# Parallel image-type workers; override with PULL_IMAGE_DESCRIPTIONS_JOBS.
+DEFAULT_JOBS = 1
 # Consumed by docusaurus.config.ts (@docusaurus/plugin-client-redirects).
 LATEST_RHEL_REDIRECT_FILE = (
     pathlib.Path(__file__).parent.parent / "src" / "data" / "latest-rhel-redirect.json"
@@ -706,6 +711,68 @@ def write_latest_rhel_redirect(distro_id: str) -> None:
     print(f"  {data['aliasDir']} -> {data['targetDir']}")
 
 
+def parallel_jobs() -> int:
+    """Number of parallel image-type workers from PULL_IMAGE_DESCRIPTIONS_JOBS (default 1)."""
+    raw = os.environ.get("PULL_IMAGE_DESCRIPTIONS_JOBS", str(DEFAULT_JOBS))
+    try:
+        jobs = int(raw)
+    except ValueError as exc:
+        raise SystemExit(
+            f"Invalid PULL_IMAGE_DESCRIPTIONS_JOBS={raw!r}; must be a positive integer"
+        ) from exc
+    if jobs < 1:
+        raise SystemExit(f"Invalid PULL_IMAGE_DESCRIPTIONS_JOBS={jobs}; must be >= 1")
+    return jobs
+
+
+def process_image_type(
+    distro_id: str,
+    distro_name: str,
+    version: str,
+    image_type: str,
+    distro_data: Dict,
+    distro_id_dir: pathlib.Path,
+    page_footer: str,
+    image_types_count: int,
+    progress: Dict[str, int],
+    progress_lock: threading.Lock,
+) -> Optional[Tuple[str, pathlib.Path, Dict[str, str]]]:
+    """
+    Describe one image type across arches and write its markdown page.
+
+    Returns (image_type, relative_page_path, arch_anchors) or None if no descriptions.
+    """
+    with progress_lock:
+        print(
+            f"[{progress['processed']}/{image_types_count}] "
+            f"Processing {distro_id}/{image_type}..."
+        )
+
+    arch_descriptions = {}
+    for arch, types in distro_data.items():
+        if image_type not in types:
+            continue
+        description = describe_image(distro_id, arch, image_type)
+        with progress_lock:
+            progress["processed"] += 1
+        if not description:
+            print(f"WARNING: Failed to describe {distro_id}/{arch}/{image_type}")
+            continue
+        arch_descriptions[arch] = description
+
+    if not arch_descriptions:
+        return None
+
+    image_page = generate_image_type_page(
+        distro_name, version, image_type, arch_descriptions, distro_id_dir, page_footer
+    )
+    image_page_relative = image_page.relative_to(distro_id_dir)
+    print(f"Generated: {image_page_relative}")
+
+    arch_anchors = {arch: create_anchor(arch) for arch in arch_descriptions.keys()}
+    return image_type, image_page_relative, arch_anchors
+
+
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(
@@ -775,7 +842,8 @@ def main():
     image_types_count = sum(
         [sum([len(image_types) for image_types in arches.values()]) for arches in filtered_images.values()]
     )
-    print(f"Processing {image_types_count} image type combinations...")
+    jobs = parallel_jobs()
+    print(f"Processing {image_types_count} image type combinations with {jobs} parallel job(s)...")
 
     distro_families = images_list_to_distro_families(filtered_images)
     page_footer = generate_page_footer(container_version, GENERATION_DATE)
@@ -786,7 +854,8 @@ def main():
         return 1
     try:
         # Create temporary directory for generation
-        image_types_processed = 0
+        progress = {"processed": 0}
+        progress_lock = threading.Lock()
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_path = pathlib.Path(temp_dir)
 
@@ -797,56 +866,56 @@ def main():
             # Generate individual image type pages
             distro_id_idx = 0
             latest_rhel_id = None
-            for distro_name, family_distros in distro_families.items():
-                for distro_id, version in family_distros:
-                    distro_id_dir = temp_path / f"{distro_id_idx:02d}-{distro_id}"
-                    # Families are RHEL-first; versions within a family are newest-first.
-                    if distro_name == RHEL_FAMILY_NAME and latest_rhel_id is None:
-                        latest_rhel_id = distro_id
-                    distro_id_idx += 1
-                    distro_id_dir.mkdir(parents=True, exist_ok=True)
-                    distro_data = filtered_images[distro_id]
+            with ThreadPoolExecutor(max_workers=jobs) as executor:
+                for distro_name, family_distros in distro_families.items():
+                    for distro_id, version in family_distros:
+                        distro_id_dir = temp_path / f"{distro_id_idx:02d}-{distro_id}"
+                        # Families are RHEL-first; versions within a family are newest-first.
+                        if distro_name == RHEL_FAMILY_NAME and latest_rhel_id is None:
+                            latest_rhel_id = distro_id
+                        distro_id_idx += 1
+                        distro_id_dir.mkdir(parents=True, exist_ok=True)
+                        distro_data = filtered_images[distro_id]
 
-                    # Group descriptions by image type across architectures
-                    image_types = set()
-                    for arch_data in distro_data.values():
-                        image_types.update(arch_data)
+                        # Group descriptions by image type across architectures
+                        image_types = set()
+                        for arch_data in distro_data.values():
+                            image_types.update(arch_data)
 
-                    # Dictionary to store image page info: image_type -> (filepath, arch_anchors)
-                    image_type_pages_info = {}
+                        # Dictionary to store image page info: image_type -> (filepath, arch_anchors)
+                        image_type_pages_info = {}
 
-                    for image_type in image_types:
-                        print(f"[{image_types_processed}/{image_types_count}] Processing {distro_id}/{image_type}...")
-
-                        # Get image type descriptions for all architectures that it supports
-                        arch_descriptions = {}
-                        for arch, types in distro_data.items():
-                            if image_type in types:
-                                description = describe_image(distro_id, arch, image_type)
-                                image_types_processed += 1
-                                if not description:
-                                    print(f"WARNING: Failed to describe {distro_id}/{arch}/{image_type}")
-                                    continue
-                                arch_descriptions[arch] = description
-
-                        if arch_descriptions:
-                            image_page = generate_image_type_page(
-                                distro_name, version, image_type, arch_descriptions, distro_id_dir, page_footer
+                        futures = [
+                            executor.submit(
+                                process_image_type,
+                                distro_id,
+                                distro_name,
+                                version,
+                                image_type,
+                                distro_data,
+                                distro_id_dir,
+                                page_footer,
+                                image_types_count,
+                                progress,
+                                progress_lock,
                             )
-                            image_page_relative = image_page.relative_to(distro_id_dir)
-                            print(f"Generated: {image_page_relative}")
-
-                            arch_anchors = {arch: create_anchor(arch) for arch in arch_descriptions.keys()}
+                            for image_type in sorted(image_types)
+                        ]
+                        for future in as_completed(futures):
+                            result = future.result()
+                            if result is None:
+                                continue
+                            image_type, image_page_relative, arch_anchors = result
                             image_type_pages_info[image_type] = (image_page_relative, arch_anchors)
 
-                    print(f"Generating {distro_name} {version} index page...")
-                    distro_page = generate_distro_index_page(
-                        distro_name, version, image_type_pages_info, distro_id_dir, page_footer
-                    )
-                    distro_page_relative = distro_page.relative_to(temp_dir)
-                    print(f"Generated: {distro_page_relative}")
+                        print(f"Generating {distro_name} {version} index page...")
+                        distro_page = generate_distro_index_page(
+                            distro_name, version, image_type_pages_info, distro_id_dir, page_footer
+                        )
+                        distro_page_relative = distro_page.relative_to(temp_dir)
+                        print(f"Generated: {distro_page_relative}")
 
-                    distro_pages_info.setdefault(distro_name, []).append((version, distro_page_relative))
+                        distro_pages_info.setdefault(distro_name, []).append((version, distro_page_relative))
 
             print("Generating main index page...")
             generate_main_index_page(distro_pages_info, temp_path, page_footer)

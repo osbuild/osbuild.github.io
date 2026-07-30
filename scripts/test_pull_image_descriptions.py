@@ -1,8 +1,29 @@
 #!/usr/bin/env python3
+import os
 import textwrap
 import unittest
+from unittest import mock
 
 import pull_image_descriptions as mod
+
+
+class TestParallelJobs(unittest.TestCase):
+    def test_defaults_to_one(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            os.environ.pop("PULL_IMAGE_DESCRIPTIONS_JOBS", None)
+            self.assertEqual(mod.parallel_jobs(), 1)
+
+    def test_reads_env(self):
+        with mock.patch.dict(os.environ, {"PULL_IMAGE_DESCRIPTIONS_JOBS": "4"}):
+            self.assertEqual(mod.parallel_jobs(), 4)
+
+    def test_rejects_invalid(self):
+        with mock.patch.dict(os.environ, {"PULL_IMAGE_DESCRIPTIONS_JOBS": "0"}):
+            with self.assertRaises(SystemExit):
+                mod.parallel_jobs()
+        with mock.patch.dict(os.environ, {"PULL_IMAGE_DESCRIPTIONS_JOBS": "nope"}):
+            with self.assertRaises(SystemExit):
+                mod.parallel_jobs()
 
 
 class TestBlueprintOptions(unittest.TestCase):
