@@ -89,7 +89,7 @@ Of these three, and as mentioned above, the first one also provides a list of pa
 
 This is why, looking at the aforementioned [Image Descriptions](09-image-descriptions/index.md) you will see a list of packages to `exclude`, especially when a comps group is included such as `@core`. The group contains many packages that are not desirable or may not make sense in certain environments.
 
-Take the [RHEL-10.1 AMI](09-image-descriptions/00-rhel-10.1/ami.md) for example. It includes the `@core` group and, among other things, excludes `firewalld`. `firewalld` is usually not installed on cloud instances. Instead, it's common for administrators to manage ports and networking through the cloud console or hypervisor.
+Take the <a href="/docs/user-guide/image-descriptions/latest-rhel/ami/">latest RHEL AMI</a> for example. It includes the `@core` group and, among other things, excludes `firewalld`. `firewalld` is usually not installed on cloud instances. Instead, it's common for administrators to manage ports and networking through the cloud console or hypervisor.
 
 
 ### Planning and execution

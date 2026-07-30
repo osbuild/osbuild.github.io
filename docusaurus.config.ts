@@ -4,6 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import { execSync } from 'child_process';
 import path from 'path';
 import generateSubPages from './scripts/generateSubPages.js';
+import latestRhelRedirect from './src/data/latest-rhel-redirect.json';
 
 function getGitHash() {
   try {
@@ -167,6 +168,15 @@ const config: Config = {
             to: '/docs/hosted/architecture',
           },
         ],
+        // Stable alias for the newest RHEL image-description tree.
+        // targetDir/aliasDir are refreshed by scripts/pull_image_descriptions.py.
+        createRedirects(existingPath: string) {
+          const { targetDir, aliasDir } = latestRhelRedirect;
+          if (existingPath === targetDir || existingPath.startsWith(`${targetDir}/`)) {
+            return existingPath.replace(targetDir, aliasDir);
+          }
+          return undefined;
+        },
       }
     ],
     function dynamicIndexPagesPlugin() {
