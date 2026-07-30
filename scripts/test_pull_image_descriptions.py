@@ -51,7 +51,10 @@ class TestBlueprintOptions(unittest.TestCase):
             section,
         )
         self.assertIn("[`packages`](../../01-blueprint-reference.md#packages)", section)
-        self.assertIn("`customizations.cacerts`", section)
+        self.assertIn(
+            "[`customizations.cacerts`](../../01-blueprint-reference.md#cacerts)",
+            section,
+        )
         self.assertIn("**Required options:**", section)
         self.assertIn("installation_device", section)
 
