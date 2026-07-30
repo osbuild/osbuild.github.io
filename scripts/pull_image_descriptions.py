@@ -89,7 +89,7 @@ def run_command(cmd: List[str]) -> Tuple[bool, str, str]:
 
 def run_sudo(args: List[str], reason: str) -> Tuple[bool, str, str]:
     """Run a command with sudo, announcing why first (for password prompts)."""
-    print(f"{reason} (needs to be run as root)", flush=True)
+    print(f"{reason} (needs root)", flush=True)
     return run_command(["sudo", *args])
 
 
