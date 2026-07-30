@@ -16,7 +16,13 @@ Not all customizations are supported in the API but those existing, are highligh
 
 Additionally, there is <Highlight colorVar="bootc">🟣&nbsp;bootc</Highlight> which is supposed to be used from within podman desktop.
 
-> An important thing to note is that these customizations are not applicable to all image types. `osbuild-composer` currently has no good validation or warning system in place to tell you if a customization in your blueprint is not supported for the image type you're building. The customization may be silently dropped.
+:::note[Not every customization applies to every image type]
+Which blueprint fields are accepted depends on the image type. Image Builder
+validates blueprints against per-type `supported_options` from the image
+definitions (see [`image-builder describe`](../developer-guide/02-projects/image-builder/01-usage.md#image-builder-describe)).
+Each [image description](./09-image-descriptions/index.md) page lists the supported
+blueprint customizations for that image type.
+:::
 
 A very basic blueprint with just the required attributes at the root looks like:
 
