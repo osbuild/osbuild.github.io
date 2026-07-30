@@ -76,13 +76,20 @@ def run_command(cmd: List[str]) -> Tuple[bool, str, str]:
         return False, e.stdout, e.stderr
 
 
+def run_sudo(args: List[str], reason: str) -> Tuple[bool, str, str]:
+    """Run a command with sudo, announcing why first (for password prompts)."""
+    print(f"{reason} (needs to be run as root)", flush=True)
+    return run_command(["sudo", *args])
+
+
 def pull_container_image() -> bool:
     """
     Pull the latest image-builder-cli container image.
     """
-    print("Pulling latest container image...")
-    pull_cmd = ["sudo", "podman", "pull", CONTAINER_IMAGE]
-    success, _, stderr = run_command(pull_cmd)
+    success, _, stderr = run_sudo(
+        ["podman", "pull", CONTAINER_IMAGE],
+        f"pull container image {CONTAINER_IMAGE}",
+    )
     if not success:
         print(f"Warning: Failed to pull container image: {stderr}")
         return False
@@ -95,14 +102,18 @@ def get_container_version() -> str:
     Get the version/ref of the image-builder-cli container.
     """
     # Get the image ID and digest information
-    cmd = ["sudo", "podman", "images", CONTAINER_IMAGE, "--format", "{{.Repository}}:{{.Tag}}@{{.Digest}}"]
-    success, stdout, _ = run_command(cmd)
+    success, stdout, _ = run_sudo(
+        ["podman", "images", CONTAINER_IMAGE, "--format", "{{.Repository}}:{{.Tag}}@{{.Digest}}"],
+        f"read image digest for {CONTAINER_IMAGE}",
+    )
     if success and stdout.strip():
         return stdout.strip()
 
     # Fallback to just the image ID if digest is not available
-    fallback_cmd = ["sudo", "podman", "images", CONTAINER_IMAGE, "--format", "{{.Repository}}:{{.Tag}} ({{.ID}})"]
-    success, stdout, _ = run_command(fallback_cmd)
+    success, stdout, _ = run_sudo(
+        ["podman", "images", CONTAINER_IMAGE, "--format", "{{.Repository}}:{{.Tag}} ({{.ID}})"],
+        f"read image id for {CONTAINER_IMAGE}",
+    )
     if success and stdout.strip():
         return stdout.strip()
 
@@ -121,8 +132,10 @@ def list_images() -> Dict:
         }
     }
     """
-    cmd = ["sudo", "podman", "run", "--rm", "--privileged", CONTAINER_IMAGE, "list-images", "--format", "json"]
-    success, stdout, stderr = run_command(cmd)
+    success, stdout, stderr = run_sudo(
+        ["podman", "run", "--rm", "--privileged", CONTAINER_IMAGE, "list-images", "--format", "json"],
+        f"run list-images in {CONTAINER_IMAGE}",
+    )
 
     if not success:
         print(f"Error running list-images command: {stderr}")
@@ -152,21 +165,27 @@ def start_container() -> bool:
     Start the image-builder-cli container in the background if not already running.
     """
     # Check if container is already running
-    check_cmd = ["sudo", "podman", "ps", "-q", "-f", f"name={CONTAINER_NAME}"]
-    success, stdout, _ = run_command(check_cmd)
+    success, stdout, _ = run_sudo(
+        ["podman", "ps", "-q", "-f", f"name={CONTAINER_NAME}"],
+        f"check if container {CONTAINER_NAME} is already running",
+    )
     if success and stdout.strip():
         return True
     # Remove any stopped container with the same name
-    rm_cmd = ["sudo", "podman", "rm", "-f", CONTAINER_NAME]
-    run_command(rm_cmd)
+    run_sudo(
+        ["podman", "rm", "-f", CONTAINER_NAME],
+        f"remove stopped container {CONTAINER_NAME}",
+    )
     # Start the container
     # running a dummy bash to stay there
-    run_cmd = [
-        "sudo", "podman", "run", "-d", "--privileged", "--rm",
-        "--name", CONTAINER_NAME, "--entrypoint", "/usr/bin/bash",
-        CONTAINER_IMAGE, "-c", "trap 'exit' TERM; while true; do sleep 1; done"
-    ]
-    success, _, stderr = run_command(run_cmd)
+    success, _, stderr = run_sudo(
+        [
+            "podman", "run", "-d", "--privileged", "--rm",
+            "--name", CONTAINER_NAME, "--entrypoint", "/usr/bin/bash",
+            CONTAINER_IMAGE, "-c", "trap 'exit' TERM; while true; do sleep 1; done",
+        ],
+        f"start background container {CONTAINER_NAME}",
+    )
     if not success:
         print(f"Error: Failed to start container: {stderr}")
         return False
@@ -177,16 +196,20 @@ def stop_container():
     """
     Stop and remove the running container.
     """
-    stop_cmd = ["sudo", "podman", "rm", "-f", CONTAINER_NAME]
-    run_command(stop_cmd)
+    run_sudo(
+        ["podman", "rm", "-f", CONTAINER_NAME],
+        f"stop and remove container {CONTAINER_NAME}",
+    )
 
 
 def exec_in_container(args: List[str]) -> Tuple[bool, str, str]:
     """
     Execute a command inside the running container.
     """
-    cmd = ["sudo", "podman", "exec", CONTAINER_NAME] + args
-    return run_command(cmd)
+    return run_sudo(
+        ["podman", "exec", CONTAINER_NAME, *args],
+        f"podman exec in {CONTAINER_NAME}: {' '.join(args)}",
+    )
 
 
 def describe_image(distro: str, arch: str, image_type: str) -> str:
