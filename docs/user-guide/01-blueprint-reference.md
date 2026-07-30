@@ -1348,15 +1348,23 @@ in the repository configuration. **GPG keys are not imported to the RPM database
 
 _See the section of the guide on [Partitioning](./07-partitioning.md) for more details._
 
-The `customizations.partitioning_mode` variable can be used to select how the
-disk image will be partitioned. See the [Partitioning](./07-partitioning.md)
-guide for full semantics.
+The `customizations.partitioning_mode` variable controls how filesystem
+customizations change the image type’s **base** partition table. The base
+layout itself depends on the image type: some defaults are plain partitions,
+others already use LVM (for example Fedora Server) or Btrfs.
 
-Supported modes:
-- `auto-lvm` (default) uses raw unless [filesystem customizations](#filesystems) are included, in which case it uses LVM.
-- `raw` always uses raw partitions
-- `lvm` always uses LVM partitions
-- `btrfs` converts the root partition to a Btrfs volume (extra mountpoints become subvolumes; see [Partitioning](./07-partitioning.md))
+To see a type’s default, open its [image description](./09-image-descriptions/index.md)
+and inspect `partition_table` in the YAML (plain root shows a filesystem
+`payload` with a `mountpoint`; LVM shows `logical_volumes`).
+
+Not every image type accepts `partitioning_mode` / `filesystem` — check that
+page’s supported blueprint options list.
+
+Supported modes (when the image type allows them):
+- `auto-lvm` (default) — keep the image type’s base layout when you do not add new mountpoints; if the base is plain and the blueprint adds new mountpoints via [filesystems](#filesystems), convert to LVM
+- `raw` — keep plain partitions (never convert to LVM or Btrfs; unsupported if the base is already LVM)
+- `lvm` — always LVM
+- `btrfs` — always Btrfs for root (extra mountpoints become subvolumes; see [Partitioning](./07-partitioning.md))
 
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
