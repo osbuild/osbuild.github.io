@@ -29,19 +29,19 @@ pull-osbuild-modules: ## pull the documentation of the osbuild modules
 	python3 scripts/pull_osbuild_modules.py
 
 # Pull image descriptions for subset of supported distributions
-# Documentation is generated in docs/user-guide/09-image-definitions/
+# Documentation is generated in docs/user-guide/09-image-descriptions/
 # This generates documentation for:
-# - Fedora 41+
-# - Latest RHEL-10 GA version - 10.0
-# - Latest RHEL-9 GA version - 9.6
+# - Fedora 42+
+# - Latest RHEL-10 GA version - 10.2
+# - Latest RHEL-9 GA version - 9.8
 # - Latest RHEL-8 GA version - 8.10
 # - All CentOS Stream versions
-# - All AlmaLinux versions
+# - Selected AlmaLinux / Rocky versions
 .PHONY: pull-image-descriptions
 pull-image-descriptions:
 	python3 scripts/pull_image_descriptions.py \
 		--distro-filter "fedora-4[2-4]" \
-		--distro-filter "rhel-(10.1|9.7|8.10)" \
+		--distro-filter "rhel-(10.2|9.8|8.10)" \
 		--distro-filter "rocky-(10.1|9.7|8.10)" \
 		--distro-filter "centos-*" \
 		--distro-filter "almalinux-(10.1|9.7|8.10)" \
