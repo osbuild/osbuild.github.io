@@ -1347,15 +1347,14 @@ in the repository configuration. **GPG keys are not imported to the RPM database
 _See the section of the guide on [Partitioning](./07-partitioning.md) for more details._
 
 The `customizations.partitioning_mode` variable can be used to select how the
-disk image will be partitioned. `auto-lvm` will use raw unless there are one or
-more [filesystem customizations](#filesystems) in which case it will use LVM.
-`lvm` always uses LVM, even when there are no extra mountpoints. `raw` uses raw
-partitions even when there are one or more mountpoints.
+disk image will be partitioned. See the [Partitioning](./07-partitioning.md)
+guide for full semantics.
 
 Supported modes:
-- `auto-lvm` uses raw unless [filesystem customizations](#filesystems) are included.
+- `auto-lvm` (default) uses raw unless [filesystem customizations](#filesystems) are included, in which case it uses LVM.
 - `raw` always uses raw partitions
 - `lvm` always uses LVM partitions
+- `btrfs` converts the root partition to a Btrfs volume (extra mountpoints become subvolumes; see [Partitioning](./07-partitioning.md))
 
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
