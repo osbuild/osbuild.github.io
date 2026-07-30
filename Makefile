@@ -3,8 +3,11 @@
 help:
 	@echo "make [TARGETS...]"
 	@echo
-	@echo 'Targets:'
-	@awk 'match($$0, /^([a-zA-Z_\/-]+):.*?## (.*)$$/, m) {printf "  \033[36m%-30s\033[0m %s\n", m[1], m[2]}' $(MAKEFILE_LIST) | sort
+	@awk ' \
+		BEGIN {FS = ":.*?## "} \
+		/^### / {printf "\n\033[1m%s\033[0m\n", substr($$0, 5); next} \
+		/^[a-zA-Z_\/-]+:.*?## / {printf "  \033[36m%-30s\033[0m %s\n", $$1, $$2} \
+	' $(MAKEFILE_LIST)
 
 .PHONY: test
 .ONESHELL:
@@ -13,43 +16,8 @@ test: ## test pulling the readmes from the other projects
 	python3 test_pull_readmes.py
 	python3 test_pull_image_descriptions.py
 
-.PHONY: pull-readmes
-pull-readmes: ## pull the readmes from other projects given in `readme-list`
-	python3 scripts/pull_readmes.py readme-list
-
-.PHONY: pull-image-builder
-pull-image-builder: ## pull the image-builder-cli documentation
-	python3 scripts/pull_image-builder.py
-
-.PHONY: pull-koji-image-builder
-pull-koji-image-builder: ## pull the image-builder-cli documentation
-	python3 scripts/pull_koji-image-builder.py
-
-.PHONY: pull-osbuild-modules
-pull-osbuild-modules: ## pull the documentation of the osbuild modules
-	python3 scripts/pull_osbuild_modules.py
-
-# Pull image descriptions for subset of supported distributions
-# Documentation is generated in docs/user-guide/09-image-descriptions/
-# This generates documentation for:
-# - Fedora 42+
-# - Latest RHEL-10 GA version - 10.2
-# - Latest RHEL-9 GA version - 9.8
-# - Latest RHEL-8 GA version - 8.10
-# - All CentOS Stream versions
-# - Selected AlmaLinux / Rocky versions
-.PHONY: pull-image-descriptions
-pull-image-descriptions:
-	python3 scripts/pull_image_descriptions.py \
-		--distro-filter "fedora-4[2-4]" \
-		--distro-filter "rhel-(10.2|9.8|8.10)" \
-		--distro-filter "rocky-(10.1|9.7|8.10)" \
-		--distro-filter "centos-*" \
-		--distro-filter "almalinux-(10.1|9.7|8.10)" \
-		--distro-filter "almalinux_kitten-*"
-
 .PHONY: generate
-generate: pull-readmes pull-image-builder pull-koji-image-builder pull-osbuild-modules pull-image-descriptions ## generate all external content
+generate: pull-readmes pull-image-builder pull-koji-image-builder pull-osbuild-modules pull-image-descriptions ## generate all external content (PULL_IMAGE_DESCRIPTIONS_JOBS=N for parallel describe)
 
 .PHONY: install-dependencies
 install-dependencies: ## install all dependencies
@@ -83,3 +51,40 @@ clean: ## remove all build artifacts
 .PHONY: wipe
 wipe: clean ## remove all build artifacts and all nodejs caches
 	rm -r node_modules .docusaurus
+
+### Internal targets
+
+.PHONY: pull-readmes
+pull-readmes: ## pull the readmes from other projects given in `readme-list`
+	python3 scripts/pull_readmes.py readme-list
+
+.PHONY: pull-image-builder
+pull-image-builder: ## pull the image-builder-cli documentation
+	python3 scripts/pull_image-builder.py
+
+.PHONY: pull-koji-image-builder
+pull-koji-image-builder: ## pull the koji-image-builder documentation
+	python3 scripts/pull_koji-image-builder.py
+
+.PHONY: pull-osbuild-modules
+pull-osbuild-modules: ## pull the documentation of the osbuild modules
+	python3 scripts/pull_osbuild_modules.py
+
+# Pull image descriptions for subset of supported distributions
+# Documentation is generated in docs/user-guide/09-image-descriptions/
+# This generates documentation for:
+# - Fedora 42+
+# - Latest RHEL-10 GA version - 10.2
+# - Latest RHEL-9 GA version - 9.8
+# - Latest RHEL-8 GA version - 8.10
+# - All CentOS Stream versions
+# - Selected AlmaLinux / Rocky versions
+.PHONY: pull-image-descriptions
+pull-image-descriptions: ## pull image descriptions (PULL_IMAGE_DESCRIPTIONS_JOBS=N for parallel describe)
+	python3 scripts/pull_image_descriptions.py \
+		--distro-filter "fedora-4[2-4]" \
+		--distro-filter "rhel-(10.2|9.8|8.10)" \
+		--distro-filter "rocky-(10.1|9.7|8.10)" \
+		--distro-filter "centos-*" \
+		--distro-filter "almalinux-(10.1|9.7|8.10)" \
+		--distro-filter "almalinux_kitten-*"
