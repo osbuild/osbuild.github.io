@@ -1727,8 +1727,9 @@ data = "<json-tailoring-file-contents>"
 ### FIPS 🔵 🟤 {#fips}
 
 Enables/disables the system FIPS mode (disabled by default).
-Currently only `edge-raw-image`, `edge-installer`, `edge-simplified-installer`,
-`edge-ami` and `edge-vsphere` images support this customization.
+Support depends on the image type — check the [image description](./09-image-descriptions/index.md)
+`supported_options` list for `customizations.fips` (it is available on many
+common disk image types, not only Edge).
 
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
