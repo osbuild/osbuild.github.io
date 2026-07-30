@@ -49,7 +49,7 @@ pull-image-descriptions:
 		--distro-filter "almalinux_kitten-*"
 
 .PHONY: generate
-generate: pull-readmes pull-osbuild-modules pull-image-descriptions ## generate all external content
+generate: pull-readmes pull-image-builder pull-koji-image-builder pull-osbuild-modules pull-image-descriptions ## generate all external content
 
 .PHONY: install-dependencies
 install-dependencies: ## install all dependencies
