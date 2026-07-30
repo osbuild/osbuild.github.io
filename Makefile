@@ -11,6 +11,7 @@ help:
 test: ## test pulling the readmes from the other projects
 	cd scripts
 	python3 test_pull_readmes.py
+	python3 test_pull_image_descriptions.py
 
 .PHONY: pull-readmes
 pull-readmes: ## pull the readmes from other projects given in `readme-list`

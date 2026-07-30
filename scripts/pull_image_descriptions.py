@@ -10,12 +10,59 @@ import subprocess
 import sys
 import tempfile
 from datetime import datetime
-from typing import Dict, List, Tuple
+from typing import Dict, List, Set, Tuple
+
+import yaml
 
 CONTAINER_IMAGE = "ghcr.io/osbuild/image-builder-cli:latest"
 CONTAINER_NAME = "image-builder-describer"
 GENERATION_DATE = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
 TARGET_DIR = pathlib.Path(__file__).parent.parent / "docs" / "user-guide" / "09-image-descriptions"
+# Consumed by docusaurus.config.ts (@docusaurus/plugin-client-redirects).
+LATEST_RHEL_REDIRECT_FILE = (
+    pathlib.Path(__file__).parent.parent / "src" / "data" / "latest-rhel-redirect.json"
+)
+RHEL_FAMILY_NAME = "Red Hat Enterprise Linux"
+# Published URL paths (Docusaurus strips numeric sidebar prefixes from dirs).
+LATEST_RHEL_ALIAS_DIR = "/docs/user-guide/image-descriptions/latest-rhel"
+
+# Always accepted blueprint metadata; omit from the per-type customization list.
+META_BLUEPRINT_OPTIONS = frozenset({"name", "version", "description"})
+
+# Map option paths to Blueprint Reference heading anchors (when a section exists).
+OPTION_DOC_ANCHORS = {
+    "distro": "distribution-selection-with-blueprints",
+    "packages": "packages",
+    "modules": "packages",
+    "enabled_modules": "packages",
+    "groups": "groups",
+    "containers": "containers",
+    "customizations.hostname": "hostname",
+    "customizations.kernel": "kernel",
+    "customizations.kernel.name": "kernel",
+    "customizations.kernel.append": "kernel",
+    "customizations.rhsm": "rhsm",
+    "customizations.rpm": "rpm",
+    "customizations.sshkey": "ssh-keys",
+    "customizations.user": "additional-users",
+    "customizations.group": "additional-groups",
+    "customizations.timezone": "timezone",
+    "customizations.locale": "locale",
+    "customizations.firewall": "firewall",
+    "customizations.services": "systemd-services",
+    "customizations.files": "files-and-directories",
+    "customizations.directories": "files-and-directories",
+    "customizations.installation_device": "installation-device",
+    "customizations.ignition": "ignition",
+    "customizations.fdo": "fdo",
+    "customizations.repositories": "repositories",
+    "customizations.partitioning_mode": "partitioning-mode",
+    "customizations.filesystem": "filesystems",
+    "customizations.disk": "disk",
+    "customizations.openscap": "openscap",
+    "customizations.fips": "fips",
+    "customizations.installer": "installer",
+}
 
 
 def run_command(cmd: List[str]) -> Tuple[bool, str, str]:
@@ -320,6 +367,77 @@ def generate_page_footer(container_version: str, generation_date: str) -> str:
 *Last updated on: {generation_date}*"""
 
 
+def extract_blueprint_options_from_describe_yaml(description: str) -> Tuple[Set[str], Set[str]]:
+    """Return (supported_options, required_options) from a describe YAML document."""
+    try:
+        data = yaml.safe_load(description)
+    except yaml.YAMLError:
+        return set(), set()
+    if not isinstance(data, dict):
+        return set(), set()
+    bp = data.get("blueprint") or {}
+    supported = set(bp.get("supported_options") or [])
+    required = set(bp.get("required_options") or [])
+    return supported, required
+
+
+def collect_blueprint_options(
+    arch_descriptions: Dict[str, str],
+) -> Tuple[List[str], List[str]]:
+    """Union supported/required options across architectures; drop metadata fields."""
+    supported: Set[str] = set()
+    required: Set[str] = set()
+    for description in arch_descriptions.values():
+        s, r = extract_blueprint_options_from_describe_yaml(description)
+        supported.update(s)
+        required.update(r)
+    supported -= META_BLUEPRINT_OPTIONS
+    required -= META_BLUEPRINT_OPTIONS
+    return sorted(supported), sorted(required)
+
+
+def format_option_list_item(option: str) -> str:
+    anchor = OPTION_DOC_ANCHORS.get(option)
+    if anchor:
+        return f"- [`{option}`](../../01-blueprint-reference.md#{anchor})"
+    return f"- `{option}`"
+
+
+def render_supported_customizations_section(
+    supported: List[str],
+    required: List[str],
+) -> str:
+    """Markdown section listing supported blueprint customizations for an image type."""
+    lines = [
+        "## Supported blueprint customizations",
+        "",
+        "Blueprint fields accepted for this image type (from [`image-builder describe`]"
+        "(../../../developer-guide/02-projects/image-builder/01-usage.md#image-builder-describe)). "
+        "See the [Blueprint Reference](../../01-blueprint-reference.md) for syntax and examples. "
+        "The metadata fields `name`, `version`, and `description` are always accepted and omitted below.",
+        "",
+    ]
+    if not supported and not required:
+        lines.append("_No blueprint customization options were reported for this image type._")
+        lines.append("")
+        lines.append("")
+        return "\n".join(lines)
+
+    if supported:
+        lines.append("**Supported options:**")
+        lines.append("")
+        lines.extend(format_option_list_item(opt) for opt in supported)
+        lines.append("")
+    if required:
+        lines.append("**Required options:**")
+        lines.append("")
+        lines.extend(format_option_list_item(opt) for opt in required)
+        lines.append("")
+    # Trailing blank line before the next admonition/heading.
+    lines.append("")
+    return "\n".join(lines)
+
+
 def generate_image_type_page(
     distro_name: str,
     distro_version: str,
@@ -332,6 +450,9 @@ def generate_image_type_page(
     Generate a dedicated page for a specific image type.
     Returns the filepath of the generated page.
     """
+    supported, required = collect_blueprint_options(arch_descriptions)
+    customizations_section = render_supported_customizations_section(supported, required)
+
     content = f"""---
 custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/pull_image_descriptions.py
 ---
@@ -349,7 +470,7 @@ Image description for **{image_type}** on **{distro_name} {distro_version}**.
 The descriptions below describe the base image version,
 that can be further customized by the user using the [Blueprint customizations](../../01-blueprint-reference.md).
 
-:::note[Package sets]
+{customizations_section}:::note[Package sets]
 
 Each image description contains a list of base packages that make up the image.
 This list is dependency-resolved using the distribution's package manager and subsequently installed into the image.
@@ -385,6 +506,51 @@ The format of the image description is not guaranteed to be stable. It is publis
         f.write(content)
 
     return filepath
+
+
+def retrofit_supported_customizations(page_path: pathlib.Path) -> bool:
+    """Insert/replace the supported-customizations section on an existing page.
+
+    Returns True if the file was modified.
+    """
+    text = page_path.read_text(encoding="utf-8")
+    if page_path.name == "index.md":
+        return False
+
+    blocks = re.findall(r"```yaml\n(.*?)```", text, re.S)
+    arch_descriptions: Dict[str, str] = {}
+    for i, block in enumerate(blocks):
+        try:
+            data = yaml.safe_load(block)
+        except yaml.YAMLError:
+            continue
+        if not isinstance(data, dict):
+            continue
+        arch = data.get("arch") or f"arch-{i}"
+        arch_descriptions[arch] = block
+    if not arch_descriptions:
+        return False
+
+    supported, required = collect_blueprint_options(arch_descriptions)
+    section = render_supported_customizations_section(supported, required)
+
+    # Remove a previously generated section if present.
+    text = re.sub(
+        r"\n## Supported blueprint customizations\n.*?(?=\n:::note\[Package sets\]|\n## )",
+        "\n",
+        text,
+        count=1,
+        flags=re.S,
+    )
+
+    marker = ":::note[Package sets]"
+    if marker not in text:
+        return False
+    new_text = text.replace(marker, section + marker, 1)
+    if new_text == text:
+        return False
+    page_path.write_text(new_text, encoding="utf-8")
+    return True
 
 
 def generate_distro_index_page(
@@ -482,6 +648,35 @@ It also depends on the host distribution and its version when building images lo
     return index_path
 
 
+def retrofit_existing_pages(descriptions_dir: pathlib.Path) -> int:
+    """Update existing generated pages in place (no container required)."""
+    updated = 0
+    for path in sorted(descriptions_dir.rglob("*.md")):
+        if path.name == "index.md":
+            continue
+        if retrofit_supported_customizations(path):
+            updated += 1
+            print(f"Updated: {path.relative_to(descriptions_dir)}")
+    return updated
+
+
+def write_latest_rhel_redirect(distro_id: str) -> None:
+    """Write client-redirect metadata for the newest generated RHEL distro.
+
+    Paths are site URLs after Docusaurus strips numeric ordering prefixes
+    (e.g. docs/.../00-rhel-10.2/ami.md -> /docs/user-guide/image-descriptions/rhel-10.2/ami).
+    """
+    data = {
+        "targetDir": f"/docs/user-guide/image-descriptions/{distro_id}",
+        "aliasDir": LATEST_RHEL_ALIAS_DIR,
+    }
+    LATEST_RHEL_REDIRECT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    LATEST_RHEL_REDIRECT_FILE.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    repo_root = pathlib.Path(__file__).parent.parent
+    print(f"Wrote latest RHEL redirect: {LATEST_RHEL_REDIRECT_FILE.relative_to(repo_root)}")
+    print(f"  {data['aliasDir']} -> {data['targetDir']}")
+
+
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(
@@ -502,8 +697,25 @@ def main():
         action="append",
         help="Filter image types (regex or glob pattern, can specify multiple)"
     )
+    parser.add_argument(
+        "--retrofit-supported-customizations",
+        action="store_true",
+        help=(
+            "Only insert/refresh the 'Supported blueprint customizations' section "
+            "on existing pages under docs/user-guide/09-image-descriptions/ "
+            "(uses YAML already embedded in those pages; no container needed)"
+        ),
+    )
 
     args = parser.parse_args()
+
+    if args.retrofit_supported_customizations:
+        if not TARGET_DIR.is_dir():
+            print(f"Error: {TARGET_DIR} does not exist", file=sys.stderr)
+            return 1
+        count = retrofit_existing_pages(TARGET_DIR)
+        print(f"Updated {count} image description pages")
+        return 0
 
     if not pull_container_image():
         print("Failed to pull container image")
@@ -555,9 +767,13 @@ def main():
 
             # Generate individual image type pages
             distro_id_idx = 0
+            latest_rhel_id = None
             for distro_name, family_distros in distro_families.items():
                 for distro_id, version in family_distros:
                     distro_id_dir = temp_path / f"{distro_id_idx:02d}-{distro_id}"
+                    # Families are RHEL-first; versions within a family are newest-first.
+                    if distro_name == RHEL_FAMILY_NAME and latest_rhel_id is None:
+                        latest_rhel_id = distro_id
                     distro_id_idx += 1
                     distro_id_dir.mkdir(parents=True, exist_ok=True)
                     distro_data = filtered_images[distro_id]
@@ -610,6 +826,11 @@ def main():
             if TARGET_DIR.exists():
                 shutil.rmtree(TARGET_DIR)
             shutil.move(str(temp_path), str(TARGET_DIR))
+
+            if latest_rhel_id:
+                write_latest_rhel_redirect(latest_rhel_id)
+            else:
+                print("Warning: no RHEL distro generated; left latest-rhel redirect unchanged")
 
             print("Successfully generated image descriptions documentation!")
             return 0
