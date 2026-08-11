@@ -56,7 +56,7 @@ Using the `image-builder` CLI:
 $ image-builder list
 ```
 
-Using the `composer-cli` CLI: 
+Using the `composer-cli` CLI:
 
 ```
 $ composer-cli compose types
