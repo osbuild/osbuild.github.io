@@ -1398,7 +1398,7 @@ _See the section of the guide on [Partitioning](./07-partitioning.md) for more d
 
 _See also the [Disk](#disk) section below for more advanced partitioning control._
 
-The blueprints can be extended to provide filesytem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
+The blueprints can be extended to provide filesystem support. Currently the `mountpoint` and minimum partition `minsize` can be set. On `RHEL-8`, custom mountpoints are supported only since version `8.5`. For older `RHEL` versions, only the root mountpoint, `/`, is supported, the size argument being an alias for the image size.
 
 <Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
