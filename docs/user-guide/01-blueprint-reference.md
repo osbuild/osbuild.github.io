@@ -79,7 +79,7 @@ Note that **osbuild-composer prior to version 100** didn't use a dot `.` to sepa
 name = "tmux"
 description = "tmux image with openssh"
 version = "1.2.16"
-distro = "fedora-38"
+distro = "fedora-43"
 
 [[packages]]
 name = "tmux"
@@ -94,9 +94,7 @@ version = "*"
 name = "tmux"
 description = "tmux image with openssh"
 version = "1.2.16"
-# for osbuild-composer version < 100
-# distro = "rhel-84"
-distro = "rhel-8.4"
+distro = "rhel-10.2"
 
 [[packages]]
 name = "tmux"
@@ -112,7 +110,7 @@ version = "*"
 {
   "image_name": "tmux",
   "image_description": "tmux image with openssh",
-  "distribution": "fedora-38",
+  "distribution": "fedora-43",
   "customizations": {
     "packages": ["tmux", "openssh-server"]
   }
@@ -123,7 +121,7 @@ version = "*"
 {
   "image_name": "tmux",
   "image_description": "tmux image with openssh",
-  "distribution": "rhel-8.4",
+  "distribution": "rhel-10.2",
   "customizations": {
     "packages": ["tmux", "openssh-server"]
   }

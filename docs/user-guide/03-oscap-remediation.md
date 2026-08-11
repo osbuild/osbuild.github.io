@@ -1,7 +1,7 @@
 # OpenSCAP Remediation
 
 `osbuild-composer` provides the ability to build security hardened images using the [OpenSCAP] tool.
-This feature is available for `RHEL 8.7` (& above) and `RHEL 9.1` (& above).
+This feature is available for `RHEL 8.7` (& above), `RHEL 9.1` (& above), and `RHEL 10` / CentOS Stream 10 (and matching clones where OpenSCAP is enabled).
 
 [OpenSCAP]: https://github.com/OpenSCAP/openscap/blob/maint-1.3/docs/manual/manual.adoc
 
