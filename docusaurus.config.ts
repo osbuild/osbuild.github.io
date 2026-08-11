@@ -105,6 +105,12 @@ const config: Config = {
           label: 'Developer Guide',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'security',
+          position: 'left',
+          label: 'Security',
+        },
+        {
           href: 'https://github.com/osbuild/',
           label: 'GitHub',
           position: 'right',
