@@ -29,7 +29,7 @@ The partitioning mode controls how the partition table is modified from the imag
 
 - `raw` will not convert any partition to LVM or Btrfs.
 - `lvm` will always convert the partition that contains the root mountpoint `/` to an LVM Volume Group and create a root Logical Volume. Any extra mountpoints, except `/boot`, will be added to the Volume Group as new Logical Volumes.
-- `btrfs` will convert the partition that contains the root mountpoint `/` to a Btrfs volume and create a root subvolume. Any extra mountpoints, except `/boot`, will be added to the Btrfs volume as new Btrfs subvolumes. **Not supported on CentOS or RHEL** with the stock kernel (use Fedora, or a custom kernel that provides Btrfs); see [Partitioning mode](01-blueprint-reference.md#partitioning-mode).
+- `btrfs` will convert the partition that contains the root mountpoint `/` to a Btrfs volume and create a root subvolume. Any extra mountpoints, except `/boot`, will be added to the Btrfs volume as new Btrfs subvolumes. **Not supported on CentOS or RHEL** with the stock kernel (use Fedora); see [Partitioning mode](01-blueprint-reference.md#partitioning-mode).
 - `auto-lvm` is the default mode and will convert a raw partition table to an LVM-based one if and only if new mountpoints are defined in the [filesystems customization](01-blueprint-reference.md#filesystems). See also the [Mountpoints](#mountpoints) section below.
 
 #### Mountpoints
