@@ -26,20 +26,20 @@ profile_id = "xccdf_org.ssgproject.content_profile_standard"
 datastream = "/usr/share/xml/scap/ssg/content/ssg-fedora-ds.xml"
 ```
 
-`osbuild-composer` exposes to fields for the user to customize in the image blueprints:
+Blueprint OpenSCAP customizations accept these fields:
 
-  1) The path to the `datastream` instructions. Usually in the `/usr/share/xml/scap/ssg/content/` directory
-  2) The `profile_id` for the desired security standard
-  3) Install `OpenSCAP` via this command: `dnf install scap-security-guide`
-  4) Use the command `oscap info /usr/share/xml/scap/ssg/content/<security_profile>.xml` to obtain more information such as the profile id to use
-  5) The `profile_id` field accepts both the long and short forms, for example, `cis` or `xccdf_org.ssgproject.content_profile_cis`.
+- `datastream` — path to the datastream instructions (optional; usually under `/usr/share/xml/scap/ssg/content/`). If omitted, Image Builder picks a distro default.
+- `profile_id` — the desired security profile. Accepts both long and short forms, for example `cis` or `xccdf_org.ssgproject.content_profile_cis`.
+- `policy_id` — (optional, hosted / Insights) UUID of a compliance policy; see the [Blueprint Reference OpenSCAP section](./01-blueprint-reference.md#openscap).
 
+On the build host (or a system with `scap-security-guide` installed), you can discover profile IDs with:
 
+```
+dnf install scap-security-guide
+oscap info /usr/share/xml/scap/ssg/content/<security_profile>.xml
+```
 
-
-
-
-See the [Supported profiles](./03-oscap-remediation.md#supported-profiles) table for supported profiles.
+See the [Supported profiles](./03-oscap-remediation.md#supported-profiles) table for profiles Image Builder allows per distro family.
 
 `osbuild-composer` will then generate the necessary configurations for the `osbuild` stage based on the user
 customizations. Additionally, two packages will be added to the image, `openscap-scanner` (the `OpenSCAP` tool)
@@ -54,24 +54,30 @@ Building OpenSCAP hardened images for `ostree` based images not supported.
 
 ## Supported profiles
 
-The supported profiles are distro specific, see below:
+The supported profiles are distro specific. The table below reflects Image Builder **allowlists** (from `image-builder` distro definitions). Column headers use the minors currently documented on this site for image descriptions; the `^` means that major line from the noted GA onward (where OpenSCAP remediations apply).
 
-|                             | Fedora | RHEL 8.7^ | CS9/RHEL 9.1^ |
-|-----------------------------|--------|-----------|---------------|
-| ANSSI-BP-028 (enhanced)     |        |     x     |       x       |
-| ANSSI-BP-028 (high)         |        |     x     |       x       |
-| ANSSI-BP-028 (intermediary) |        |     x     |       x       |
-| ANSSI-BP-028 (minimal)      |        |     x     |       x       |
-| CIS Level 2 - Server        |        |     x     |       x       |
-| CIS Level 1 - Server        |        |     x     |       x       |
-| CIS Level 1 - Workstation   |        |     x     |       x       |
-| CIS Level 2 - Workstation   |        |     x     |       x       |
-| CUI                         |        |     x     |       x       |
-| Essential Eight             |        |     x     |       x       |
-| HIPAA                       |        |     x     |       x       |
-| ISM Official                |        |     x     |       x       |
-| OSPP                        |    x   |     x     |       x       |
-| PCI-DSS                     |    x   |     x     |       x       |
-| Standard                    |    x   |           |               |
-| DISA STIG                   |        |     x     |       x       |
-| DISA STIG with GUI          |        |     x     |       x       |
+|                             | Fedora | RHEL 8.10^ | CS9/RHEL 9.8^ | CS10/RHEL 10.2^ |
+|-----------------------------|:------:|:----------:|:-------------:|:---------------:|
+| ANSSI-BP-028 (enhanced)     |        |     x      |       x       |        x        |
+| ANSSI-BP-028 (high)         |        |     x      |       x       |        x        |
+| ANSSI-BP-028 (intermediary) |        |     x      |       x       |        x        |
+| ANSSI-BP-028 (minimal)      |        |     x      |       x       |        x        |
+| BSI                         |        |            |       x       |        x        |
+| CCN (advanced)              |        |            |       x       |                 |
+| CCN (basic)                 |        |            |       x       |                 |
+| CCN (intermediate)          |        |            |       x       |                 |
+| CIS Level 2 - Server        |        |     x      |       x       |        x        |
+| CIS Level 1 - Server        |        |     x      |       x       |        x        |
+| CIS Level 1 - Workstation   |        |     x      |       x       |        x        |
+| CIS Level 2 - Workstation   |        |     x      |       x       |        x        |
+| CUI                         |        |     x      |       x       |                 |
+| Essential Eight             |        |     x      |       x       |        x        |
+| HIPAA                       |        |     x      |       x       |        x        |
+| ISM Official                |        |     x      |       x       |        x        |
+| ISM Official (Secret)       |        |            |               |        x        |
+| ISM Official (Top Secret)   |        |            |               |        x        |
+| OSPP                        |   x    |     x      |       x       |        x        |
+| PCI-DSS                     |   x    |     x      |       x       |        x        |
+| Standard                    |   x    |            |               |                 |
+| DISA STIG                   |        |     x      |       x       |        x        |
+| DISA STIG with GUI          |        |     x      |       x       |        x        |

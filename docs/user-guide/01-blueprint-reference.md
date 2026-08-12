@@ -1621,11 +1621,11 @@ The same mountpoint restrictions apply as described for [Filesystems](#filesyste
 
 ### OpenSCAP 🔵 🟤 {#openscap}
 
-From `RHEL 8.7` & `RHEL 9.1` support has been added for `OpenSCAP` build-time remediation. The blueprints accept two fields:
-- the `datastream` path to the remediation instructions (optional)
-- the `profile_id` of the desired security profile
+From `RHEL 8.7`, `RHEL 9.1`, and `RHEL 10` / CentOS Stream 10, support has been added for `OpenSCAP` build-time remediation. Blueprint fields:
 
-If the datastream parameter is not provided, `osbuild-composer` will now provide a sensible default based on the selected distro.
+- `datastream` — path to the remediation instructions (optional). If omitted, Image Builder / `osbuild-composer` picks a sensible default for the selected distro.
+- `profile_id` — ID of the desired security profile (required for remediation).
+- `policy_id` — (optional) UUID of a compliance policy. Puts the policy ID in the RHSM facts so instances registered to Insights are automatically connected to that compliance policy in the console (hosted / Insights use case; also accepted in on-premises blueprint TOML).
 
 Please see [the OpenSCAP page](./03-oscap-remediation.md) for the list of available security profiles.
 
@@ -1638,6 +1638,8 @@ Building OpenSCAP hardened images for `ostree` based images not supported.
 [customizations.openscap]
 datastream = "/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml"
 profile_id = "xccdf_org.ssgproject.content_profile_cis"
+# optional — Insights compliance policy UUID
+# policy_id = "00000000-0000-0000-0000-000000000000"
 ```
 </TabItem>
 <TabItem value="hosted" >
@@ -1645,7 +1647,8 @@ profile_id = "xccdf_org.ssgproject.content_profile_cis"
 {
   "customizations": {
     "openscap": {
-      "profile_id": "xccdf_org.ssgproject.content_profile_cis"
+      "profile_id": "xccdf_org.ssgproject.content_profile_cis",
+      "policy_id": "00000000-0000-0000-0000-000000000000"
     }
   }
 }
