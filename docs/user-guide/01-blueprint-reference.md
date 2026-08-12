@@ -1638,8 +1638,7 @@ Building OpenSCAP hardened images for `ostree` based images not supported.
 [customizations.openscap]
 datastream = "/usr/share/xml/scap/ssg/content/ssg-rhel8-ds.xml"
 profile_id = "xccdf_org.ssgproject.content_profile_cis"
-# optional — Insights compliance policy UUID
-# policy_id = "00000000-0000-0000-0000-000000000000"
+policy_id = "00000000-0000-0000-0000-000000000000"  # optional — Insights compliance policy UUID
 ```
 </TabItem>
 <TabItem value="hosted" >
