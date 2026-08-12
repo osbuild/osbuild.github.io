@@ -1486,7 +1486,7 @@ The disk customizations are an alternative to the [filesystem](#filesystems) cus
 
 The two customizations are incompatible with each other; you may use one or the other, but not both in the same blueprint.
 
-The examples below are illustrative but not comprehensive. The [Partitioning](./07-partitioning.md) guide should be consulted to understand all the ways in which this customization can be used.
+The examples below are illustrative but not comprehensive. The [Partitioning](./07-partitioning.md) guide should be consulted to understand all the ways in which this customization can be used, including advanced GPT/DOS partition-table fields such as `part_type`, `part_label`, and `part_uuid`.
 
 <Tabs values={tabValuesAll} >
 <TabItem value="on-premises" >
