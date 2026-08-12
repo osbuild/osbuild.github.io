@@ -27,36 +27,36 @@ Image Builder can create images in multiple output formats shown in the followin
 
 **Table 1. Image Builder output formats**
 
-| Name                              |                        CLI name                        | File extension | Description                                                                                          |  
-|-----------------------------------|:------------------------------------------------------:|----------------|------------------------------------------------------------------------------------------------------|  
-| QEMU Image                        |                         qcow2                          | `.qcow2`       | QCOW2 formatted disk image for use with QEMU/Libvirt.                                                | 
-| Disk Archive                      |                          tar                           | `.tar`         | Archive of the root filesystem without any bootloader or partition table.                            | 
-| Amazon Machine Image              |                          ami                           | `.ami`         | Disk image for use with AWS EC2.                                                                     | 
-| Microsoft Azure                   |                          vhd                           | `.vhd`         | Disk image for use with Microsoft Azure.                                                             | 
-| Google Cloud Platform             |                          gce                           | `.tar.gz`      | Disk image for use with Google Cloud Platform.                                                       | 
-| VMware vSphere                    |                          vmdk                          | `.vmdk`        | VMDK formatted disk image for use with VMware vSphere.                                               | 
-| VMware vSphere                    |                          ova                           | `.ova`         | OVA formatted disk image for use with VMware vSphere.                                                | 
-| Openstack                         |                       openstack                        | `.qcow2`       | QCOW2 formatted disk image for use with OpenStack.                                                   | 
-| Edge/IoT[^1] Commit               |               edge-commit<br/>iot-commit               | `.tar`         | OSTree commit archive.                                                                               | 
-| Edge/IoT[^1] Container            |            edge-container<br/>iot-container            |  `.tar`        | Web server container that embeds and serves an ostree repository with the given single commit.       | 
-| Edge/IoT[^1] Installer            |            edge-installer<br/>iot-installer            | `.iso`         | OSTree-based Anaconda installer ISO for deploying IoT images.                                        | 
-| Edge/IoT[^1] Raw Image            |            edge-raw-image<br/>iot-raw-xz               | `.raw.xz`      | Compressed raw disk image for OSTree-based IoT devices.                                              | 
-| Edge/IoT[^1] Simplified Installer | edge-simplified-installer<br/>iot-simplified-installer | `.iso`         | OSTree-based installer ISO using coreos-installer for direct disk deployment using FIDO or ignition. | 
-| Edge AMI                          |                       edge-ami                         | `.ami`         | OSTree-based Amazon Machine Image tailored for IoT deployments on AWS EC2.                           | 
+| Name                              |                        CLI name                        | File extension | Description                                                                                          |
+|-----------------------------------|:------------------------------------------------------:|----------------|------------------------------------------------------------------------------------------------------|
+| QEMU Image                        |                         qcow2                          | `.qcow2`       | QCOW2 formatted disk image for use with QEMU/Libvirt.                                                |
+| Disk Archive                      |                          tar                           | `.tar`         | Archive of the root filesystem without any bootloader or partition table.                            |
+| Amazon Machine Image              |                          ami                           | `.ami`         | Disk image for use with AWS EC2.                                                                     |
+| Microsoft Azure                   |                          vhd                           | `.vhd`         | Disk image for use with Microsoft Azure.                                                             |
+| Google Cloud Platform             |                          gce                           | `.tar.gz`      | Disk image for use with Google Cloud Platform.                                                       |
+| VMware vSphere                    |                          vmdk                          | `.vmdk`        | VMDK formatted disk image for use with VMware vSphere.                                               |
+| VMware vSphere                    |                          ova                           | `.ova`         | OVA formatted disk image for use with VMware vSphere.                                                |
+| Openstack                         |                       openstack                        | `.qcow2`       | QCOW2 formatted disk image for use with OpenStack.                                                   |
+| Edge/IoT[^1] Commit               |               edge-commit<br/>iot-commit               | `.tar`         | OSTree commit archive.                                                                               |
+| Edge/IoT[^1] Container            |            edge-container<br/>iot-container            |  `.tar`        | Web server container that embeds and serves an ostree repository with the given single commit.       |
+| Edge/IoT[^1] Installer            |            edge-installer<br/>iot-installer            | `.iso`         | OSTree-based Anaconda installer ISO for deploying IoT images.                                        |
+| Edge/IoT[^1] Raw Image            |            edge-raw-image<br/>iot-raw-xz               | `.raw.xz`      | Compressed raw disk image for OSTree-based IoT devices.                                              |
+| Edge/IoT[^1] Simplified Installer | edge-simplified-installer<br/>iot-simplified-installer | `.iso`         | OSTree-based installer ISO using coreos-installer for direct disk deployment using FIDO or ignition. |
+| Edge AMI                          |                       edge-ami                         | `.ami`         | OSTree-based Amazon Machine Image tailored for IoT deployments on AWS EC2.                           |
 | Edge vSphere                      |                      edge-vsphere                      | `.vmdk`        | OSTree-based VMDK formatted disk image for IoT deployments on VMware vSphere.                        |
-| Image installer                   |                    image-installer                     | `.iso`         | Anaconda ISO with an embedded pre-built OS archive.                                                  | 
-| Live installer                    |              workstation-live-installer                | `.iso`         | Anaconda ISO with a live operating system.                                                           | 
-| Oracle Cloud Infrastructure Image |                          oci                           | `.qcow2`       | QCOW2 formatted disk image for use with Oracle Cloud. This is identical to the qcow2 image.          | 
-| WSL                               |                          wsl                           | `.wsl`         | Root filesystem archive for use with Windows Subsystem for Linux.                                    | 
-| Minimal raw                       |            minimal-raw<br/>minimal-raw-xz              | `.raw` / `.raw.xz` | Raw disk image (optionally xz-compressed) for bare-metal or generic virtualization.              | 
-| PXE                               |                      pxe-tar-xz                        | `.tar.xz`      | Kernel, initramfs, and rootfs archive for network (PXE) boot.                                        | 
-| Container                         |     container<br/>container-minimal                    | `.tar`         | OCI container image tarball.                                                                         | 
-| Vagrant[^2]                       | vagrant-libvirt<br/>vagrant-virtualbox<br/>generic-vagrant-libvirt<br/>generic-vagrant-virtualbox | `.box`         | Vagrant box for libvirt or VirtualBox.                                                               | 
-| Network installer                 |                  network-installer                     | `.iso`         | Anaconda network install ISO.                                                                        | 
+| Image installer                   |                    image-installer                     | `.iso`         | Anaconda ISO with an embedded pre-built OS archive.                                                  |
+| Live installer                    |              workstation-live-installer                | `.iso`         | Anaconda ISO with a live operating system.                                                           |
+| Oracle Cloud Infrastructure Image |                          oci                           | `.qcow2`       | QCOW2 formatted disk image for use with Oracle Cloud. This is identical to the qcow2 image.          |
+| WSL                               |                          wsl                           | `.wsl`         | Root filesystem archive for use with Windows Subsystem for Linux.                                    |
+| Minimal raw                       |            minimal-raw<br/>minimal-raw-xz              | `.raw` / `.raw.xz` | Raw disk image (optionally xz-compressed) for bare-metal or generic virtualization.              |
+| PXE                               |                      pxe-tar-xz                        | `.tar.xz`      | Kernel, initramfs, and rootfs archive for network (PXE) boot.                                        |
+| Container                         |     container<br/>container-minimal                    | `.tar`         | OCI container image tarball.                                                                         |
+| Vagrant[^2]                       | vagrant-libvirt<br/>vagrant-virtualbox<br/>generic-vagrant-libvirt<br/>generic-vagrant-virtualbox | `.box`         | Vagrant box for libvirt or VirtualBox.                                                               |
+| Network installer                 |                  network-installer                     | `.iso`         | Anaconda network install ISO.                                                                        |
 
 To check the supported types, run the command:
 
-Using the `image-builder` CLI: 
+Using the `image-builder` CLI:
 
 ```
 $ image-builder list
