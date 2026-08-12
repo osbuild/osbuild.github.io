@@ -23,7 +23,7 @@ Customizations are specifications for the image that are not packages. This incl
 
 ### Image Builder output formats
 
-Image Builder can create images in multiple output formats shown in the following table.
+Image Builder can create images in multiple output formats shown in the following table. Availability depends on the distribution; for the full per-distro catalog (including cloud RHUI/SAP/CVM variants and Fedora desktop/atomic types), see [Image descriptions](./09-image-descriptions/index.md). Type names can differ by distribution (for example Fedora uses `generic-vagrant-libvirt` while RHEL/CentOS use `vagrant-libvirt`); always check `image-builder list` for the distro you are building.
 
 **Table 1. Image Builder output formats**
 
@@ -40,13 +40,19 @@ Image Builder can create images in multiple output formats shown in the followin
 | Edge/IoT[^1] Commit               |               edge-commit<br/>iot-commit               | `.tar`         | OSTree commit archive.                                                                               | 
 | Edge/IoT[^1] Container            |            edge-container<br/>iot-container            |  `.tar`        | Web server container that embeds and serves an ostree repository with the given single commit.       | 
 | Edge/IoT[^1] Installer            |            edge-installer<br/>iot-installer            | `.iso`         | OSTree-based Anaconda installer ISO for deploying IoT images.                                        | 
-| Edge/IoT[^1] Raw Image            |            edge-raw-image<br/>iot-raw-image            | `.raw.xz`      | Compressed raw disk image for OSTree-based IoT devices.                                              | 
+| Edge/IoT[^1] Raw Image            |            edge-raw-image<br/>iot-raw-xz               | `.raw.xz`      | Compressed raw disk image for OSTree-based IoT devices.                                              | 
 | Edge/IoT[^1] Simplified Installer | edge-simplified-installer<br/>iot-simplified-installer | `.iso`         | OSTree-based installer ISO using coreos-installer for direct disk deployment using FIDO or ignition. | 
-| Edge/IoT[^1] AMI                  |                  edge-ami<br/>iot-ami                  | `.ami`         | OSTree-based Amazon Machine Image tailored for IoT deployments on AWS EC2.                           | 
+| Edge AMI                          |                       edge-ami                         | `.ami`         | OSTree-based Amazon Machine Image tailored for IoT deployments on AWS EC2.                           | 
 | Edge vSphere                      |                      edge-vsphere                      | `.vmdk`        | OSTree-based VMDK formatted disk image for IoT deployments on VMware vSphere.                        |
 | Image installer                   |                    image-installer                     | `.iso`         | Anaconda ISO with an embedded pre-built OS archive.                                                  | 
-| Live installer                    |                     live-installer                     | `.iso`         | Anaconda ISO with a live operating system.                                                           | 
+| Live installer                    |              workstation-live-installer                | `.iso`         | Anaconda ISO with a live operating system.                                                           | 
 | Oracle Cloud Infrastructure Image |                          oci                           | `.qcow2`       | QCOW2 formatted disk image for use with Oracle Cloud. This is identical to the qcow2 image.          | 
+| WSL                               |                          wsl                           | `.wsl`         | Root filesystem archive for use with Windows Subsystem for Linux.                                    | 
+| Minimal raw                       |            minimal-raw<br/>minimal-raw-xz              | `.raw` / `.raw.xz` | Raw disk image (optionally xz-compressed) for bare-metal or generic virtualization.              | 
+| PXE                               |                      pxe-tar-xz                        | `.tar.xz`      | Kernel, initramfs, and rootfs archive for network (PXE) boot.                                        | 
+| Container                         |     container<br/>container-minimal                    | `.tar`         | OCI container image tarball.                                                                         | 
+| Vagrant[^2]                       | vagrant-libvirt<br/>vagrant-virtualbox<br/>generic-vagrant-libvirt<br/>generic-vagrant-virtualbox | `.box`         | Vagrant box for libvirt or VirtualBox.                                                               | 
+| Network installer                 |                  network-installer                     | `.iso`         | Anaconda network install ISO.                                                                        | 
 
 To check the supported types, run the command:
 
@@ -63,3 +69,4 @@ $ composer-cli compose types
 ```
 
 [^1]: Edge is the variant for CentOS and RHEL, while it's called IoT on Fedora. Technically the output format is the same for both.
+[^2]: RHEL, CentOS, and similar use `vagrant-libvirt` / `vagrant-virtualbox`. Fedora's canonical names are `generic-vagrant-libvirt` / `generic-vagrant-virtualbox` (no short alias).
