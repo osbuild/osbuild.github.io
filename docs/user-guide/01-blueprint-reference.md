@@ -1365,7 +1365,7 @@ Supported modes (when the image type allows them):
 - `btrfs` — always Btrfs for root (extra mountpoints become subvolumes; see [Partitioning](./07-partitioning.md))
 
 > :warning: **Note**
-> `partitioning_mode = "btrfs"` is **not supported on CentOS or RHEL** with the stock kernel. Use it on Fedora (and similar) distributions, or only when building with a custom kernel that provides Btrfs support.
+> `partitioning_mode = "btrfs"` is **not supported on CentOS or RHEL** with the stock kernel. Use it on Fedora (and similar) distributions.
 
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
