@@ -39,6 +39,10 @@ BOOTC_IMAGETYPES_GITHUB_RAW = (
     "https://raw.githubusercontent.com/osbuild/image-builder/main/"
     "data/distrodefs/bootc-generic/imagetypes.yaml"
 )
+BOOTC_IMAGETYPES_GITHUB_BLOB = (
+    "https://github.com/osbuild/image-builder/blob/main/"
+    "data/distrodefs/bootc-generic/imagetypes.yaml"
+)
 # Portable footer label for generated bootc pages (never a local filesystem path).
 BOOTC_SOURCE_LABEL = (
     "github.com/osbuild/image-builder/data/distrodefs/bootc-generic/imagetypes.yaml"
@@ -734,7 +738,9 @@ def render_bootc_customizations_section(supported: List[str]) -> str:
         "## Supported blueprint customizations",
         "",
         "Blueprint fields accepted for this bootc image type (from "
-        "`data/distrodefs/bootc-generic/imagetypes.yaml` in "
+        "[`bootc-generic/imagetypes.yaml`]("
+        f"{BOOTC_IMAGETYPES_GITHUB_BLOB}"
+        ") in "
         "[osbuild/image-builder](https://github.com/osbuild/image-builder)). "
         "See the [Blueprint Reference](../../01-blueprint-reference.md) for syntax and examples. "
         "The metadata fields `name`, `version`, and `description` are always accepted and omitted below.",
@@ -850,7 +856,7 @@ custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/
 Image types for **bootc** builds (container input → disk/ISO/PXE artifact).
 
 These types are **not** tied to a Fedora/RHEL distro id. Allowlists come from
-[`bootc-generic/imagetypes.yaml`]({BOOTC_IMAGETYPES_GITHUB_RAW}).
+[`bootc-generic/imagetypes.yaml`]({BOOTC_IMAGETYPES_GITHUB_BLOB}).
 
 ## Image Types
 
