@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import pathlib
 import textwrap
 import unittest
 from unittest import mock
@@ -78,6 +79,94 @@ class TestBlueprintOptions(unittest.TestCase):
         )
         self.assertIn("**Required options:**", section)
         self.assertIn("installation_device", section)
+
+
+class TestBootcImagetypes(unittest.TestCase):
+    _FIXTURE = (
+        pathlib.Path(__file__).resolve().parent
+        / "testdata"
+        / "bootc-imagetypes-fixture.yaml"
+    )
+
+    def test_parse_disk_vs_iso_allowlists(self):
+        parsed = mod.parse_bootc_imagetypes(self._FIXTURE)
+        self.assertIn("customizations.files", parsed["qcow2"])
+        self.assertIn("customizations.directories", parsed["qcow2"])
+        self.assertIn("customizations.sshd", parsed["qcow2"])
+        self.assertIn("customizations.installer", parsed["anaconda-iso"])
+        self.assertNotIn("customizations.files", parsed["anaconda-iso"])
+        self.assertIn("customizations.installer", parsed["bootc-generic-iso"])
+
+    def test_generate_bootc_family_pages(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            out = pathlib.Path(tmp)
+            index, opts = mod.generate_bootc_family(
+                self._FIXTURE, out, footer="*footer*"
+            )
+            self.assertTrue(index.is_file())
+            qcow2 = out / "00-bootc" / "qcow2.md"
+            self.assertTrue(qcow2.is_file())
+            text = qcow2.read_text(encoding="utf-8")
+            self.assertIn("customizations.files", text)
+            self.assertIn("Container input, not package sets", text)
+            iso = (out / "00-bootc" / "anaconda-iso.md").read_text(encoding="utf-8")
+            self.assertIn("customizations.installer", iso)
+            self.assertIn("Compatibility image type", iso)
+            self.assertIn("qcow2", opts)
+
+
+class TestSupportMatrix(unittest.TestCase):
+    def test_extract_and_invert(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            bootc = root / "00-bootc"
+            bootc.mkdir()
+            (bootc / "qcow2.md").write_text(
+                textwrap.dedent(
+                    """\
+                    # qcow2
+                    ## Supported blueprint customizations
+
+                    **Supported options:**
+
+                    - [`customizations.files`](../../01-blueprint-reference.md#files-and-directories)
+                    - `customizations.user`
+
+                    :::note[x]
+                    :::
+                    """
+                ),
+                encoding="utf-8",
+            )
+            rhel = root / "00-rhel-10.2"
+            rhel.mkdir()
+            (rhel / "qcow2.md").write_text(
+                textwrap.dedent(
+                    """\
+                    # qcow2
+                    ## Supported blueprint customizations
+
+                    **Supported options:**
+
+                    - [`customizations.files`](../../01-blueprint-reference.md#files-and-directories)
+                    - [`packages`](../../01-blueprint-reference.md#packages)
+
+                    ## x86_64
+                    """
+                ),
+                encoding="utf-8",
+            )
+            matrix = mod.build_option_support_matrix(root)
+            self.assertEqual(matrix["options"]["customizations.files"]["bootc"], ["qcow2"])
+            self.assertEqual(
+                matrix["options"]["customizations.files"]["classic_image_types"], ["qcow2"]
+            )
+            self.assertEqual(matrix["options"]["packages"]["bootc"], [])
+            self.assertEqual(matrix["options"]["packages"]["classic_image_types"], ["qcow2"])
 
 
 if __name__ == "__main__":

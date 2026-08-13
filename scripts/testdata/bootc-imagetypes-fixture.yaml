@@ -1,0 +1,20 @@
+.common:
+  supported_options_lists:
+    supported_options_disk: &supported_options_disk
+      - "customizations.files"
+      - "customizations.directories"
+      - "customizations.sshd"
+      - "customizations.user"
+    supported_options_iso: &supported_options_iso
+      - "customizations.installer"
+      - "customizations.user"
+image_types:
+  "qcow2":
+    blueprint:
+      supported_options: *supported_options_disk
+  anaconda-iso:
+    blueprint:
+      supported_options: *supported_options_iso
+  bootc-generic-iso:
+    blueprint:
+      supported_options: *supported_options_iso

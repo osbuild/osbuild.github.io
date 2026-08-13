@@ -17,7 +17,8 @@ test: ## test pulling the readmes from the other projects
 	python3 test_pull_image_descriptions.py
 
 .PHONY: generate
-generate: pull-readmes pull-image-builder pull-koji-image-builder pull-osbuild-modules pull-image-descriptions ## generate all external content (PULL_IMAGE_DESCRIPTIONS_JOBS=N for parallel describe)
+generate: pull-readmes pull-image-builder pull-koji-image-builder pull-osbuild-modules pull-image-descriptions ## generate all external content (classic + bootc image descriptions, support matrix; PULL_IMAGE_DESCRIPTIONS_JOBS=N)
+
 
 .PHONY: install-dependencies
 install-dependencies: ## install all dependencies
@@ -73,18 +74,26 @@ pull-osbuild-modules: ## pull the documentation of the osbuild modules
 # Pull image descriptions for subset of supported distributions
 # Documentation is generated in docs/user-guide/09-image-descriptions/
 # This generates documentation for:
+# - Bootc (from bootc-generic/imagetypes.yaml; see README)
 # - Fedora 42+
 # - Latest RHEL-10 GA version - 10.2
 # - Latest RHEL-9 GA version - 9.8
 # - Latest RHEL-8 GA version - 8.10
 # - All CentOS Stream versions
 # - Selected AlmaLinux / Rocky versions
+# Optional: BOOTC_IMAGETYPES=/path/to/imagetypes.yaml
 .PHONY: pull-image-descriptions
-pull-image-descriptions: ## pull image descriptions (PULL_IMAGE_DESCRIPTIONS_JOBS=N for parallel describe)
+pull-image-descriptions: ## pull image descriptions incl. bootc + blueprint-option-support.json (PULL_IMAGE_DESCRIPTIONS_JOBS=N; optional BOOTC_IMAGETYPES=)
 	python3 scripts/pull_image_descriptions.py \
+		$(if $(BOOTC_IMAGETYPES),--bootc-imagetypes "$(BOOTC_IMAGETYPES)",) \
 		--distro-filter "fedora-4[2-4]" \
 		--distro-filter "rhel-(10.2|9.8|8.10)" \
 		--distro-filter "rocky-(10.1|9.7|8.10)" \
 		--distro-filter "centos-*" \
 		--distro-filter "almalinux-(10.1|9.7|8.10)" \
 		--distro-filter "almalinux_kitten-*"
+
+.PHONY: pull-bootc-image-descriptions
+pull-bootc-image-descriptions: ## regenerate bootc 09 pages only (needs BOOTC_IMAGETYPES or fetches from GitHub)
+	python3 scripts/pull_image_descriptions.py --bootc-only \
+		$(if $(BOOTC_IMAGETYPES),--bootc-imagetypes "$(BOOTC_IMAGETYPES)",)
