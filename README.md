@@ -39,3 +39,26 @@ When using relative links, please make sure they are path-based, and not URL-bas
 ```
 
 This follows Docusaurus' guidance, see [their docs](https://docusaurus.io/docs/markdown-features/links) for more information.
+
+### Generated image descriptions (classic + bootc)
+
+`docs/user-guide/09-image-descriptions/` is **generated** — do not hand-edit those pages.
+
+```bash
+make generate                    # all external content, including image descriptions
+make pull-image-descriptions     # classic distros + bootc + support matrix only
+# bootc-only (no CLI container / describe):
+make pull-bootc-image-descriptions
+# or:
+python3 scripts/pull_image_descriptions.py --bootc-only \
+  --bootc-imagetypes /path/to/image-builder/data/distrodefs/bootc-generic/imagetypes.yaml
+```
+
+**Freshness depends on upstream Image Builder being up to date:**
+
+| Path | Source |
+|------|--------|
+| Classic distros | [`ghcr.io/osbuild/image-builder-cli:latest`](https://github.com/osbuild/image-builder/pkgs/container/image-builder-cli) via `list-images` + `describe` (`CONTAINER_IMAGE` in `scripts/pull_image_descriptions.py`). Pull the image before regenerating or docs lag. |
+| Bootc types | [`data/distrodefs/bootc-generic/imagetypes.yaml`](https://github.com/osbuild/image-builder/blob/main/data/distrodefs/bootc-generic/imagetypes.yaml) in [osbuild/image-builder](https://github.com/osbuild/image-builder) (same project that builds the CLI image; distrodefs are `go:embed`’d, so not loose files inside the container). Pass `--bootc-imagetypes` / `BOOTC_IMAGETYPES`, or the script fetches from `main` on GitHub. |
+
+**CI:** [`.github/workflows/pull.yml`](.github/workflows/pull.yml) does **not** call `make generate` by name, but it runs `make pull-image-descriptions` (after installing podman). That target regenerates classic pages **and** bootc (`00-bootc/`) **and** `src/data/blueprint-option-support.json`, then `git add .` commits any drift — so bootc docs update **implicitly** on the daily schedule / workflow_dispatch.
