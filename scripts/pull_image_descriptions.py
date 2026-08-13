@@ -39,6 +39,10 @@ BOOTC_IMAGETYPES_GITHUB_RAW = (
     "https://raw.githubusercontent.com/osbuild/image-builder/main/"
     "data/distrodefs/bootc-generic/imagetypes.yaml"
 )
+# Portable footer label for generated bootc pages (never a local filesystem path).
+BOOTC_SOURCE_LABEL = (
+    "github.com/osbuild/image-builder/data/distrodefs/bootc-generic/imagetypes.yaml"
+)
 BLUEPRINT_OPTION_SUPPORT_FILE = (
     pathlib.Path(__file__).parent.parent / "src" / "data" / "blueprint-option-support.json"
 )
@@ -808,14 +812,17 @@ The format of these pages is not guaranteed to be stable. It is published for in
 def generate_bootc_family(
     imagetypes_path: pathlib.Path,
     output_parent: pathlib.Path,
-    footer: str,
+    footer: Optional[str] = None,
     dir_name: str = BOOTC_DIR_NAME,
 ) -> Tuple[pathlib.Path, Dict[str, List[str]]]:
     """
     Generate the bootc family directory (index + per-type pages).
 
+    Footer always cites the portable upstream YAML path (not a local file path).
     Returns (index_path, type -> supported_options).
     """
+    if footer is None:
+        footer = generate_page_footer(BOOTC_SOURCE_LABEL, GENERATION_DATE)
     type_options = parse_bootc_imagetypes(imagetypes_path)
     bootc_dir = output_parent / dir_name
     if bootc_dir.exists():
@@ -1155,12 +1162,8 @@ def main():
             print(f"Error: {exc}", file=sys.stderr)
             return 1
         TARGET_DIR.mkdir(parents=True, exist_ok=True)
-        page_footer = generate_page_footer(
-            f"bootc-imagetypes:{imagetypes_path}",
-            GENERATION_DATE,
-        )
         print(f"Generating bootc pages from {imagetypes_path} ...")
-        index_path, _ = generate_bootc_family(imagetypes_path, TARGET_DIR, page_footer)
+        index_path, _ = generate_bootc_family(imagetypes_path, TARGET_DIR)
         main_index = TARGET_DIR / "index.md"
         if main_index.is_file():
             patch_main_index_for_bootc(
@@ -1238,7 +1241,7 @@ def main():
             if bootc_imagetypes_path is not None:
                 print("Generating bootc family...")
                 bootc_index, _ = generate_bootc_family(
-                    bootc_imagetypes_path, temp_path, page_footer, dir_name=BOOTC_DIR_NAME
+                    bootc_imagetypes_path, temp_path, dir_name=BOOTC_DIR_NAME
                 )
                 distro_pages_info[BOOTC_FAMILY_NAME] = [
                     ("", bootc_index.relative_to(temp_path))

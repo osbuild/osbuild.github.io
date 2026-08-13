@@ -103,7 +103,7 @@ class TestBootcImagetypes(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             out = pathlib.Path(tmp)
             index, opts = mod.generate_bootc_family(
-                self._FIXTURE, out, footer="*footer*"
+                self._FIXTURE, out
             )
             self.assertTrue(index.is_file())
             qcow2 = out / "00-bootc" / "qcow2.md"
@@ -111,6 +111,9 @@ class TestBootcImagetypes(unittest.TestCase):
             text = qcow2.read_text(encoding="utf-8")
             self.assertIn("customizations.files", text)
             self.assertIn("Container input, not package sets", text)
+            self.assertIn(mod.BOOTC_SOURCE_LABEL, text)
+            self.assertNotIn("/tmp/", text)
+            self.assertNotIn("/home/", text)
             iso = (out / "00-bootc" / "anaconda-iso.md").read_text(encoding="utf-8")
             self.assertIn("customizations.installer", iso)
             self.assertIn("Compatibility image type", iso)

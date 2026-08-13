@@ -22,6 +22,10 @@ It also depends on the host distribution and its version when building images lo
 
 ## Available Distributions
 
+### Bootc
+
+- [Bootc](./00-bootc/index.md)
+
 ### Red Hat Enterprise Linux
 
 - [Red Hat Enterprise Linux **10.2**](./00-rhel-10.2/index.md)
