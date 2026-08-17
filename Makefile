@@ -17,7 +17,7 @@ test: ## test pulling the readmes from the other projects
 	python3 test_pull_image_descriptions.py
 
 .PHONY: generate
-generate: pull-readmes pull-image-builder pull-koji-image-builder pull-osbuild-modules pull-image-descriptions ## generate all external content (classic + bootc image descriptions, support matrix; PULL_IMAGE_DESCRIPTIONS_JOBS=N)
+generate: pull-readmes pull-image-builder pull-koji-image-builder pull-osbuild-modules pull-image-descriptions ## generate all external content (package mode + bootc / image mode; PULL_IMAGE_DESCRIPTIONS_JOBS=N)
 
 
 .PHONY: install-dependencies
@@ -83,7 +83,7 @@ pull-osbuild-modules: ## pull the documentation of the osbuild modules
 # - Selected AlmaLinux / Rocky versions
 # Optional: BOOTC_IMAGETYPES=/path/to/imagetypes.yaml
 .PHONY: pull-image-descriptions
-pull-image-descriptions: ## pull image descriptions incl. bootc + blueprint-option-support.json (PULL_IMAGE_DESCRIPTIONS_JOBS=N; optional BOOTC_IMAGETYPES=)
+pull-image-descriptions: ## pull image descriptions incl. bootc (PULL_IMAGE_DESCRIPTIONS_JOBS=N; optional BOOTC_IMAGETYPES=)
 	python3 scripts/pull_image_descriptions.py \
 		$(if $(BOOTC_IMAGETYPES),--bootc-imagetypes "$(BOOTC_IMAGETYPES)",) \
 		--distro-filter "fedora-4[2-4]" \

@@ -1127,7 +1127,7 @@ def main():
         help=(
             "Only (re)generate the bootc family under 09-image-descriptions/00-bootc/ "
             "from bootc-generic imagetypes.yaml; does not pull the CLI container or "
-            "regenerate classic distro pages"
+            "regenerate package-mode distro pages"
         ),
     )
     parser.add_argument(
