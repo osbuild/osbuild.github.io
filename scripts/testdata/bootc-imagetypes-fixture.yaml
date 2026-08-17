@@ -12,6 +12,11 @@ image_types:
   "qcow2":
     blueprint:
       supported_options: *supported_options_disk
+  "raw": &raw_image_type
+    blueprint:
+      supported_options: *supported_options_disk
+  "ami":
+    <<: *raw_image_type
   anaconda-iso:
     blueprint:
       supported_options: *supported_options_iso

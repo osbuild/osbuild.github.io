@@ -57,6 +57,9 @@ META_BLUEPRINT_OPTIONS = frozenset({"name", "version", "description"})
 # Image types that are compatibility aliases / on their way out (still listed).
 BOOTC_LEGACY_IMAGE_TYPES = frozenset({"anaconda-iso", "iso"})
 
+# bootc raw and ami share one definition in imagetypes.yaml (ami <<: *raw_image_type).
+BOOTC_IDENTICAL_RAW_AMI = frozenset({"raw", "ami"})
+
 # Map option paths to Blueprint Reference heading anchors (when a section exists).
 OPTION_DOC_ANCHORS = {
     "distro": "distribution-selection-with-blueprints",
@@ -777,6 +780,18 @@ def generate_bootc_image_type_page(
             ":::\n"
         )
 
+    identical_raw_ami_note = ""
+    if image_type in BOOTC_IDENTICAL_RAW_AMI:
+        sibling = "ami" if image_type == "raw" else "raw"
+        identical_raw_ami_note = (
+            "\n:::note[`raw` and `ami` are identical]\n\n"
+            "`raw` and `ami` are identical for bootc (same definition in "
+            "[imagetypes.yaml](https://github.com/osbuild/image-builder/blob/main/"
+            "data/distrodefs/bootc-generic/imagetypes.yaml)); "
+            f"`ami` is an alias of `raw`. See also [`{sibling}`](./{sibling}.md).\n\n"
+            ":::\n"
+        )
+
     content = f"""---
 custom_edit_url: https://github.com/osbuild/osbuild.github.io/blob/main/scripts/pull_image_descriptions.py
 ---
@@ -794,7 +809,7 @@ Bootc **artifact** image type **{image_type}**.
 The bootable container is an **input**; Image Builder turns it into this output artifact.
 Customize via a blueprint / `config.toml` using only the options listed below
 (see [Blueprint Reference](../../01-blueprint-reference.md)).
-{legacy_note}
+{legacy_note}{identical_raw_ami_note}
 {customizations_section}:::note[Container input, not package sets]
 
 Bootc images are built from a container reference (`--bootc-ref`), not from a distribution

@@ -118,6 +118,12 @@ class TestBootcImagetypes(unittest.TestCase):
             self.assertIn("customizations.installer", iso)
             self.assertIn("Compatibility image type", iso)
             self.assertIn("qcow2", opts)
+            raw = (out / "00-bootc" / "raw.md").read_text(encoding="utf-8")
+            ami = (out / "00-bootc" / "ami.md").read_text(encoding="utf-8")
+            self.assertIn("`raw` and `ami` are identical", raw)
+            self.assertIn("./ami.md", raw)
+            self.assertIn("`raw` and `ami` are identical", ami)
+            self.assertIn("./raw.md", ami)
 
 
 class TestSupportMatrix(unittest.TestCase):
