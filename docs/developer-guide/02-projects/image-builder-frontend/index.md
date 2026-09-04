@@ -422,31 +422,86 @@ PLAYWRIGHT_STATIC_PASSWORD="<your_static_user_password>"
 
 For local development purposes, you can use the same credentials as for `PLAYWRIGHT_USER` and `PLAYWRIGHT_PASSWORD` if you are using your stage account for those.
 
+### Diagnosing a failure that has no visible cause
+
+A blank page, a control that never appears, and a page that renders slowly all
+look identical from the outside: an assertion times out and says only what it
+was waiting for. Failing tests therefore carry a `browser-diagnostics.log`
+attachment in the HTML report, holding what the browser reported while the test
+ran - uncaught exceptions, console errors and warnings, requests that failed,
+and any response of 400 or above, each stamped with the time since the test
+started.
+
+```
++  1429ms  HTTP 404    GET .../apps/chrome/operator-generated/fed-modules.json
++  2759ms  CONSOLE WARNING Unsatisfied version * from undefined of shared
+                           singleton module react-router-dom (required =6.30.4)
++  3210ms  HTTP 400    GET .../api/rbac/v1/access/?application=inventory
+```
+
+Passing tests attach nothing. Warnings have a smaller budget than errors,
+because the console shell emits them in bursts and they would otherwise crowd
+out the entries worth reading.
+
+### Finding flaky tests with injected latency
+
+Races between the browser and the API are hard to reproduce on demand. The
+window is usually a few hundred milliseconds wide, and it only matters when a
+test happens to click inside it. Setting `PW_CHAOS=1` delays the app's own API
+responses so those windows open wide enough to hit deliberately.
+
+```bash
+PW_CHAOS=1 npx playwright test --project="UI tests" --repeat-each=5
+```
+
+What finds bugs here is **reordering**, not slowness. Playwright waits for
+elements to become actionable, so uniformly slower responses are absorbed and
+nothing fails. Delays are drawn from a heavy tailed distribution instead: most
+requests pass straight through and a small share are held for up to two
+seconds, which is long enough for one response to overtake another issued
+before it. Code that assumes replies arrive in the order they were sent breaks
+under this. Code that does not, does not.
+
+Delays are capped below `actionTimeout`, so slowness on its own can never fail
+a test - anything that goes red under chaos is a real defect. Only requests to
+`**/api/**` are delayed, since holding bundles and fonts adds wall clock
+without producing anything worth finding.
+
+#### Reproducing a specific failure
+
+Every test records the seed it used as an annotation, visible in the HTML
+report:
+
+```
+chaos-seed     PW_CHAOS_SEED=2223827117 (test seed 729962994)
+chaos-summary  175 requests delayed, max 1982ms, total 19208ms
+```
+
+Passing that seed back replays the same delays:
+
+```bash
+PW_CHAOS=1 PW_CHAOS_SEED=2223827117 npx playwright test --project="UI tests"
+```
+
+Reproduction is close but not exact. Delays are drawn per request in dispatch
+order, so a run that issues its requests in a different order gets a different
+assignment - narrowing to a single spec is enough to change that. When a seed
+does not reproduce, raising `--repeat-each` is usually faster than chasing it.
+
+#### What it tends to find
+
+Failures under chaos point at state that outlives the request it came from:
+a cached answer that a slower, older response overwrites; a control that is
+enabled before the data behind it has arrived; an effect that re-runs after the
+component has already moved on. A failure that only appears under chaos is
+still real. It just needs an unlucky user rather than an unlucky test.
+
 ## Playwright Boot tests
 
 This section describes what Playwright Boot tests are, how they work and how to run them locally.
 
-Boot tests provide end to end coverage for Image Builder and they are used to test mainly integrations with other services. Their main advantage is that they build an image, upload it and **launch it on RHOSP** (RedHat OpenStack Platform). This way we can test images and their customizations through remotely executed commands on an actual running VM booted from the image.
+Boot tests provide end to end coverage for Image Builder and they are used to test mainly integrations with other services. Their main advantage is that they build an image, upload it and **launch it on AWS EC2**. The built AMI is copied from the building AWS account and then launched from the CodeBuild runner. This way we can test images and their customizations through remotely executed commands on an actual running VM booted from the image.
 Boot tests are located in the [playwright/BootTests](https://github.com/osbuild/image-builder-frontend/tree/main/playwright/BootTests) directory and are identified by the `*.boot.ts` file extension.
-
-### Local development setup
-
-In order to run the Boot tests locally, we need to set up few things first on top of what we did in the [Running hosted service Playwright tests](#running-hosted-service-playwright-tests) section.
-
-We need additional fields in the .env file, some of them are already set and don't need to be changed in the [example env file](https://github.com/osbuild/image-builder-frontend/tree/main/playwright_example.env)), but some of them have to be set manually, specifically following:
-
-```.env
-OS_APPLICATION_CREDENTIAL_ID=<your_id>
-OS_APPLICATION_CREDENTIAL_SECRET=<your_secret>
-OS_SSH_KEY_NAME="<name_of_your_ssh_key_entry_in_openstack>"
-```
-
-> [!NOTE]
-> The OpenStack Client is required for boot tests to function properly.
-
-In order to be able to access RHOSP within the Boot tests, we need to generate credentials and create an entry with our public ssh key on the platform. Log into [RHOSP dashboard](https://api.rhos-01.prod.psi.rdu2.redhat.com/) using **Keystone credentials** and navigate to Identity -> Application Credentials. There you can create the credentials (you will get values for `OS_APPLICATION_CREDENTIAL_ID` and `OS_APPLICATION_CREDENTIAL_SECRET`). In order to create an entry for your SSH key, navigate to Project -> Compute -> Keys and add your public key there.
-
-By filling out these variables you should be able to run the Boot test locally successfully.
 
 ### CI setup
 

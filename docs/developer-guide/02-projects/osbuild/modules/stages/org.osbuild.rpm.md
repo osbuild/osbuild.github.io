@@ -186,6 +186,10 @@ This stage will return the following metadata via the osbuild API:
         "description": "Do not verify package dependencies.",
         "default": false
       },
+      "ignorearch": {
+        "description": "Allow installation or upgrading even if the architectures of the binary package and host don't match.",
+        "type": "boolean"
+      },
       "ostree_booted": {
         "type": "boolean",
         "description": "Create the '/run/ostree-booted' marker"
