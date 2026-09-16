@@ -3,6 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import { execSync } from 'child_process';
 import path from 'path';
+import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 import generateSubPages from './scripts/generateSubPages.js';
 import latestRhelRedirect from './src/data/latest-rhel-redirect.json';
 
@@ -55,6 +56,9 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/osbuild/osbuild.github.io/tree/main/',
+          // Convert GitHub Alerts (`> [!WARNING]`) from pulled READMEs into
+          // Docusaurus admonition directives. Must run before default plugins.
+          beforeDefaultRemarkPlugins: [remarkGithubAdmonitionsToDirectives],
         },
         theme: {
           customCss: './src/css/custom.css',
