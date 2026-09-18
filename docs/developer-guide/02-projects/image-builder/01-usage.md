@@ -51,7 +51,7 @@ $ image-builder list
 
 ### Format
 
-The output format used by `list` can be swapped with the `--format` flag. Available types are `text` (for display in a terminal) and `json` which can be useful to consume programmatically:
+The output format used by `list` can be swapped with the `--format` flag. Available formats are `text` (for display in a terminal) and `json` which can be useful to consume programmatically:
 
 ```console
 $ image-builder list --format=json | jq '.[0]'
@@ -72,7 +72,7 @@ $ image-builder list --format=json | jq '.[0]'
 
 `list` output can be filtered with the `--filter` argument.
 
-### Distribution
+#### Distribution
 
 To filter on a given distribution, one can use `--filter` with the `distro:` prefix:
 
@@ -81,15 +81,16 @@ $ image-builder list --filter distro:fedora-43
 # ... long list ...
 ```
 
-### Type
+#### Type
 
-To filter on a given [image type](./10-faq.md#image-types) the `type:` prefix:
+To filter on a given [image type](./10-faq.md#image-types), use the `type:` prefix:
 
 ```console
 $ image-builder list --filter type:qcow2
 # ... long list ...
 ```
-### Architecture
+
+#### Architecture
 
 To filter on a given architecture use the `arch:` prefix:
 
@@ -98,7 +99,7 @@ $ image-builder list --filter arch:aarch64
 # ... long list ...
 ```
 
-### Combinations
+#### Combinations
 
 Filters can be combined to narrow the list further.
 
@@ -125,14 +126,84 @@ $ sudo image-builder build --distro centos-10 qcow2
 # ... progress ...
 ```
 
-When passed `--arch` `image-builder` will try to do an experimental cross-architecture build. Note that not all image types are available for all architectures.
+### Output location
 
-Cross-architecture builds are much slower than being able to build on native hardware. However, if no native hardware is available they might be an acceptable compromise.
+By default `build` places output into a directory named after the build, using the pattern `<distro>-<type>-<arch>` (e.g. `fedora-43-server-qcow2-x86_64/`). The `--output-dir` flag overrides this directory. The directory is created automatically if it does not exist, including any parent directories:
 
 ```console
-$ sudo image-builder build --distro fedora-43 --arch s390x server-qcow2
-WARNING: using experimental cross-architecture building to build "s390x"
-# ... progress ...
+$ sudo image-builder build --output-dir builds/fedora/my-build --distro fedora-43 server-qcow2
+# ...
+$ ls builds/fedora/my-build/
+fedora-43-server-qcow2-x86_64.qcow2
+```
+
+Files within the output directory use the same `<distro>-<type>-<arch>` pattern as their basename. The `--output-name` flag overrides this basename. If the value includes the image extension (e.g. `.qcow2`) it is stripped automatically.
+
+```console
+$ sudo image-builder build --output-name my-image --distro fedora-43 server-qcow2
+# ...
+$ ls fedora-43-server-qcow2-x86_64/
+my-image.qcow2
+```
+
+Both `--output-dir` and `--output-name` support Go template variables. The default basename template is `{{.Distribution.Identifier}}-{{.Image.Type}}-{{.Architecture}}`. The available template variables are:
+
+| Variable | Description | Example value |
+|---|---|---|
+| `{{.Distribution.Identifier}}` | Full distribution identifier | `fedora-43` |
+| `{{.Distribution.Name}}` | Distribution name | `fedora` |
+| `{{.Distribution.MajorVersion}}` | Major version number | `43` |
+| `{{.Distribution.MinorVersion}}` | Minor version number | `0` |
+| `{{.Image.Type}}` | Image type name | `server-qcow2` |
+| `{{.Architecture}}` | Target architecture | `x86_64` |
+
+```console
+$ sudo image-builder build --output-name="{{.Distribution.Identifier}}-foo-{{.Architecture}}" --distro fedora-43 server-qcow2
+# ...
+$ ls fedora-43-server-qcow2-x86_64/
+fedora-43-foo-x86_64.qcow2
+```
+
+### Additional Build Outputs
+
+By default `build` writes only the image artifact to the output directory. Additional outputs can be enabled with the following flags.
+
+#### Metadata
+
+`--with-manifest` places the osbuild manifest used for the build alongside the image. The manifest is written as `<basename>.osbuild-manifest.json`.
+
+```console
+$ sudo image-builder build --with-manifest --distro fedora-43 server-qcow2
+# ...
+$ ls *.osbuild-manifest.json
+fedora-43-server-qcow2-x86_64.osbuild-manifest.json
+```
+
+`--with-sbom` places an [SPDX](https://spdx.dev/) Software Bill of Materials document alongside the image.
+
+```console
+$ sudo image-builder build --with-sbom --distro fedora-43 server-qcow2
+# ...
+```
+
+`--with-buildlog` writes the full osbuild build log to `<basename>.buildlog` in the output directory. This can be useful for debugging failed or unexpected builds.
+
+```console
+$ sudo image-builder build --with-buildlog --distro fedora-43 server-qcow2
+# ...
+$ ls *.buildlog
+fedora-43-server-qcow2-x86_64.buildlog
+```
+
+`--with-metrics` prints timing information for each build stage at the end of the build, sorted by duration. This is useful for identifying which stages take the most time.
+
+```console
+$ sudo image-builder build --with-metrics --distro fedora-43 server-qcow2
+# ...
+Metrics:
+	os: org.osbuild.rpm: 30s
+	build: org.osbuild.rpm: 15s
+	os: org.osbuild.selinux: 5s
 ```
 
 ### ostree
@@ -141,14 +212,14 @@ WARNING: using experimental cross-architecture building to build "s390x"
 
 For example, to build a disk image from a [Fedora IoT](https://fedoraproject.org/iot/) ostree commit you can do the following:
 
-```
+```console
 $ sudo image-builder build --ostree-url https://d2ju0wfl996cmc.cloudfront.net/ --ostree-ref fedora/x86_64/stable/iot iot-raw-xz
 # ...
 ```
 
 Image types that are ostree-based always need to be passed the `--ostree-url` and `--ostree-ref` arguments. When trying to build an ostree-based image without passing them an error is shown:
 
-```
+```console
 $ sudo image-builder build iot-raw-xz
 No distro name specified, selecting "fedora-43" based on host, use --distro to override
 [|] Manifest generation step
@@ -215,6 +286,48 @@ In these cases it's up to the user to select a filesystem to use through the `--
 
 ```console
 $ sudo image-builder build --bootc-ref quay.io/fedora/fedora-bootc:rawhide --bootc-default-fs ext4 qcow2
+# ...
+```
+
+#### `bootc-no-default-kernel-args`
+
+By default `image-builder` includes distribution-default kernel arguments when building bootc images. Passing `--bootc-no-default-kernel-args` clears these defaults so that only kernel arguments specified through a blueprint are used.
+
+```console
+$ sudo image-builder build --bootc-ref quay.io/centos-bootc/centos:stream10 --bootc-no-default-kernel-args qcow2
+# ...
+```
+
+### Cross-architecture builds
+
+> [!WARNING]
+> Cross-architecture building is an experimental feature.
+
+When passed `--arch` `image-builder` will try to build for a different architecture. Not all image types are available for all architectures.
+
+Cross-architecture builds are much slower than building on native hardware. However, if no native hardware is available they might be an acceptable compromise.
+
+```console
+$ sudo image-builder build --distro fedora-43 --arch s390x server-qcow2
+WARNING: using experimental cross-architecture building to build "s390x"
+# ... progress ...
+```
+
+### Reproducibility
+
+Some values in a build are derived randomly (e.g. partition UUIDs). The `--seed` flag pins the random number generator to a fixed integer value, making builds more reproducible.
+
+```console
+$ sudo image-builder build --seed 42 --distro fedora-43 server-qcow2
+# ...
+```
+
+### Cloud upload
+
+The `build` command supports all [`upload` flags](#image-builder-upload) directly, allowing you to build and upload in a single step. The target cloud is defined by the image type (e.g. `server-ami` uploads to AWS).
+
+```console
+$ sudo image-builder build --distro fedora-43 --aws-region us-east-1 --aws-bucket my-bucket --aws-ami-name my-image server-ami
 # ...
 ```
 
@@ -289,6 +402,105 @@ $ image-builder describe --arch aarch64 minimal-raw-xz
 # ... output ...
 ```
 
+## `image-builder upload`
+
+The `upload` command uploads a previously built image to a cloud provider. The `--to` flag selects the target cloud. When using `build`, upload flags can be passed directly and the upload happens automatically after the build completes.
+
+```console
+$ image-builder upload --to aws --aws-region us-east-1 --aws-bucket my-bucket --aws-ami-name my-image fedora-43-generic-ami-x86_64/fedora-43-generic-ami-x86_64.raw
+# ...
+```
+
+The architecture is detected from the image filename when possible. Use `--arch` to override this. The output format can be changed with `--format` (yaml, json).
+
+### `--to aws`
+
+Upload and register an AMI in AWS. Credentials are read from the standard AWS credentials chain (environment, config files, instance profile). The following flags are required:
+
+| Flag | Description |
+|---|---|
+| `--aws-region` | Target AWS region |
+| `--aws-bucket` | S3 bucket for intermediate storage |
+| `--aws-ami-name` | Name for the registered AMI |
+
+Optional flags:
+
+| Flag | Description |
+|---|---|
+| `--aws-profile` | AWS credentials profile name |
+| `--aws-tag` | Tag the AMI with `Key=Value` (can be repeated) |
+| `--aws-boot-mode` | Boot mode: `legacy-bios`, `uefi`, `uefi-preferred` (default: `uefi-preferred`) |
+
+```console
+$ sudo image-builder build --distro fedora-43 --aws-region us-east-1 --aws-bucket my-bucket --aws-ami-name my-image --aws-tag Environment=dev generic-ami
+# ...
+```
+
+### `--to azure`
+
+Upload an image to Azure. All flags are required:
+
+| Flag | Description |
+|---|---|
+| `--azure-client-id` | Azure client ID |
+| `--azure-client-secret` | Azure client secret |
+| `--azure-tenant` | Azure tenant ID |
+| `--azure-subscription` | Azure subscription ID |
+| `--azure-resource-group` | Azure resource group |
+| `--azure-image-name` | Name for the uploaded image |
+
+```console
+$ sudo image-builder build --distro fedora-43 --azure-client-id $CLIENT_ID --azure-client-secret $SECRET --azure-tenant $TENANT --azure-subscription $SUB --azure-resource-group my-rg --azure-image-name my-image generic-vhd
+# ...
+```
+
+### `--to openstack`
+
+Upload an image to OpenStack. Authentication is handled through the standard OpenStack environment variables (e.g. `OS_AUTH_URL`, `OS_USERNAME`).
+
+| Flag | Description | Default |
+|---|---|---|
+| `--openstack-image` | Name for the uploaded image (required) | |
+| `--openstack-disk-format` | Disk format | `raw` |
+| `--openstack-container-format` | Container format | `bare` |
+
+```console
+$ sudo image-builder build --distro fedora-43 --openstack-image my-image generic-openstack
+# ...
+```
+
+### `--to libvirt`
+
+Upload an image to a libvirt storage pool.
+
+| Flag | Description |
+|---|---|
+| `--libvirt-connection` | Libvirt connection URI |
+| `--libvirt-pool` | Storage pool name |
+| `--libvirt-volume` | Volume name |
+
+```console
+$ image-builder upload --to libvirt --libvirt-connection qemu:///system --libvirt-pool default --libvirt-volume my-image fedora-43-server-qcow2-x86_64/fedora-43-server-qcow2-x86_64.qcow2
+# ...
+```
+
+### `--to ibmcloud`
+
+Upload an image to IBM Cloud. Requires the `IBMCLOUD_API_KEY` and `IBMCLOUD_CRN` environment variables to be set.
+
+| Flag | Description |
+|---|---|
+| `--ibmcloud-region` | Target IBM Cloud region |
+| `--ibmcloud-bucket` | Target bucket for storing the image |
+| `--ibmcloud-image-name` | Name for the uploaded image |
+
+```console
+$ export IBMCLOUD_API_KEY=my-api-key
+$ export IBMCLOUD_CRN=my-crn
+$ image-builder upload --to ibmcloud --ibmcloud-region us-south --ibmcloud-bucket my-bucket --ibmcloud-image-name my-image image.qcow2
+# ...
+```
+
 ## `image-builder manifest`
 
 The `manifest` command outputs an [osbuild](https://github.com/osbuild/osbuild) manifest for an image. This manifest contains all the steps performed to assemble the eventual image but the image itself is not created.
@@ -310,6 +522,13 @@ When passed `--arch` `image-builder` will show the manifest for that architectur
 ```console
 $ image-builder manifest --arch aarch64 minimal-raw-xz
 # ... output ...
+```
+
+The `--seed` flag pins the random number generator to a fixed integer value, making manifests more reproducible:
+
+```console
+$ image-builder manifest --seed 42 --distro fedora-43 server-qcow2
+# ... json ...
 ```
 
 ## `image-builder bootc`
@@ -363,6 +582,34 @@ $ image-builder version --format=json
     "dependencies": {
       "images": "v0.100.0",
       "osbuild": "105"
+    }
+  }
+}
+```
+
+## `image-builder system`
+
+The `system` command shows status information about the `image-builder` installation, such as the cache location, its current size in bytes, and its configured maximum size.
+
+```console
+$ image-builder system
+system:
+  cache:
+    path: /home/user/.cache/image-builder/store
+    size: 2009359005
+    max-size: unlimited
+```
+
+The output format can be changed with `--format`. Available formats are `yaml` (default) and `json`:
+
+```console
+$ image-builder system --format=json
+{
+  "system": {
+    "cache": {
+      "path": "/home/user/.cache/image-builder/store",
+      "size": 2009359005,
+      "max-size": "unlimited"
     }
   }
 }
