@@ -337,7 +337,7 @@ Since the second request depsolves osbuild _in a vacuum_, i.e. it assumes no oth
 
 ## Current state
 
-The final major change to how we depsolve package sets for image builds was the switch to multi-transaction depsolving, or Chain dependency solving ([osbuild/osbuild-composer PR#2568](https://github.com/osbuild/osbuild-composer/pull/2568)). More recently, we also changed the way we install packages during the build ([osbuild/images PR#2170](https://github.com/osbuild/images/pull/2170)). We'll describe both of these changes here.
+The final major change to how we depsolve package sets for image builds was the switch to multi-transaction depsolving, or Chain dependency solving ([osbuild/osbuild-composer PR#2568](https://github.com/osbuild/osbuild-composer/pull/2568)). More recently, we also changed the way we install packages during the build ([osbuild/image-builder PR#2170](https://github.com/osbuild/image-builder/pull/2170)). We'll describe both of these changes here.
 
 ### Multi-transaction (chain) depsolving
 
@@ -400,7 +400,7 @@ For a thorough and much more technical investigation into different approaches t
 
 ### Multi-stage installation
 
-While not directly related to depsolving, it is useful to note that the result of each transaction is installed separately during the build process ([osbuild/images PR#2170](https://github.com/osbuild/images/pull/2170)). This is useful in scenarios where certain packages cannot be installed in an empty root tree because of pre-transaction dependencies. For example, if a package requires `bash` to run its pre-transaction scripts, it will fail to run those scripts unless `bash` is already installed in the root tree before any package in the transaction is installed. By installing each set of packages in sequence, we can prepare a minimal root tree with the first transaction (i.e. install `@core` and its dependencies) and then install user-selected packages on top.
+While not directly related to depsolving, it is useful to note that the result of each transaction is installed separately during the build process ([osbuild/image-builder PR#2170](https://github.com/osbuild/image-builder/pull/2170)). This is useful in scenarios where certain packages cannot be installed in an empty root tree because of pre-transaction dependencies. For example, if a package requires `bash` to run its pre-transaction scripts, it will fail to run those scripts unless `bash` is already installed in the root tree before any package in the transaction is installed. By installing each set of packages in sequence, we can prepare a minimal root tree with the first transaction (i.e. install `@core` and its dependencies) and then install user-selected packages on top.
 
 ## Current problems
 
