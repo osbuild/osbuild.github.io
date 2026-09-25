@@ -188,8 +188,8 @@ The following example shows the metadata attached to a manifest output under the
     "osbuild_composer_version": "git-rev:f6e0e993919cb114e4437299020e80032d0e40a7",
     "osbuild_composer_deps": [
       {
-        "path": "github.com/osbuild/images",
-        "version": "v0.7.0"
+        "path": "github.com/osbuild/image-builder",
+        "version": "v0.274.0"
       }
     ]
   }
@@ -241,8 +241,8 @@ The following example shows the metadata attached to a Koji build under the `ext
         "osbuild_composer_version": "git-rev:f6e0e993919cb114e4437299020e80032d0e40a7",
         "osbuild_composer_deps": [
           {
-            "path": "github.com/osbuild/images",
-            "version": "v0.7.0"
+            "path": "github.com/osbuild/image-builder",
+            "version": "v0.274.0"
           }
         ]
       }
