@@ -177,6 +177,29 @@ const config: Config = {
             from: '/docs/service/architecture',
             to: '/docs/hosted/architecture',
           },
+          // osbuild/images was renamed to osbuild/image-builder. Library and
+          // test pages moved under the image-builder project; the old CLI
+          // overview is covered by the image-builder guide.
+          {
+            from: '/docs/developer-guide/projects/images',
+            to: '/docs/developer-guide/projects/image-builder',
+          },
+          {
+            from: '/docs/developer-guide/projects/images/docs/developer',
+            to: '/docs/developer-guide/projects/image-builder/docs/developer',
+          },
+          {
+            from: '/docs/developer-guide/projects/images/docs/developer/cmds',
+            to: '/docs/developer-guide/projects/image-builder/docs/developer/cmds',
+          },
+          {
+            from: '/docs/developer-guide/projects/images/docs/developer/code-manifest-generation',
+            to: '/docs/developer-guide/projects/image-builder/docs/developer/code-manifest-generation',
+          },
+          {
+            from: '/docs/developer-guide/projects/images/test',
+            to: '/docs/developer-guide/projects/image-builder/test',
+          },
         ],
         // Stable alias for the newest RHEL image-description tree.
         // targetDir/aliasDir are refreshed by scripts/pull_image_descriptions.py.
