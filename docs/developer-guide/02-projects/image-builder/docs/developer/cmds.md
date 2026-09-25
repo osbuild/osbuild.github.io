@@ -1,5 +1,5 @@
 ---
-custom_edit_url: https://github.com/osbuild/images/blob/main/docs/developer/cmds.md
+custom_edit_url: https://github.com/osbuild/image-builder/blob/main/docs/developer/cmds.md
 ---
 ### Useful cmds
 
@@ -41,11 +41,11 @@ a new image type, might be:
 2. Make changes in an existing image definition or add a new image type.
 3. Add appropriate configuration changes:
     - If a new image type is added, add it to the [config
-      list](https://github.com/osbuild/images/tree/main/docs/developer/test/config-list.json) under an appropriate configuration file or
+      list](https://github.com/osbuild/image-builder/tree/main/docs/developer/test/config-list.json) under an appropriate configuration file or
       write a new one.
     - If an existing image type is being modified, and the change depends on an
       image customization, make sure the modification is covered by an existing
-      [test config](https://github.com/osbuild/images/tree/main/docs/developer/test/configs).
+      [test config](https://github.com/osbuild/image-builder/tree/main/docs/developer/test/configs).
 4. Generate the relevant manifests without content (`-packages=false
    -containers=false -commits=false`).
     - If the change depends on a customization, it might be more useful to
