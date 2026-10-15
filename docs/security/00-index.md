@@ -24,6 +24,6 @@ For a quick overview of how to report vulnerabilities, see the organization-wide
 
 This project is stewarded by **Red Hat, Inc.**, an open source software steward as defined in Article 3(14) of the [EU Cyber Resilience Act (Regulation 2024/2847)](https://eur-lex.europa.eu/eli/reg/2024/2847/oj/eng). Contact: [cra-steward@redhat.com](mailto:cra-steward@redhat.com)
 
-If you become aware of an **actively exploited vulnerability** or a **severe incident** affecting this project, please report it promptly — see [Reporting Actively Exploited Vulnerabilities and Severe Incidents](https://github.com/RedHatProductSecurity/CRA/blob/main/Guidelines/eu-cra-incident-and-vulnerability-reporting-guidelines.md) for the process and timelines.
+If you become aware of an **actively exploited vulnerability** or a **severe incident** affecting this project, please report it promptly — see [Reporting Actively Exploited Vulnerabilities and Severe Incidents](https://github.com/RedHatProductSecurity/CRA/blob/main/Guidelines/eu-cra-incident-and-vulnerability-reporting-guidelines-for-stewarded-projects.md) for the process and timelines.
 
 For Red Hat's general security practices, see [Red Hat Product Security](https://access.redhat.com/security/).
