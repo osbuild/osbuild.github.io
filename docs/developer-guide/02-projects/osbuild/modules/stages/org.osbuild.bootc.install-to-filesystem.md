@@ -81,6 +81,7 @@ Buildhost commands used: bootc
         "enum": [
           "grub",
           "systemd",
+          "ukiboot",
           "none"
         ]
       },

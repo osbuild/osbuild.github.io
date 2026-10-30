@@ -11,10 +11,10 @@ custom_edit_url: https://github.com/osbuild/image-builder/blob/main/doc/20-advan
 
 ## Generic
 
-`image-builder` can build ISOs out of bootable containers. The image type to use to build ISOs is the `bootc-generic-iso` image type. `image-builder` takes the bootable container and explodes the relevant parts to put them into the correct places on the ISO this means that there is a small contract in place on what `image-builder` expects to exist in your bootable container:
+`image-builder` can build ISOs out of bootable containers. The image type to use to build ISOs is the `generic-iso` image type. `image-builder` takes the bootable container and explodes the relevant parts to put them into the correct places on the ISO this means that there is a small contract in place on what `image-builder` expects to exist in your bootable container:
 
 1. A kernel must live in `/usr/lib/module/*/vmlinuz`. If there are multiple kernels the behavior is undefined. This kernel will be placed in `/images/pxeboot/vmlinuz` on the ISO filesystem.
-2. An initramfs is expected to be next to the kernel with the filename `initramfs.img`. The initramfs is placed in `/images/pxeboot/initrd.img` on the ISO filesystem.
+2. An initramfs is expected to be next to the kernel with the filename `initramfs.img`. The initramfs is placed in `/images/pxeboot/initrd.img` on the ISO filesystem. It must include the dmsquash-live module which is installed by dracut-live package.
 3. The UEFI vendor is sourced by a directory name in `/usr/lib/efi/shim/*EFI/$VENDOR`. If there are multiple directories the behavior is undefined. The `BOOT` directory is always ignored.
 4. shim and grub2 EFI binaries (`shimx64.efi`, `mmx64.efi`, `gcdx64.efi`) are expected to be present in `/boot/efi/EFI/$VENDOR`.
 5. `/usr/share/grub2/unicode.pf` and `/usr/lib/grub/i386-pc` are expected to present. These are normally provided by the `grub2-common` and `grub2-pc-modules` packages respectively. The latter is only necessary on `x86_64`.
@@ -23,9 +23,65 @@ custom_edit_url: https://github.com/osbuild/image-builder/blob/main/doc/20-advan
 
 You can [define additional configuration](./05-sources-of-configuration.md#isoyaml) for an ISO inside your container.
 
-If a `--bootc-installer-payload-ref` argument is optionally passed to `image-builder` when building a `bootc-generic-iso` then the container reference is copied from the hosts container storage to `/var/lib/containers/storage` in the squashfs filesystem.
+If a `--bootc-installer-payload-ref` argument is optionally passed to `image-builder` when building a `generic-iso` then the container reference is copied from the hosts container storage to `/var/lib/containers/storage` in the squashfs filesystem.
 
-### Example Containerfile
+### Example Simple Containerfile
+
+This container file builds a simple bootable iso with nothing extra.
+
+```Dockerfile
+FROM quay.io/fedora/fedora-bootc:rawhide
+
+# these are necessary build tools. if you use a separate build container then
+# these tools should be installed there
+RUN dnf install -qy \
+    grub2-efi-*-cdboot \
+    dracut-live \
+    implantisomd5 \
+    xorrisofs \
+    squashfs-tools
+RUN dnf clean all
+RUN mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI /boot/efi
+
+# Include the dmsquash-live module in the initramfs
+RUN cat <<EOF > /usr/lib/dracut/dracut.conf.d/40-iso.conf
+compress="xz"
+add_dracutmodules+=" qemu qemu-net livenet dmsquash-live "
+early_microcode="no"
+EOF
+
+# Rebuild the initrd
+RUN set -xe; kver=$(ls /usr/lib/modules); env DRACUT_NO_XATTR=1 dracut -vf /usr/lib/modules/$kver/initramfs.img "$kver"
+
+# ---
+
+# some configuration for our ISO
+
+RUN mkdir -p /usr/lib/image-builder/bootc
+
+RUN cat <<EOF > /usr/lib/image-builder/bootc/iso.yaml
+label: "Fedora"
+kernel_args:
+  - console=ttyS0
+grub2:
+  timeout: 5
+  entries:
+    - name: "Fedora"
+      linux: \${kernelpath} \${root}
+      initrd: \${initrdpath}
+EOF
+
+# Disable services that won't work on an iso
+RUN systemctl mask bootloader-update.service
+```
+
+You can then build this into an ISO:
+```
+sudo podman build -t localhost/simple-iso -f Containerfile
+sudo image-builder build --bootc-ref localhost/simple-iso --bootc-default-fs ext4 generic-iso
+```
+
+### Example Anaconda Installer Containerfile
 
 This container file builds a `Fedora` "payload" installer (a `boot.iso`). It installs the container that's mentioned in the `/usr/share/anaconda/interactive-defaults.ks` kickstart file.
 
@@ -61,14 +117,15 @@ RUN mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI /boot/efi
 
 RUN mkdir -p /usr/lib/image-builder/bootc
 
-COPY <<EOT /usr/lib/image-builder/bootc/iso.yaml
+RUN cat <<EOF > /usr/lib/image-builder/bootc/iso.yaml
 label: "Fedora-bootc-Installer"
 grub2:
+  timeout: 5
   entries:
     - name: "Install Fedora (bootc)"
-      linux: "/images/pxeboot/vmlinuz inst.stage2=hd:LABEL=Fedora-bootc-Installer console=tty0 inst.graphical selinux=0 rhgb quiet"
-      initrd: "/images/pxeboot/initrd.img"
-EOT
+      linux: \${kernelpath} \${root} inst.graphical
+      initrd: \${initrdpath}
+EOF
 
 # some configuration for anaconda
 
@@ -92,7 +149,7 @@ RUN mv /usr/share/anaconda/list-harddrives-stub /usr/bin/list-harddrives && \
 
 RUN ln -s /usr/lib/systemd/system/anaconda-shell@.service /usr/lib/systemd/system/autovt@.service
 
-RUN mkdir /usr/lib/systemd/logind.conf.d
+RUN mkdir -p /usr/lib/systemd/logind.conf.d
 COPY <<EOT /usr/lib/systemd/logind.conf.d/anaconda-shell.conf
 [Login]
 ReserveVT=2
@@ -121,22 +178,42 @@ You can then build this into an ISO:
 
 ```
 sudo podman build -t localhost/iso -f Containerfile
-sudo image-builder build --bootc-ref localhost/iso --bootc-default-fs ext4 bootc-generic-iso
+sudo image-builder build --bootc-ref localhost/iso --bootc-default-fs ext4 generic-iso
 ```
+
+> [!TIP]
+> For offline installs, pass `--bootc-installer-payload-ref` to embed the payload
+> container in the ISO installer environment's containers-storage store. The
+> Anaconda kickstart must then install from that local store using a
+> `containers-storage:` source image reference.
+>
+> Example:
+>
+> ```Dockerfile
+> COPY <<EOT /usr/share/anaconda/interactive-defaults.ks
+> bootc --source-imgref containers-storage:quay.io/fedora/fedora-bootc:rawhide --target-imgref quay.io/fedora/fedora-bootc:rawhide
+> EOT
+> ```
+>
+> ```
+> PAYLOADREF="quay.io/fedora/fedora-bootc:rawhide"
+> sudo podman build -t localhost/iso -f Containerfile
+> sudo image-builder build --bootc-ref localhost/iso --bootc-installer-payload-ref "$PAYLOADREF" --bootc-default-fs ext4 generic-iso
+> ```
 
 > [!WARNING]
 > *A `bootc`-system installed through Anaconda will fail to start the `systemd-remount-fs.service`. See [here](https://forge.fedoraproject.org/atomic-desktops/tracker/issues/72#issuecomment-593808) and [here](https://bugzilla.redhat.com/show_bug.cgi?id=2332319) for more information.*
 
-
-For more examples, including for other operating systems, you can take a look at [this demonstration repository](https://github.com/ondrejbudai/bootc-isos).
+For more examples, including for other operating systems, you can take a look at [this demonstration repository](https://github.com/osbuild/bootc-foundry). The [bootc-foundry repository](https://github.com/osbuild/bootc-foundry) may also be of interest.
 
 ## Historical
 
 ### `bootc-installer`
 
-There's an alternative image type called `bootc-installer` which makes more assumptions about the contents of the container. You should prefer using `bootc-generic-iso`.
+There's an alternative image type called `bootc-installer` which makes more assumptions about the contents of the container. You should prefer using `generic-iso`.
 
 ### `anaconda-iso`
 
-There was an alternative image type called `anaconda-iso` or `iso` in `bootc-image-builder` but this image type is not available in `image-builder`. See the [migration guide](./50-migration.md).
+There was an alternative image type called `anaconda-iso` or `iso` in `bootc-image-builder` but this
+image type is not available in `image-builder`. See the [legacy ISOs](./20-legacy-isos.md) and the [migration guide](./50-migration.md).
 

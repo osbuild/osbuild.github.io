@@ -44,12 +44,12 @@ required.
       "volid": {
         "type": "string",
         "description": "Volume id to set",
-        "pattern": "[A-Z0-9_-]{1,32}"
+        "pattern": "^[A-Za-z0-9_.-]{1,32}$"
       },
       "sysid": {
         "type": "string",
         "description": "System id to set",
-        "pattern": "[A-Z0-9_-]{1,32}"
+        "pattern": "^[A-Za-z0-9_-]{1,32}$"
       },
       "pub": {
         "type": "string",

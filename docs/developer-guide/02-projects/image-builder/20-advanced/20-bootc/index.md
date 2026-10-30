@@ -11,5 +11,6 @@ custom_edit_url: https://github.com/osbuild/image-builder/blob/main/doc/20-advan
 
 - [Sources of Configuration](./05-sources-of-configuration.md)
 - [ISOs](./10-isos.md)
+- [Legacy ISOs](./20-legacy-isos.md)
 - [Migrating from `bootc-image-builder`](./50-migration.md)
 
