@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-04 07:12:53 UTC",
+  "generated": "2026-11-05 07:13:00 UTC",
   "options": {
     "containers": {
       "bootc": [],
@@ -460,7 +460,8 @@
         "bootc-generic-iso",
         "bootc-installer",
         "generic-iso",
-        "iso"
+        "iso",
+        "ostree-iso"
       ],
       "classic_image_types": [
         "ami",
@@ -666,6 +667,7 @@
         "generic-iso",
         "iso",
         "oci",
+        "ostree-iso",
         "ova",
         "pxe-tar-xz",
         "qcow2",
@@ -834,7 +836,8 @@
         "bootc-generic-iso",
         "bootc-installer",
         "generic-iso",
-        "iso"
+        "iso",
+        "ostree-iso"
       ],
       "classic_image_types": [
         "budgie-atomic-installer",
@@ -913,6 +916,7 @@
         "generic-iso",
         "iso",
         "oci",
+        "ostree-iso",
         "ova",
         "pxe-tar-xz",
         "qcow2",
@@ -1531,6 +1535,7 @@
         "generic-iso",
         "iso",
         "oci",
+        "ostree-iso",
         "ova",
         "pxe-tar-xz",
         "qcow2",
