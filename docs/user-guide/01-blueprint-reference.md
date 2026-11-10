@@ -941,9 +941,12 @@ An *optional* object containing the following attributes:
 - `enabled` an *optional* list of strings containing services to be enabled.
 - `disabled` an *optional* list of strings containing services to be disabled.
 - `masked` *optional* list of strings for services to mask.
+- `default_target` an *optional* string specifying the systemd target unit to use as the default boot target.
 
 If a service enabled or disabled through the corresponding attributes does not exist in the image that is being built then this customization will fail and the build will fail as a result.
 However, the corresponding package is not required on the image when masking a service.
+
+The default target must be a systemd target unit, such as `multi-user.target` or `graphical.target`. Setting the target does not install the environment required by that target.
 
 <Tabs values={tabValues} >
 <TabItem value="on-premises" >
@@ -952,6 +955,7 @@ However, the corresponding package is not required on the image when masking a s
 enabled = ["sshd", "cockpit.socket", "httpd"]
 disabled = ["postfix", "telnetd"]
 masked = ["rpcbind"]
+default_target = "graphical.target"
 ```
 </TabItem>
 <TabItem value="hosted" >
@@ -962,6 +966,7 @@ masked = ["rpcbind"]
       "enabled": ["sshd", "cockpit.socket", "httpd"],
       "disabled": ["postfix", "telnetd"],
       "masked": ["rpcbind"],
+      "default_target": "graphical.target"
     }
   }
 }
