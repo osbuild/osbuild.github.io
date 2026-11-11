@@ -17,6 +17,7 @@ using the hash as the filename.
 It can download files that require secrets. The support secret providers are:
 - `org.osbuild.rhsm` for downloading Red Hat content that requires a subscriptions.
 - `org.osbuild.mtls`
+- `org.osbuild.basic_auth`
 
 ## Schema 1
 
