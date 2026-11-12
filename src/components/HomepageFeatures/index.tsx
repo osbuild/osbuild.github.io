@@ -32,7 +32,7 @@ const FeatureList: FeatureItem[] = [
     title: '🚢 Container',
     description: (
       <>
-        Use podman to turn your <a href="https://centos.github.io/centos-bootc/">bootc-enabled</a> container images into bootable artifacts!<br/><br/>
+        Use podman to turn your <a href="https://docs.fedoraproject.org/en-US/bootc/">bootc-enabled</a> container images into bootable artifacts!<br/><br/>
       </>
     ),
     link: '/docs/bootc'
