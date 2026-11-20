@@ -9,7 +9,7 @@ custom_edit_url: https://github.com/osbuild/image-builder/blob/main/doc/40-bootc
 [//]: # ( Rather change the source of this: https://github.com/osbuild/image-builder/blob/main/doc/40-bootc-generic-iso.md )
 -->
 
-The `bootc-image-builder` project has been deprecated in favor of the unified `image-builder` tool. This document details the process of creating a Fedora Live ISO with the Anaconda installer to install `bootc` images using the new `bootc-generic-iso` method in `image-builder`.
+The `bootc-image-builder` project has been deprecated in favor of the unified `image-builder` tool. This document details the process of creating a Fedora Live ISO with the Anaconda installer to install `bootc` images using the new `generic-iso` method in `image-builder`.
 
 Below is a `Containerfile` that generates a local container image used to build a Fedora 45 ISO with your custom `bootc` image. This documentation was tested specifically on Fedora 45. For other versions, the legacy `bootc-image-builder` utility still works, and this workflow may also work on Fedora 44.
 
@@ -117,7 +117,8 @@ After building the container image, use it to generate the Anaconda installer IS
 sudo image-builder build \
   --bootc-ref localhost/bootc-generic-iso-f45:latest \
   --bootc-default-fs ext4 \
-  bootc-generic-iso
+  generic-iso
 ```
 
 Once the process completes, a new directory will be created in the current working directory containing the generated ISO for bare-metal installation.
+
