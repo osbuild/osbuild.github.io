@@ -57,7 +57,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: 18
+          node-version: 24
           cache: npm
           cache-dependency-path: ./osbuild.github.io/package-lock.json
 
