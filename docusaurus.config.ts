@@ -230,10 +230,12 @@ const config: Config = {
 };
 
 if (gitHash !== 'unknown') {
-  const moreSection = config.themeConfig.footer.links.find((section) => section.title === 'More');
+  const footerLinks = (config.themeConfig.footer as Preset.ThemeConfig['footer'])?.links;
+  const moreSection = footerLinks?.find((section) => section.title === 'More');
 
   if (moreSection) {
-    moreSection.items.push({
+    const items = moreSection.items as Array<{label: string; href: string}>;
+    items.push({
       label: 'Changelog',
       href: `https://github.com/osbuild/osbuild.github.io/commits/${gitHash}`,
     });
