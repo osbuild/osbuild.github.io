@@ -1,6 +1,7 @@
 import React from 'react';
 import TabItem from '@theme-original/TabItem';
 import type {WrapperProps} from '@docusaurus/types';
+import {useTabs} from '@docusaurus/theme-common/internal';
 import styles from './styles.module.css';
 
 type Props = WrapperProps<typeof TabItem>;
@@ -9,7 +10,10 @@ type Props = WrapperProps<typeof TabItem>;
 // uses https://docusaurus.io/docs/swizzling#wrapping
 // to wrap the original TabItem component and add a contextual label based on the tab value
 export default function TabItemWrapper(props: Props): JSX.Element {
-  const {hidden, value, ...otherProps} = props;
+  const {value} = props;
+  // Docusaurus >= 3.10 no longer passes `hidden`; derive it from the tabs context
+  const {selectedValue} = useTabs();
+  const hidden = value !== selectedValue;
 
   // Generate contextual label based on tab value
   const getContextLabel = (tabValue: string) => {
@@ -29,7 +33,8 @@ export default function TabItemWrapper(props: Props): JSX.Element {
       <div className={styles.contextLabel}>
         {getContextLabel(value)}
       </div>
-      <TabItem {...otherProps} />
+      {/* always "selected" so TabItem never sets the `hidden` attribute */}
+      <TabItem {...props} value={selectedValue} />
     </div>
   );
 }
