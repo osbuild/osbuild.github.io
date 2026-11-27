@@ -701,6 +701,7 @@ expiredate = 12345
   "customizations": {
     "users": [
       { "name": "admin",
+        "uid": 1200,
         "ssh_key": "PUBLIC SSH KEY"
       }
     ],
